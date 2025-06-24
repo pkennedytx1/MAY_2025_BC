@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Module 6 - Document Object Model</title>
+        <link rel="stylesheet" href="./style.css" />
+    </head>
+    <body>
+
+        <!-- Slide 1: Module Overview -->
+        <section class="slide active" id="slide1">
+            <h1>Module 6: Document Object Model</h1>
+            <p>In this module, we’ll cover:</p>
+            <ul>
+            <li>Basics of Git & GitHub</li>
+            <li>Understanding the Document Object Model (DOM)</li>
+            <li>Demo: Building a Color Picker App</li>
+            </ul>
+        </section>
+
+        <!-- Slide 2: Git & GitHub -->
+        <section class="slide" id="slide2">
+            <h2>Git & GitHub Basics</h2>
+            <h3>What is Git?</h3>
+            <p>Git is a version control system that lets you track changes to files and collaborate with others.</p>
+            <h3>What is GitHub?</h3>
+            <p>GitHub is an online platform to store and collaborate on Git repositories.</p>
+            <h3>Keywords:</h3>
+            <ul>
+                <li><strong>Repository (Repo):</strong> A folder that contains your project files and the version history tracked by Git.</li>
+                <li><strong>Commit:</strong> A snapshot of your changes saved with a message describing what you changed.</li>
+                <li><strong>Branch:</strong> A parallel version of your repository, used to work on features separately before merging them into the main code.</li>
+                <li><strong>Merge:</strong> Combining changes from one branch into another (often into <code>main</code>).</li>
+                <li><strong>Clone:</strong> A copy of a remote repository downloaded to your local machine.</li>
+                <li><strong>Push:</strong> Upload your committed changes to GitHub.</li>
+                <li><strong>Pull:</strong> Download the latest changes from GitHub to your local machine.</li>
+                <li><strong>Fork:</strong> Make your own copy of someone else’s repository on GitHub (often used for contributing).</li>
+                <li><strong>Pull Request (PR):</strong> A request to merge your changes into another branch or repository; used for code reviews.</li>
+                <li><strong>README:</strong> A file (usually <code>README.md</code>) that explains the project — what it is, how to install/use it, etc.</li>
+            </ul>
+
+            <h3>Basic Commands</h3>
+            <pre><code>
+                git init                    # Start a new Git repository
+                git add .                   # Add all files to staging
+                git commit -m "Message"     # Save changes with a message
+                git push                    # Upload to GitHub (after setup)
+            </code></pre>
+            <h3>Workflow</h3>
+            <ol>
+            <li>Create Repository on GitHub</li>
+            <li>Clone to your computer</li>
+            <li>Make changes → <code>add</code> → <code>commit</code> → <code>push</code></li>
+            </ol>
+
+            <h3>Example Screenshot (Placeholder)</h3>
+            <div>
+                <img src="https://miro.medium.com/v2/resize:fit:720/format:webp/1*PtbECo8DeSwfFcWTCmxkqg.jpeg" alt="GitHub Example Screenshot" style="max-width: 100%; height: auto;">
+            </div>
+            <h3>Demo</h3>
+            <p>Lets make a repository to house all of the session code and make some branches and talk about each one of these definitions and processes</p>
+        </section>
+
+        <!-- Slide 3: Document Object Model -->
+        <section class="slide" id="slide3">
+            <h2>What is the DOM?</h2>
+            <p>The <strong>Document Object Model</strong> (DOM) represents the HTML content of a page as a tree of objects that JavaScript can access and modify.</p>
+            
+            <h3>HTML → DOM → JavaScript</h3>
+            <pre><code>&lt;h1&gt;Hello&lt;/h1&gt; → document.querySelector("h1")</code></pre>
+
+            <h3>Common DOM Methods</h3>
+            <ul>
+            <li><code>document.getElementById()</code></li>
+            <li><code>document.querySelector()</code></li>
+            <li><code>element.textContent = "New text"</code></li>
+            <li><code>element.style.color = "red"</code></li>
+            </ul>
+
+            <h3>Example Code</h3>
+            <pre><code>
+                // HTML CODE
+                &lt;h1 id="title"&gt;Welcome&lt;/h1&gt;
+
+                // JAVASCRIPT CODE
+                const title = document.getElementById("title");
+                title.textContent = "Hello, DOM!";
+                title.style.color = "blue";
+            </code></pre>
+        </section>
+
+        <!-- Slide 4: Color Picker Demo Setup -->
+        <section class="slide" id="slide4">
+            <h2>Demo: Color Picker</h2>
+            <p>We’re going to build a color picker that updates the entire background color of the page.</p>
+            <h3>Let’s Build It Together!</h3>
+            <!-- <label for="liveColorPicker">Pick a color:</label>
+            <input type="color" id="liveColorPicker"> -->
+        </section>
+
+        <!-- Navigation -->
+        <div class="nav">
+            <h4>Module 6 - DOM</h4>
+            <div>
+                <!-- calling the JS from index.js in the onclick html attribute -->
+                <button onclick="prevSlide()">Prev</button>
+                <button onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <script src="./index.js"></script>
+    </body>
+</html>

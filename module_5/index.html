@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Module 5 - Array Manipulation</title>
+        <style>
+            body { font-family: sans-serif; background: #f4f4f4; color: #333; margin: 0; padding: 0; }
+            .slide { padding: 2rem; margin: 1rem auto; background: #fff; max-width: 800px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+            .slide h2 { margin-top: 0; }
+            pre { background: #272822; color: #f8f8f2; padding: 1rem; border-radius: 4px; overflow-x: auto; }
+            .exercise { background: #e3f2fd; padding: 1rem; border-left: 4px solid #1976d2; margin-top: 1rem; }
+        </style>
+    </head>
+    <body>
+        <div class="slide">
+            <h2>Module 5 OH Welcome & Objectives</h2>
+            <ul>
+                <li>What is an array?</li>
+                <li>Why we manipulate arrays (real-world examples)</li>
+                <li>Today's Goals: key array methods, writing your own functions, prep for projects</li>
+            </ul>
+            </div>
+
+            <div class="slide">
+            <h2>Exercise 1: Setup</h2>
+            <pre><code>const movies = ["Interstellar", "Inception", "The Matrix", "Arrival", "The Prestige"];</code></pre>
+        </div>
+
+        <div class="slide">
+            <h2>.push() and .pop()</h2>
+            <ul>
+                <li>.push(item) → adds to end</li>
+                <li>.pop() → removes from end</li>
+            </ul>
+            <div class="exercise">
+                <strong>Exercise:</strong> Add two movies, then remove the last and log it.
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>.shift() and .unshift()</h2>
+            <ul>
+                <li>.unshift(item) → adds to start</li>
+                <li>.shift() → removes from start</li>
+            </ul>
+            <div class="exercise">
+                <strong>Exercise:</strong> Add to the start, remove the first movie, and print the updated array.
+            </div>
+        </div>
+    
+        <div class="slide">
+            <h2>.splice()</h2>
+            <p>.splice(index, numberToRemove, item1, item2, ...)</p>
+            <div class="exercise">
+                <strong>Exercise:</strong> Remove the 2nd movie. Insert a new movie at position 2.
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>.slice()</h2>
+            <p>.slice(startIndex, endIndex) → returns new array</p>
+            <div class="exercise">
+                <strong>Exercise:</strong> Create a new array with the first 3 movies using .slice().
+            </div>
+        </div>
+    
+        <div class="slide">
+            <h2>.indexOf() and .includes()</h2>
+            <ul>
+                <li>.indexOf(item)</li>
+                <li>.includes(item)</li>
+            </ul>
+            <div class="exercise">
+                <strong>Exercise:</strong> Check if "The Matrix" is in your array. Print index of "Inception".
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>.join()</h2>
+            <p>.join(separator) → makes string from array</p>
+            <div class="exercise">
+                <strong>Exercise:</strong> Create a string of movie titles separated by " | ".
+            </div>
+        </div>
+    
+        <div class="slide">
+            <h2>.forEach()</h2>
+            <p>Run function for each item</p>
+            <div class="exercise">
+                <strong>Exercise:</strong> Print "One of my favorite movies is: &lt;movie&gt;" for each item.
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>.map()</h2>
+            <p>Create a new modified array</p>
+            <div class="exercise">
+                <strong>Exercise:</strong> Create a new array of uppercase movie names.
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>.filter()</h2>
+            <p>Returns items that match a condition</p>
+            <div class="exercise">
+                <strong>Exercise:</strong> Create a new array of movie titles longer than 8 characters.
+            </div>
+        </div>
+    
+        <div class="slide">
+            <h2>.reduce()</h2>
+            <p>Condense array into one value</p>
+            <div class="exercise">
+                <strong>Exercise:</strong> Calculate total number of characters across all movie titles.
+            </div>
+        </div>
+    
+        <div class="slide">
+            <h2>Array Challenge 🏆</h2>
+            <p>Create a function <code>favoriteMovieString(arr)</code> that:</p>
+            <ol>
+                <li>Takes in an array of movie titles</li>
+                <li>Returns a string like: "I love these movies: Interstellar, Inception, The Matrix."</li>
+            </ol>
+        </div>
+    
+        <div class="slide">
+            <h2>Wrap Up</h2>
+            <ul>
+                <li>Where we go next: Strings, Functions, Scope</li>
+                <li>Practice: Complete your self-study assignments</li>
+            </ul>
+        </div>
+
+        <div class="slide">
+            <h2>Strings and String Manipulation</h2>
+            <ul>
+                <li>What is a string?</li>
+                <li>Common string methods: <code>.toUpperCase()</code>, <code>.toLowerCase()</code>, <code>.slice()</code></li>
+                <li>String indexing: zero-based</li>
+            </ul>
+            <div class="exercise">
+                <strong>Exercise:</strong> Write a function that capitalizes the first letter of a given string.
+            </div>
+        </div>
+    
+        <div class="slide">
+            <h2>String Template Literals</h2>
+            <p>Syntax: <code>`Hello, ${name}!`</code></p>
+            <div class="exercise">
+                <strong>Exercise:</strong> Write a function that returns: <code>`My favorite movie is ${movie}`</code>
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Anonymous Functions & Fat Arrows</h2>
+            <p>Example: <code>const greet = (name) => `Hi, ${name}`;</code></p>
+            <div class="exercise">
+                <strong>Exercise:</strong> Write an anonymous arrow function that squares a number.
+            </div>
+        </div>
+    
+        <div class="slide">
+            <h2>Function and Block Scope</h2>
+            <ul>
+                <li>Block scope: <code>let</code> & <code>const</code></li>
+                <li>Function scope: <code>var</code></li>
+            </ul>
+            <div class="exercise">
+                <strong>Exercise:</strong> Create a function that declares a <code>let</code> variable inside and <code>console.log</code>s it.
+            </div>
+        </div>
+    
+        <div class="slide">
+            <h2>Passing Functions by Reference</h2>
+            <ul>
+                <li>Functions are objects in JavaScript</li>
+                <li>Common methods: <code>call()</code>, <code>apply()</code>, <code>bind()</code></li>
+            </ul>
+            <div class="exercise">
+                <strong>Exercise:</strong> Use <code>.bind()</code> to bind a function to an object and call it.
+            </div>
+        </div>
+    
+        <div class="slide">
+            <h2>ES6 Modules</h2>
+            <ul>
+                <li>Export: <code>export default</code> or <code>export const</code></li>
+                <li>Import: <code>import something from './file.js'</code></li>
+            </ul>
+            <div class="exercise">
+                <strong>Exercise:</strong> Write two small files: one that exports a function and one that imports and calls it.
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Final Demo: "Build a Movie Database" 🎬</h2>
+            <p>Combine what we've learned to build a small interactive app:</p>
+            <ul>
+                <li>Create an array of movie objects with properties like <code>title</code> and <code>year</code>.</li>
+                <li>Use a function with a template literal to display each movie.</li>
+                <li>Write an arrow function to filter movies after a certain year.</li>
+                <li>Demonstrate variable scope in your filter or display functions.</li>
+                <li>Break functionality into ES6 modules (if using multiple files).</li>
+            </ul>
+            <div class="exercise">
+                <strong>Stretch Goal:</strong> Add a feature to capitalize all movie titles.
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Setting Up a Local Server</h2>
+            <p>To run ES6 modules in the browser, we need a local server:</p>
+            <ol>
+                <li>Install http-server globally:
+                    <pre><code>npx http-server</code></pre>
+                </li>
+                <li>Navigate to your project directory in terminal</li>
+                <li>Start the server:
+                    <pre><code>http-server</code></pre>
+                    </li>
+                <li>Open your browser and go to:
+                    <pre><code>http://localhost:8080</code></pre>
+                </li>
+            </ol>
+            <div class="exercise">
+                <strong>Note:</strong> The server automatically serves index.html when you visit the root URL (http://localhost:8080). You don't need to specify index.html in the URL.
+            </div>
+        </div>
+        <!-- <script type="module" src="./index.js"></script> -->
+        <script src="./index.js"></script>
+    </body>
+</html>

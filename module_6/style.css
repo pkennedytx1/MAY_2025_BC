@@ -1,0 +1,47 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+pre {
+    background: #f4f4f4;
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+button {
+    margin-right: 5px;
+    padding: 0.5rem 1rem;
+}
+
+h4 {
+    margin: 0;
+}
+
+.slide {
+    display: none;
+    padding: 2rem;
+    max-height: calc(100vh - 55px);
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.active {
+    display: block;
+}
+
+.nav {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: calc(100vw - 20px);
+    background-color: blue;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
