@@ -15,3 +15,13 @@ function prevSlide() {
     currentSlide = (currentSlide - 1 + slides.length) % slides.length;
     showSlide(currentSlide);
 }
+
+const createGreeting = () => {
+    const greeting = document.getElementById("greeting-title")
+    const name = document.getElementById("name").value
+    if (name) {
+        greeting.textContent = "Howdy " + name + "!"
+    } else {
+        greeting.textContent = "Hello nobody!"
+    }
+}
