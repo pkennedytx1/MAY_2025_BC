@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brewery Finder - Demo Guide</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h1 class="text-center mb-4">🍺 Brewery Finder Demo Guide</h1>
+                        
+                        <div class="alert alert-info">
+                            <h5>🚀 How to Test the Application</h5>
+                            <p>Open <code>index.html</code> in your browser to start using the Brewery Finder!</p>
+                        </div>
+
+                        <h3>🧪 Test Scenarios</h3>
+                        
+                        <h4>1. Search by City</h4>
+                        <ul>
+                            <li>Select "Search by City"</li>
+                            <li>Try: <strong>Austin</strong>, <strong>Denver</strong>, <strong>Portland</strong></li>
+                            <li>Expected: Multiple breweries in each city</li>
+                        </ul>
+
+                        <h4>2. Search by Name</h4>
+                        <ul>
+                            <li>Select "Search by Name"</li>
+                            <li>Try: <strong>Dogfish</strong>, <strong>Stone</strong>, <strong>Lagunitas</strong></li>
+                            <li>Expected: Specific breweries matching the name</li>
+                        </ul>
+
+                        <h4>3. Test Pagination</h4>
+                        <ul>
+                            <li>Search for a city with many breweries (e.g., <strong>San Diego</strong>)</li>
+                            <li>Use Previous/Next buttons to navigate</li>
+                            <li>Expected: 12 results per page, proper navigation</li>
+                        </ul>
+
+                        <h4>4. Test Error Handling</h4>
+                        <ul>
+                            <li>Try searching with 1 character (should show validation error)</li>
+                            <li>Try searching for non-existent cities (should show "No results found")</li>
+                            <li>Expected: Clear error messages and guidance</li>
+                        </ul>
+
+                        <h4>5. Test Search History</h4>
+                        <ul>
+                            <li>Perform multiple searches</li>
+                            <li>Click on history items to repeat searches</li>
+                            <li>Expected: Recent searches saved and clickable</li>
+                        </ul>
+
+                        <h4>6. Test Responsive Design</h4>
+                        <ul>
+                            <li>Resize browser window or use mobile view</li>
+                            <li>Test on different screen sizes</li>
+                            <li>Expected: Layout adapts to screen size</li>
+                        </ul>
+
+                        <h3>🔍 API Endpoints Used</h3>
+                        <div class="bg-dark text-light p-3 rounded">
+                            <code>https://api.openbrewerydb.org/v1/breweries?by_city=austin&per_page=50</code><br>
+                            <code>https://api.openbrewerydb.org/v1/breweries?by_name=dogfish&per_page=50</code>
+                        </div>
+
+                        <h3>📱 Features to Explore</h3>
+                        <ul>
+                            <li><strong>Debounced Search:</strong> Type slowly to see automatic search</li>
+                            <li><strong>Loading States:</strong> Watch for spinners during API calls</li>
+                            <li><strong>Brewery Cards:</strong> Hover over cards for effects</li>
+                            <li><strong>Type Badges:</strong> Color-coded brewery types</li>
+                            <li><strong>Phone Formatting:</strong> Automatic phone number formatting</li>
+                            <li><strong>Website Links:</strong> Direct links to brewery websites</li>
+                        </ul>
+
+                        <div class="text-center mt-4">
+                            <a href="index.html" class="btn btn-primary btn-lg">
+                                🍺 Launch Brewery Finder
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

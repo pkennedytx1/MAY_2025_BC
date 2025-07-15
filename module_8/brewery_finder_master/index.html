@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍺 Brewery Finder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <span class="navbar-brand">🍺 Brewery Finder</span>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text">
+                    Powered by <a href="https://www.openbrewerydb.org/" class="text-light" target="_blank">Open Brewery DB</a>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Search Section -->
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">Find Your Perfect Brewery</h2>
+                        
+                        <!-- Search Type Toggle -->
+                        <div class="text-center mb-3">
+                            <div class="btn-group" role="group" aria-label="Search type">
+                                <input type="radio" class="btn-check" name="searchType" id="searchByName" value="by_name" checked>
+                                <label class="btn btn-outline-primary" for="searchByName">Search by Name</label>
+                                
+                                <input type="radio" class="btn-check" name="searchType" id="searchByCity" value="by_city">
+                                <label class="btn btn-outline-primary" for="searchByCity">Search by City</label>
+                            </div>
+                        </div>
+
+                        <!-- Search Form -->
+                        <form id="searchForm" class="mb-3">
+                            <div class="input-group">
+                                <input type="text" 
+                                       class="form-control form-control-lg" 
+                                       id="searchInput" 
+                                       placeholder="Enter brewery name or city..."
+                                       minlength="2"
+                                       required>
+                                <button class="btn btn-primary btn-lg" type="submit">
+                                    <span class="spinner-border spinner-border-sm d-none" id="searchSpinner" role="status"></span>
+                                    🔍 Search
+                                </button>
+                            </div>
+                            <div class="form-text">Minimum 2 characters required</div>
+                        </form>
+
+                        <!-- Search History -->
+                        <div id="searchHistory" class="d-none">
+                            <h6 class="text-muted">Recent Searches:</h6>
+                            <div id="historyList" class="d-flex flex-wrap gap-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="mt-4 d-none">
+            <!-- Results Header -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h4 id="resultsTitle">Search Results</h4>
+                    <p id="resultsCount" class="text-muted"></p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-outline-secondary" id="prevPage" disabled>
+                            ← Previous
+                        </button>
+                        <span class="btn btn-outline-secondary disabled" id="pageInfo">Page 1</span>
+                        <button class="btn btn-outline-secondary" id="nextPage" disabled>
+                            Next →
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Grid -->
+            <div id="resultsGrid" class="row g-4">
+                <!-- Results will be dynamically inserted here -->
+            </div>
+
+            <!-- No Results Message -->
+            <div id="noResults" class="text-center py-5 d-none">
+                <div class="text-muted">
+                    <h4>🍺 No breweries found</h4>
+                    <p>Try adjusting your search terms or try a different city/name.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="alert alert-danger mt-4 d-none" role="alert">
+            <h5>❌ Error occurred processing your request</h5>
+            <p id="errorDetails">Please try again later.</p>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="text-center py-5 d-none">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3 text-muted">Searching for breweries...</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light text-center py-3 mt-5">
+        <div class="container">
+            <p class="mb-0">Built with ❤️ using Vanilla JavaScript & Bootstrap</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html> 

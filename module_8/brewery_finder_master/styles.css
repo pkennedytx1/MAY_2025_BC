@@ -1,0 +1,211 @@
+/* Custom styles for Brewery Finder */
+
+/* Smooth transitions */
+* {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Card hover effects */
+.brewery-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.brewery-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Search history buttons */
+.history-btn {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    color: #6c757d;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.history-btn:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+    color: #495057;
+    text-decoration: none;
+}
+
+/* Loading animation */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.loading-pulse {
+    animation: pulse 1.5s infinite;
+}
+
+/* Custom button styles */
+.btn-check:checked + .btn-outline-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: white;
+}
+
+/* Results grid responsive */
+@media (max-width: 768px) {
+    .brewery-card {
+        margin-bottom: 1rem;
+    }
+    
+    .btn-group {
+        width: 100%;
+        margin-top: 1rem;
+    }
+    
+    .btn-group .btn {
+        flex: 1;
+    }
+}
+
+/* Error message styling */
+.alert-danger {
+    border-left: 4px solid #dc3545;
+}
+
+/* Success message styling */
+.alert-success {
+    border-left: 4px solid #198754;
+}
+
+/* Brewery type badges */
+.brewery-type {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.brewery-type.micro {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.brewery-type.brewpub {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.brewery-type.large {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.brewery-type.regional {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.brewery-type.contract {
+    background-color: #e2e3e5;
+    color: #383d41;
+}
+
+.brewery-type.proprietor {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.brewery-type.closed {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Website link styling */
+.website-link {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.website-link:hover {
+    color: #0a58ca;
+    text-decoration: underline;
+}
+
+/* Phone number styling */
+.phone-number {
+    color: #6c757d;
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+/* Address styling */
+.address {
+    color: #6c757d;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Search input focus effect */
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Pagination button states */
+.btn-group .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Fade in animation for results */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Responsive text sizing */
+@media (max-width: 576px) {
+    .card-title {
+        font-size: 1.5rem;
+    }
+    
+    .form-control-lg {
+        font-size: 1rem;
+    }
+    
+    .btn-lg {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+    }
+} 
