@@ -1,0 +1,520 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My GitHub Portfolio</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+    <div class="navbar">
+        <a href="./about.html">About</a>
+        <a href="./projects.html">Projects</a>
+        <a>Contact</a>
+    </div>
+  <h1>Module 9</h1>
+  <p>Unit Testing, Github, Github Portfolio, More App Building</p>
+
+  <h2>🚀 Deploying Your Portfolio to GitHub Pages</h2>
+  
+  <div class="testing-section">
+    <h3>What is GitHub Pages?</h3>
+    <p><strong>GitHub Pages</strong> is a free static site hosting service provided by GitHub. It allows you to host websites directly from your GitHub repositories. Perfect for portfolios, documentation, and personal projects!</p>
+    
+    <h4>Key Benefits:</h4>
+    <ul>
+      <li><strong>Free Hosting:</strong> No cost for hosting your portfolio</li>
+      <li><strong>Custom Domain:</strong> Use your own domain name (optional)</li>
+      <li><strong>Automatic Updates:</strong> Your site updates when you push to GitHub</li>
+      <li><strong>HTTPS:</strong> Secure connections by default</li>
+      <li><strong>Easy Setup:</strong> Simple configuration process</li>
+    </ul>
+  </div>
+
+  <div class="testing-section">
+    <h3>How to Deploy Your Portfolio</h3>
+    
+    <h4>Step 1: Create a GitHub Repository</h4>
+    <div class="code-example">
+# Create a new repository on GitHub
+# Repository name: yourusername.github.io
+# This special name creates a user/organization site
+    </div>
+    
+    <h4>Step 2: Upload Your Portfolio Files</h4>
+    <div class="code-example">
+# Clone the repository
+git clone https://github.com/yourusername/yourusername.github.io.git
+
+# Add your portfolio files
+# - index.html (main page)
+# - CSS files
+# - JavaScript files
+# - Images and other assets
+
+# Commit and push
+git add .
+git commit -m "Add portfolio files"
+git push origin main
+    </div>
+    
+    <h4>Step 3: Enable GitHub Pages</h4>
+    <ol>
+      <li>Go to your repository on GitHub</li>
+      <li>Click <strong>Settings</strong> tab</li>
+      <li>Scroll down to <strong>Pages</strong> section</li>
+      <li>Under <strong>Source</strong>, select <strong>Deploy from a branch</strong></li>
+      <li>Choose <strong>main</strong> branch</li>
+      <li>Click <strong>Save</strong></li>
+    </ol>
+    
+    <h4>Step 4: Access Your Site</h4>
+    <p>Your portfolio will be available at: <code>https://yourusername.github.io</code></p>
+    <p><em>Note: It may take a few minutes for your site to be published.</em></p>
+    <a href="https://pkennedytx1.github.io/" target="_blank">Here is mine if you need to see how it looks on GitHub</a>
+    <br />
+    <a href="https://github.com/pkennedytx1/pkennedytx1.github.io" target="_blank">Here is the code</a>
+    <p>The most common errors is not using index.html and also not creating a git repository from the file location.</p>
+</div>
+
+  <div class="testing-section">
+    <h3>Repository Structure for GitHub Pages</h3>
+    
+    <div class="code-example">
+yourusername.github.io/
+├── index.html          # Main portfolio page
+├── css/
+│   └── styles.css      # Your styles
+├── js/
+│   └── script.js       # Your JavaScript
+├── images/
+│   └── profile.jpg     # Portfolio images
+├── projects/
+│   └── project1.html   # Project pages
+└── README.md           # Repository description
+    </div>
+    
+    <h4>Important Files:</h4>
+    <ul>
+      <li><strong>index.html:</strong> Your main portfolio page (required)</li>
+      <li><strong>README.md:</strong> Describes your portfolio and projects</li>
+      <li><strong>CSS/JS files:</strong> Styling and functionality</li>
+      <li><strong>Images:</strong> Screenshots, logos, profile pictures</li>
+    </ul>
+  </div>
+
+  <div class="testing-section">
+    <h3>Custom Domain (Optional)</h3>
+    
+    <h4>Using Your Own Domain</h4>
+    <p>Want to use your own domain like <code>www.yourname.com</code>?</p>
+    
+    <ol>
+      <li><strong>Purchase a domain</strong> from a domain registrar (GoDaddy, Namecheap, etc.)</li>
+      <li><strong>Add a CNAME file</strong> to your repository:
+        <div class="code-example">
+# Create a file named 'CNAME' (no extension)
+# Add your domain name inside:
+www.yourname.com
+        </div>
+      </li>
+      <li><strong>Configure DNS</strong> with your domain registrar:
+        <div class="code-example">
+# Add these DNS records:
+Type: CNAME
+Name: www
+Value: yourusername.github.io
+
+Type: A
+Name: @
+Value: 185.199.108.153
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="testing-section">
+    <h3>Best Practices for Portfolio Deployment</h3>
+    
+    <h4>✅ Do's</h4>
+    <ul>
+      <li>Use semantic HTML for better accessibility</li>
+      <li>Optimize images for web (compress, use appropriate formats)</li>
+      <li>Test your site on different devices and browsers</li>
+      <li>Include a contact form or contact information</li>
+      <li>Keep your projects updated with recent work</li>
+      <li>Use descriptive commit messages</li>
+    </ul>
+    
+    <h4>❌ Don'ts</h4>
+    <ul>
+      <li>Don't include sensitive information (API keys, passwords)</li>
+      <li>Don't use copyrighted images without permission</li>
+      <li>Don't forget to test your site after deployment</li>
+      <li>Don't ignore mobile responsiveness</li>
+      <li>Don't use overly complex animations that slow down the site</li>
+    </ul>
+  </div>
+
+  <h2>UI Test</h2>
+  <div class="ui-test">
+    <p>Enter a number to test the UI:</p>
+    <input type="number" id="test-input" placeholder="Enter a number">
+    <button id="test-button">Test Input</button>
+    <div id="ui-results" class="ui-results"></div>
+  </div>
+
+  <h2>🧪 Understanding Software Testing</h2>
+
+  <div class="testing-section">
+    <h3>Unit Tests vs Integration Tests</h3>
+    
+    <h4>Unit Tests</h4>
+    <p>Unit tests focus on testing individual functions or components in isolation.</p>
+    <div class="code-example">
+// Example: Testing a single function
+function add(a, b) {
+  return a + b;
+}
+
+// Unit test
+assertEquals(add(2, 3), 5);
+assertEquals(add(-1, 1), 0);
+    </div>
+    
+    <h4>Integration Tests</h4>
+    <p>Integration tests verify that multiple components work together correctly.</p>
+    <div class="code-example">
+// Example: Testing user registration flow
+function testUserRegistration() {
+  // Test form validation
+  const formData = { email: "test@example.com", password: "123456" };
+  const validation = validateForm(formData);
+  
+  // Test database connection
+  const user = saveUserToDatabase(formData);
+  
+  // Test email sending
+  const emailSent = sendWelcomeEmail(user.email);
+  
+  // Integration test - all parts work together
+  assertTrue(validation && user && emailSent);
+}
+    </div>
+  </div>
+
+  <div class="testing-section">
+    <h3>Frontend vs Backend Testing</h3>
+    
+    <table class="comparison-table">
+      <tr>
+        <th>Aspect</th>
+        <th>Frontend Testing</th>
+        <th>Backend Testing</th>
+      </tr>
+      <tr>
+        <td><strong>What to Test</strong></td>
+        <td>User interface, user interactions, visual elements, client-side logic</td>
+        <td>API endpoints, database operations, business logic, server performance</td>
+      </tr>
+      <tr>
+        <td><strong>Tools</strong></td>
+        <td>Jest, Cypress, Playwright, Selenium, React Testing Library</td>
+        <td>Jest, Mocha, Supertest, Postman, database testing tools</td>
+      </tr>
+      <tr>
+        <td><strong>Test Types</strong></td>
+        <td>Component tests, UI tests, E2E tests, visual regression tests</td>
+        <td>API tests, database tests, unit tests, load tests</td>
+      </tr>
+      <tr>
+        <td><strong>Example</strong></td>
+        <td>Test if button click shows correct modal</td>
+        <td>Test if API returns correct user data</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="testing-section">
+    <h3>Frontend Testing Examples</h3>
+    
+    <h4>Component Testing (React)</h4>
+    <div class="code-example">
+import { render, screen, fireEvent } from '@testing-library/react';
+import Button from './Button';
+
+test('button shows correct text and handles click', () => {
+  const handleClick = jest.fn();
+  render(&lt;Button onClick={handleClick}&gt;Click me&lt;/Button&gt;);
+  
+  expect(screen.getByText('Click me')).toBeInTheDocument();
+  fireEvent.click(screen.getByText('Click me'));
+  expect(handleClick).toHaveBeenCalled();
+});
+    </div>
+    
+    <h4>UI Testing (Cypress)</h4>
+    <div class="code-example">
+describe('Login Form', () => {
+  it('should show error for invalid email', () => {
+    cy.visit('/login');
+    cy.get('[data-testid=email]').type('invalid-email');
+    cy.get('[data-testid=submit]').click();
+    cy.get('[data-testid=error]').should('contain', 'Invalid email');
+  });
+});
+    </div>
+  </div>
+
+  <div class="testing-section">
+    <h3>Backend Testing Examples</h3>
+    
+    <h4>API Testing (Node.js/Express)</h4>
+    <div class="code-example">
+const request = require('supertest');
+const app = require('./app');
+
+describe('User API', () => {
+  test('GET /api/users returns user list', async () => {
+    const response = await request(app)
+      .get('/api/users')
+      .expect(200);
+    
+    expect(response.body).toHaveProperty('users');
+    expect(Array.isArray(response.body.users)).toBe(true);
+  });
+});
+    </div>
+    
+    <h4>Database Testing</h4>
+    <div class="code-example">
+describe('User Model', () => {
+  test('should create user with valid data', async () => {
+    const userData = {
+      email: 'test@example.com',
+      name: 'Test User'
+    };
+    
+    const user = await User.create(userData);
+    expect(user.email).toBe(userData.email);
+    expect(user.name).toBe(userData.name);
+  });
+});
+    </div>
+  </div>
+
+  <div class="testing-section">
+    <h3>Testing Best Practices</h3>
+    <ul>
+      <li><strong>Test Pyramid:</strong> Many unit tests, fewer integration tests, even fewer E2E tests</li>
+      <li><strong>Arrange-Act-Assert:</strong> Structure your tests clearly</li>
+      <li><strong>Test Isolation:</strong> Each test should be independent</li>
+      <li><strong>Meaningful Names:</strong> Test names should describe what they're testing</li>
+      <li><strong>Mock External Dependencies:</strong> Don't test third-party services</li>
+      <li><strong>Test Edge Cases:</strong> Don't just test the happy path</li>
+    </ul>
+  </div>
+
+  <div class="testing-section">
+    <h3>🧩 Arrange-Act-Assert Pattern (AAA)</h3>
+    
+    <p>The <strong>Arrange-Act-Assert</strong> pattern is a fundamental testing structure that makes tests clear, readable, and maintainable. It divides every test into three distinct sections:</p>
+    
+    <h4>1. Arrange - Set Up Your Test Data</h4>
+    <p>This is where you prepare everything needed for your test. Think of it as "getting ready."</p>
+    <div class="code-example">
+// ARRANGE - Set up test data and conditions
+const user = {
+  name: "John Doe",
+  email: "john@example.com",
+  age: 25
+};
+const expectedResult = "Hello, John Doe!";
+    </div>
+    
+    <h4>2. Act - Execute the Code Being Tested</h4>
+    <p>This is where you actually call the function or perform the action you want to test.</p>
+    <div class="code-example">
+// ACT - Call the function we're testing
+const result = greetUser(user.name);
+    </div>
+    
+    <h4>3. Assert - Verify the Results</h4>
+    <p>This is where you check if the result matches what you expected.</p>
+    <div class="code-example">
+// ASSERT - Check if the result is correct
+expect(result).toBe(expectedResult);
+    </div>
+    
+    <h4>Complete Example</h4>
+    <div class="code-example">
+describe('User Greeting', () => {
+  test('should greet user with their name', () => {
+    // ARRANGE
+    const user = { name: "Alice", email: "alice@example.com" };
+    const expectedGreeting = "Hello, Alice!";
+    
+    // ACT
+    const actualGreeting = createGreeting(user.name);
+    
+    // ASSERT
+    expect(actualGreeting).toBe(expectedGreeting);
+  });
+});
+    </div>
+  </div>
+
+  <div class="testing-section">
+    <h3>Why Use Arrange-Act-Assert?</h3>
+    
+    <h4>🎯 Benefits</h4>
+    <ul>
+      <li><strong>Clarity:</strong> Anyone reading the test immediately understands what's being tested</li>
+      <li><strong>Consistency:</strong> All tests follow the same structure, making them easier to maintain</li>
+      <li><strong>Debugging:</strong> When a test fails, you know exactly which part failed (setup, execution, or verification)</li>
+      <li><strong>Documentation:</strong> Tests serve as living documentation of how your code should work</li>
+    </ul>
+    
+    <h4>🚫 Common Anti-Patterns to Avoid</h4>
+    <div class="code-example">
+// BAD: Mixed concerns, hard to read
+test('user test', () => {
+  const user = { name: "Bob" };
+  const result = greetUser(user.name);
+  expect(result).toBe("Hello, Bob!");
+  const user2 = { name: "Alice" };
+  const result2 = greetUser(user2.name);
+  expect(result2).toBe("Hello, Alice!");
+});
+
+// GOOD: Clear AAA structure
+test('should greet Bob correctly', () => {
+  // ARRANGE
+  const user = { name: "Bob" };
+  const expected = "Hello, Bob!";
+  
+  // ACT
+  const result = greetUser(user.name);
+  
+  // ASSERT
+  expect(result).toBe(expected);
+});
+
+test('should greet Alice correctly', () => {
+  // ARRANGE
+  const user = { name: "Alice" };
+  const expected = "Hello, Alice!";
+  
+  // ACT
+  const result = greetUser(user.name);
+  
+  // ASSERT
+  expect(result).toBe(expected);
+});
+    </div>
+  </div>
+
+  <div class="testing-section">
+    <h3>Real-World AAA Examples</h3>
+    
+    <h4>Frontend Component Test</h4>
+    <div class="code-example">
+test('button should show loading state when clicked', () => {
+  // ARRANGE
+  const mockOnClick = jest.fn();
+  render(&lt;Button onClick={mockOnClick}&gt;Submit&lt;/Button&gt;);
+  const button = screen.getByText('Submit');
+  
+  // ACT
+  fireEvent.click(button);
+  
+  // ASSERT
+  expect(button).toHaveTextContent('Loading...');
+  expect(mockOnClick).toHaveBeenCalledTimes(1);
+});
+    </div>
+    
+    <h4>Backend API Test</h4>
+    <div class="code-example">
+test('POST /api/users should create new user', async () => {
+  // ARRANGE
+  const userData = {
+    name: 'Jane Smith',
+    email: 'jane@example.com'
+  };
+  const expectedResponse = {
+    id: expect.any(Number),
+    name: userData.name,
+    email: userData.email
+  };
+  
+  // ACT
+  const response = await request(app)
+    .post('/api/users')
+    .send(userData);
+  
+  // ASSERT
+  expect(response.status).toBe(201);
+  expect(response.body).toMatchObject(expectedResponse);
+});
+    </div>
+    
+    <h4>Database Test</h4>
+    <div class="code-example">
+test('should save user to database', async () => {
+  // ARRANGE
+  const userData = {
+    name: 'Test User',
+    email: 'test@example.com'
+  };
+  
+  // ACT
+  const savedUser = await User.create(userData);
+  
+  // ASSERT
+  expect(savedUser.id).toBeDefined();
+  expect(savedUser.name).toBe(userData.name);
+  expect(savedUser.email).toBe(userData.email);
+});
+    </div>
+  </div>
+
+  <div class="testing-section">
+    <h3>AAA in Different Testing Scenarios</h3>
+    
+    <table class="comparison-table">
+      <tr>
+        <th>Test Type</th>
+        <th>Arrange</th>
+        <th>Act</th>
+        <th>Assert</th>
+      </tr>
+      <tr>
+        <td><strong>Unit Test</strong></td>
+        <td>Create test data, mock dependencies</td>
+        <td>Call the function</td>
+        <td>Check return value</td>
+      </tr>
+      <tr>
+        <td><strong>Integration Test</strong></td>
+        <td>Set up database, create test records</td>
+        <td>Call API endpoint</td>
+        <td>Verify database state and response</td>
+      </tr>
+      <tr>
+        <td><strong>UI Test</strong></td>
+        <td>Navigate to page, set up test data</td>
+        <td>Click buttons, fill forms</td>
+        <td>Check DOM changes, verify state</td>
+      </tr>
+      <tr>
+        <td><strong>E2E Test</strong></td>
+        <td>Start application, prepare test environment</td>
+        <td>Perform user actions</td>
+        <td>Verify complete user journey</td>
+      </tr>
+    </table>
+  </div>
+
+  <script src="test.js"></script>
+</body>
+</html>

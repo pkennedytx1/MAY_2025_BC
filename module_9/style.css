@@ -1,0 +1,24 @@
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: lightblue;
+    padding: 20px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif; margin: 2rem; }
+    .pass { color: green; }
+    .fail { color: red; }
+    .ui-test { margin: 2rem 0; padding: 1rem; border: 1px solid #ccc; border-radius: 5px; }
+    input, button { margin: 0.5rem; padding: 0.5rem; }
+    .ui-results { margin-top: 1rem; }
+    .testing-section { margin: 2rem 0; padding: 1.5rem; border: 2px solid #007bff; border-radius: 5px; background-color: #f8f9fa; }
+    .testing-section h3 { color: #007bff; margin-top: 0; }
+    .code-example { background-color: #f1f1f1; padding: 1rem; border-radius: 3px; font-family: monospace; margin: 1rem 0; }
+    .comparison-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    .comparison-table th, .comparison-table td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
+    .comparison-table th { background-color: #007bff; color: white; 
+}
