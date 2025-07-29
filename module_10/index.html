@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Module 10: Cybersecurity & ES6</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" />
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      line-height: 1.6;
+      padding: 2rem;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    section {
+      background: #fff;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    h2 {
+      color: #2c3e50;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.5rem;
+    }
+    pre {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: monospace;
+    }
+    ul {
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Module 10: Cybersecurity & Modern JavaScript (ES6)</h1>
+
+  <section id="agile">
+    <h2>Agile Project Management</h2>
+    <img src="https://www.pm-partners.com.au/nitropack_static/gBhcdJNmZOjhJVuGHhleRMHGlpGzIIUz/assets/images/optimized/rev-aa5873e/www.pm-partners.com.au/wp-content/uploads/2021/06/blog-scrum-process-opt.jpg"/>
+    <p>
+      Agile is a project management approach that values individuals and interactions, working software, customer collaboration, and responding to change. Two common Agile frameworks are:
+    </p>
+    <ul>
+      <li><strong>Scrum</strong>: Uses fixed-length sprints (e.g., 2 weeks), daily stand-ups, a product backlog, sprint planning, and retrospectives. Roles include Scrum Master and Product Owner.</li>
+      <li><strong>Kanban</strong>: A visual workflow approach using a board with columns (e.g., "To Do", "In Progress", "Done"). Work is pulled through the system without fixed-length sprints.</li>
+    </ul>
+    <p>Scrum emphasizes structured roles and timelines, while Kanban focuses on continuous delivery and limiting work-in-progress.</p>
+  </section>
+
+  <section id="http-https">
+    <h2>HTTP vs HTTPS</h2>
+    <p>
+      <strong>HTTP</strong> (Hypertext Transfer Protocol) is a communication protocol for web requests. It sends data in plaintext, which can be intercepted.  
+    </p>
+    <p>
+      <strong>HTTPS</strong> is the secure version of HTTP. It uses SSL/TLS encryption to protect data between the browser and server.
+    </p>
+    <ul>
+      <li>Encrypts sensitive data like passwords and credit cards</li>
+      <li>Prevents man-in-the-middle attacks</li>
+      <li>Improves trust (browsers show a padlock)</li>
+    </ul>
+    <p>Always use HTTPS when sending login info or handling user data.</p>
+  </section>
+
+  <section id="secure-requests">
+    <h2>How to Securely Send a Request</h2>
+    <ul>
+      <li>Always use <code>https://</code> in API requests</li>
+      <li>Use tokens (JWT, OAuth) to authenticate users</li>
+      <li>Set HTTP-only, Secure cookies to prevent JS access</li>
+      <li>Enable CORS properly to control allowed origins</li>
+    </ul>
+    <pre><code class="language-javascript">
+// Example: Sending a secure fetch request
+fetch("https://api.example.com/data", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer yourTokenHere"
+  },
+  body: JSON.stringify({ name: "Alex" })
+});
+    </code></pre>
+  </section>
+
+  <section id="anti-spam">
+    <h2>Preventing Form Spam</h2>
+    <p>To reduce spam and abuse in web forms, consider these protections:</p>
+    <ul>
+      <li><strong>reCAPTCHA</strong>: Use Google's invisible reCAPTCHA to verify humans</li>
+      <li><strong>Input validation</strong>: Sanitize and validate inputs server-side</li>
+      <li><strong>Rate limiting</strong>: Limit requests per IP (e.g., 10 per minute)</li>
+      <li><strong>CSRF protection</strong>: Use tokens to ensure requests are coming from trusted sessions</li>
+      <li><strong>Honeypots</strong>: Hidden fields that bots fill but users never see</li>
+    </ul>
+  </section>
+
+  <section id="hashing">
+    <h2>Hashing</h2>
+    <p>Hashing is a one-way transformation of data to a fixed output. It’s used for securely storing passwords and ensuring data integrity.</p>
+    <ul>
+      <li><code>SHA-256</code> is a common secure hashing algorithm</li>
+      <li>Hashes are irreversible and unique (ideally)</li>
+      <li>Used in digital signatures, password storage, etc.</li>
+    </ul>
+    <pre><code id="hashing-code" class="language-javascript"></code></pre>
+  </section>
+
+  <section id="template-literals">
+    <h2>ES6: Template Literals</h2>
+    <p>Template literals let you embed expressions and span multiple lines using backticks:</p>
+    <pre><code id="template-code" class="language-javascript"></code></pre>
+  </section>
+
+  <section id="destructuring">
+    <h2>ES6: Destructuring</h2>
+    <p>Destructuring lets you unpack values from arrays or objects into variables.</p>
+    <pre><code id="destructuring-code" class="language-javascript"></code></pre>
+  </section>
+
+  <section id="spread-rest">
+    <h2>ES6: Spread & Rest</h2>
+    <p>Spread copies values into a new array/object. Rest collects multiple values into one.</p>
+    <pre><code id="spread-rest-code" class="language-javascript"></code></pre>
+  </section>
+
+  <section id="arrow-functions">
+    <h2>ES6: Arrow Functions</h2>
+    <p>Arrow functions are shorter and use the outer <code>this</code> context.</p>
+    <pre><code id="arrow-code" class="language-javascript"></code></pre>
+  </section>
+
+  <section id="closures">
+    <h2>ES6: Closures</h2>
+    <p>Closures let inner functions access variables from the outer scope even after the outer function has finished running.</p>
+    <pre><code id="closure-code" class="language-javascript"></code></pre>
+  </section>
+
+  <section id="scope">
+    <h2>ES6: Scope Differences</h2>
+    <p><code>var</code> is function-scoped. <code>let</code> and <code>const</code> are block-scoped. Use <code>const</code> by default.</p>
+    <pre><code id="scope-code" class="language-javascript"></code></pre>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <script src="index.js"></script>
+  <script>hljs.highlightAll();</script>
+</body>
+</html>
