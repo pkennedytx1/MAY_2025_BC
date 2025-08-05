@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 11: Intro to JSX & React</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    code, pre {
+      background-color: #eee;
+      padding: 0.5rem;
+      display: block;
+      white-space: pre-wrap;
+      margin: 1rem 0;
+    }
+    ul {
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Module 11: Introduction to JSX & React</h1>
+
+  <h2>📌 What is JSX?</h2>
+  <ul>
+    <li>JSX stands for JavaScript XML.</li>
+    <li>It allows you to write HTML inside JavaScript.</li>
+    <li>JSX makes it easier to create and visualize UI components.</li>
+    <li>Browsers can't read JSX directly — it's compiled by tools like Babel into standard JavaScript.</li>
+  </ul>
+
+  <h3>🔍 JSX Rules & Best Practices</h3>
+  <ul>
+    <li><strong>Must return a single parent element:</strong> Wrap multiple elements in a div or React Fragment</li>
+    <li><strong>All tags must be closed:</strong> Use self-closing tags like &lt;img /&gt;</li>
+    <li><strong>Use camelCase for attributes:</strong> className instead of class, onClick instead of onclick</li>
+    <li><strong>JavaScript expressions in curly braces:</strong> {variable}, {2 + 2}, {user.name}</li>
+    <li><strong>Comments:</strong> Use {/* This is a comment */}</li>
+  </ul>
+
+  <h3>🔍 JSX Examples</h3>
+  <pre><code>// Basic JSX
+const name = "React";
+const element = &lt;h1&gt;Hello, {name}!&lt;/h1&gt;;
+
+// JSX with attributes
+const element = &lt;img src="logo.png" alt="Logo" /&gt;;
+
+// JSX with multiple elements (must be wrapped)
+const element = (
+  &lt;div&gt;
+    &lt;h1&gt;Title&lt;/h1&gt;
+    &lt;p&gt;Paragraph&lt;/p&gt;
+  &lt;/div&gt;
+);
+
+// Using React Fragment (no extra div)
+const element = (
+  &lt;&gt;
+    &lt;h1&gt;Title&lt;/h1&gt;
+    &lt;p&gt;Paragraph&lt;/p&gt;
+  &lt;/&gt;
+);</code></pre>
+
+  <h3>🔍 Example: JSX vs. Regular JS</h3>
+  <p>JSX:</p>
+  <pre><code>const element = &lt;h1&gt;Hello, world!&lt;/h1&gt;;</code></pre>
+
+  <p>Compiled JS:</p>
+  <pre><code>const element = React.createElement('h1', null, 'Hello, world!');</code></pre>
+
+  <h2>⚛️ React Basics</h2>
+  <ul>
+    <li>React is a JavaScript library for building user interfaces.</li>
+    <li>It uses a component-based architecture.</li>
+    <li>Each component is a function (or class) that returns JSX.</li>
+    <li>React DOM renders these components into the actual HTML DOM.</li>
+  </ul>
+
+  <h3>🔍 Basic Component Example</h3>
+  <pre><code>function Welcome() {
+  return &lt;h1&gt;Welcome to React!&lt;/h1&gt;;
+}</code></pre>
+
+  <h2>⚛️ React Components Deep Dive</h2>
+  <ul>
+    <li>Components are the building blocks of React applications.</li>
+    <li>They can be functional (using hooks) or class-based.</li>
+    <li>Components can be reused and composed together.</li>
+    <li>Each component should have a single responsibility.</li>
+  </ul>
+
+  <h3>🔍 Functional Components</h3>
+  <pre><code>// Simple functional component
+function Greeting() {
+  return &lt;h1&gt;Hello, World!&lt;/h1&gt;;
+}
+
+// Component with props
+function Greeting(props) {
+  return &lt;h1&gt;Hello, {props.name}!&lt;/h1&gt;;
+}
+
+// Using destructuring for cleaner code
+function Greeting({ name, age }) {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Hello, {name}!&lt;/h1&gt;
+      &lt;p&gt;You are {age} years old.&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+  <h3>🔍 Component Composition</h3>
+  <pre><code>// Parent component
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;Header title="My App" /&gt;
+      &lt;MainContent /&gt;
+      &lt;Footer /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Child components
+function Header({ title }) {
+  return &lt;header&gt;&lt;h1&gt;{title}&lt;/h1&gt;&lt;/header&gt;;
+}
+
+function MainContent() {
+  return &lt;main&gt;&lt;p&gt;This is the main content.&lt;/p&gt;&lt;/main&gt;;
+}
+
+function Footer() {
+  return &lt;footer&gt;&lt;p&gt;© 2024 My App&lt;/p&gt;&lt;/footer&gt;;
+}</code></pre>
+
+  <h2>🔄 React State Management</h2>
+  <ul>
+    <li>State is data that can change over time in your component.</li>
+    <li>When state changes, React re-renders the component.</li>
+    <li>State is local to each component instance.</li>
+    <li>Use the useState hook to add state to functional components.</li>
+  </ul>
+
+  <h3>🔍 useState Hook</h3>
+  <pre><code>import { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Count: {count}&lt;/p&gt;
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+        Increment
+      &lt;/button&gt;
+      &lt;button onClick={() =&gt; setCount(count - 1)}&gt;
+        Decrement
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+  <h3>🔍 Multiple State Variables</h3>
+  <pre><code>function UserProfile() {
+  const [name, setName] = useState('');
+  const [age, setAge] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+  
+  return (
+    &lt;div&gt;
+      &lt;input 
+        value={name}
+        onChange={(e) =&gt; setName(e.target.value)}
+        placeholder="Enter name"
+      /&gt;
+      &lt;input 
+        type="number"
+        value={age}
+        onChange={(e) =&gt; setAge(Number(e.target.value))}
+        placeholder="Enter age"
+      /&gt;
+      &lt;label&gt;
+        &lt;input 
+          type="checkbox"
+          checked={isActive}
+          onChange={(e) =&gt; setIsActive(e.target.checked)}
+        /&gt;
+        Active
+      &lt;/label&gt;
+      &lt;p&gt;Name: {name}, Age: {age}, Active: {isActive ? 'Yes' : 'No'}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+  <h3>🔍 State Updates</h3>
+  <ul>
+    <li><strong>Direct updates:</strong> setCount(count + 1)</li>
+    <li><strong>Functional updates:</strong> setCount(prevCount =&gt; prevCount + 1)</li>
+    <li><strong>Object state:</strong> Use spread operator to update objects</li>
+    <li><strong>Array state:</strong> Use spread operator or array methods</li>
+  </ul>
+
+  <h3>🔍 Object State Example</h3>
+  <pre><code>function UserForm() {
+  const [user, setUser] = useState({
+    name: '',
+    email: '',
+    age: 0
+  });
+  
+  const updateUser = (field, value) =&gt; {
+    setUser(prevUser =&gt; ({
+      ...prevUser,
+      [field]: value
+    }));
+  };
+  
+  return (
+    &lt;div&gt;
+      &lt;input 
+        value={user.name}
+        onChange={(e) =&gt; updateUser('name', e.target.value)}
+        placeholder="Name"
+      /&gt;
+      &lt;input 
+        value={user.email}
+        onChange={(e) =&gt; updateUser('email', e.target.value)}
+        placeholder="Email"
+      /&gt;
+      &lt;input 
+        type="number"
+        value={user.age}
+        onChange={(e) =&gt; updateUser('age', Number(e.target.value))}
+        placeholder="Age"
+      /&gt;
+      &lt;pre&gt;{JSON.stringify(user, null, 2)}&lt;/pre&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+  <h2>🎨 Conditional Rendering</h2>
+  <pre><code>function ConditionalComponent({ isLoggedIn, user }) {
+  return (
+    &lt;div&gt;
+      {isLoggedIn ? (
+        &lt;h1&gt;Welcome back, {user.name}!&lt;/h1&gt;
+      ) : (
+        &lt;h1&gt;Please log in&lt;/h1&gt;
+      )}
+      
+      {isLoggedIn && &lt;p&gt;You have access to premium content.&lt;/p&gt;}
+      
+      {!isLoggedIn && &lt;button&gt;Login&lt;/button&gt;}
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+  <h2>📋 Lists & Keys</h2>
+  <pre><code>function TodoList() {
+  const [todos, setTodos] = useState([
+    { id: 1, text: 'Learn React', completed: false },
+    { id: 2, text: 'Build an app', completed: false },
+    { id: 3, text: 'Deploy to production', completed: false }
+  ]);
+  
+  return (
+    &lt;ul&gt;
+      {todos.map(todo =&gt; (
+        &lt;li key={todo.id}&gt;
+          {todo.text} - {todo.completed ? 'Done' : 'Pending'}
+        &lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}</code></pre>
+
+  <h2>🎯 Event Handling</h2>
+  <pre><code>function EventExample() {
+  const [message, setMessage] = useState('');
+  
+  const handleClick = () =&gt; {
+    setMessage('Button clicked!');
+  };
+  
+  const handleInputChange = (e) =&gt; {
+    setMessage(e.target.value);
+  };
+  
+  const handleSubmit = (e) =&gt; {
+    e.preventDefault();
+    alert('Form submitted: ' + message);
+  };
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={handleClick}&gt;Click me&lt;/button&gt;
+      &lt;input onChange={handleInputChange} placeholder="Type something" /&gt;
+      &lt;form onSubmit={handleSubmit}&gt;
+        &lt;input value={message} onChange={handleInputChange} /&gt;
+        &lt;button type="submit"&gt;Submit&lt;/button&gt;
+      &lt;/form&gt;
+      &lt;p&gt;Message: {message}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+  <h2>✅ React: Pros & Cons</h2>
+  
+  <h3>🚀 Advantages of React</h3>
+  <ul>
+    <li><strong>Component Reusability:</strong> Build once, use everywhere. Components can be shared across projects.</li>
+    <li><strong>Virtual DOM:</strong> Efficient updates by comparing virtual DOM with real DOM, minimizing expensive operations.</li>
+    <li><strong>Large Ecosystem:</strong> Massive library of third-party components, tools, and libraries.</li>
+    <li><strong>Strong Community:</strong> Extensive documentation, tutorials, and community support.</li>
+    <li><strong>Backed by Meta:</strong> Facebook/Meta's backing ensures long-term support and development.</li>
+    <li><strong>Cross-Platform:</strong> React Native allows mobile app development with the same skills.</li>
+    <li><strong>Developer Tools:</strong> Excellent debugging tools like React DevTools.</li>
+    <li><strong>SEO Friendly:</strong> Can be server-side rendered for better search engine optimization.</li>
+  </ul>
+
+  <h3>⚠️ Challenges & Limitations</h3>
+  <ul>
+    <li><strong>Learning Curve:</strong> JSX, hooks, and React patterns can be overwhelming for beginners.</li>
+    <li><strong>Rapid Evolution:</strong> Frequent updates and new features require continuous learning.</li>
+    <li><strong>Tooling Complexity:</strong> Build tools, bundlers, and configuration can be complex.</li>
+    <li><strong>Performance Overhead:</strong> Virtual DOM adds some overhead for simple applications.</li>
+    <li><strong>State Management:</strong> Complex state management requires additional libraries (Redux, Zustand, etc.).</li>
+    <li><strong>Bundle Size:</strong> Can lead to larger JavaScript bundles if not optimized properly.</li>
+    <li><strong>SEO Challenges:</strong> Client-side rendering can impact SEO without proper setup.</li>
+  </ul>
+
+  <h2>🏢 Why React is Widely Used in Industry</h2>
+  
+  <h3>📊 Market Dominance</h3>
+  <ul>
+    <li><strong>Most Popular Frontend Framework:</strong> React consistently ranks #1 in developer surveys</li>
+    <li><strong>High Job Demand:</strong> React developers are among the most sought-after in the job market</li>
+    <li><strong>Enterprise Adoption:</strong> Used by major companies like Netflix, Airbnb, Instagram, Uber</li>
+    <li><strong>Startup Friendly:</strong> Rapid prototyping and development capabilities</li>
+  </ul>
+
+  <h3>💼 Business Benefits</h3>
+  <ul>
+    <li><strong>Faster Development:</strong> Component-based architecture speeds up development cycles</li>
+    <li><strong>Code Maintainability:</strong> Well-structured components are easier to maintain and update</li>
+    <li><strong>Team Collaboration:</strong> Clear component boundaries make team development smoother</li>
+    <li><strong>Cost Effective:</strong> Reusable components reduce development costs over time</li>
+    <li><strong>Scalability:</strong> Handles large applications with complex state management</li>
+  </ul>
+
+  <h3>🔧 Technical Advantages</h3>
+  <ul>
+    <li><strong>Declarative UI:</strong> Describe what you want, React handles the DOM updates</li>
+    <li><strong>Unidirectional Data Flow:</strong> Predictable state management and debugging</li>
+    <li><strong>Rich Ecosystem:</strong> Solutions for almost every use case (routing, state management, testing)</li>
+    <li><strong>Mobile Development:</strong> React Native allows code sharing between web and mobile</li>
+    <li><strong>Server-Side Rendering:</strong> Next.js and similar frameworks enable SEO-friendly applications</li>
+  </ul>
+
+  <h3>🎯 Industry Use Cases</h3>
+  <ul>
+    <li><strong>E-commerce:</strong> Product catalogs, shopping carts, user dashboards</li>
+    <li><strong>Social Media:</strong> News feeds, user profiles, real-time updates</li>
+    <li><strong>Enterprise Applications:</strong> Admin panels, data visualization, CRUD operations</li>
+    <li><strong>Progressive Web Apps:</strong> Offline functionality, push notifications</li>
+    <li><strong>Single Page Applications:</strong> Fast, responsive user experiences</li>
+  </ul>
+
+  <h3>📈 Career Opportunities</h3>
+  <ul>
+    <li><strong>High Salaries:</strong> React developers command premium salaries in the market</li>
+    <li><strong>Remote Work:</strong> Many React positions offer remote or hybrid work options</li>
+    <li><strong>Freelance Opportunities:</strong> High demand for React contractors and consultants</li>
+    <li><strong>Career Growth:</strong> Path to senior developer, tech lead, or architect roles</li>
+    <li><strong>Global Market:</strong> React skills are valuable worldwide</li>
+  </ul>
+
+  <h2>🚀 Vite: Fast React Development</h2>
+  <ul>
+    <li>Vite is a modern build tool that is fast and lightweight.</li>
+    <li>Uses native ES modules in development.</li>
+    <li>Instant server start and hot module replacement (HMR).</li>
+    <li>Builds optimized static assets for production (HTML, CSS, JS).</li>
+  </ul>
+
+  <h3>🛠️ Creating a Vite + React App</h3>
+  <pre><code>npm create vite@latest my-react-app -- --template react
+cd my-react-app
+npm install
+npm run dev</code></pre>
+
+  <p>This spins up a local development server (usually on <code>http://localhost:5173</code>).</p>
+
+  <h3>📦 Production Build</h3>
+  <pre><code>npm run build</code></pre>
+  <p>This outputs a <code>dist</code> folder with static files you can deploy anywhere (e.g. Netlify, Vercel, S3).</p>
+
+  <p><strong>📚 Learn More:</strong> <a href="https://vitejs.dev/guide/" target="_blank">Vite Documentation</a> - Complete guide to Vite features and configuration.</p>
+
+  <h2>🎯 Demo: Building a Basic Vite + React App</h2>
+  
+  <h3>🚀 Step 1: Create the Project</h3>
+  <pre><code># Create a new Vite project with React template
+npm create vite@latest my-first-react-app -- --template react
+
+# Navigate to the project directory
+cd my-first-react-app
+
+# Install dependencies
+npm install</code></pre>
+
+  <h3>🔍 Step 2: Explore the Project Structure</h3>
+  <pre><code>my-first-react-app/
+├── public/
+│   └── vite.svg
+├── src/
+│   ├── assets/
+│   │   └── react.svg
+│   ├── App.jsx
+│   ├── App.css
+│   ├── index.css
+│   └── main.jsx
+├── index.html
+├── package.json
+├── vite.config.js
+└── README.md</code></pre>
+
+  <h3>⚙️ Step 3: Start the Development Server</h3>
+  <pre><code>npm run dev</code></pre>
+  <p>This will start the development server, usually at <code>http://localhost:5173</code></p>
+
+  <h3>🔧 Step 4: Modify App.jsx</h3>
+  <p>Let's create a simple counter component:</p>
+  <pre><code>import { useState } from 'react'
+import './App.css'
+
+function App() {
+  const [count, setCount] = useState(0)
+
+  return (
+    &lt;div className="App"&gt;
+      &lt;header className="App-header"&gt;
+        &lt;h1&gt;My First React App&lt;/h1&gt;
+        &lt;div className="counter"&gt;
+          &lt;p&gt;Count: {count}&lt;/p&gt;
+          &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+            Increment
+          &lt;/button&gt;
+          &lt;button onClick={() =&gt; setCount(count - 1)}&gt;
+            Decrement
+          &lt;/button&gt;
+          &lt;button onClick={() =&gt; setCount(0)}&gt;
+            Reset
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/header&gt;
+    &lt;/div&gt;
+  )
+}
+
+export default App</code></pre>
+
+  <h3>🎨 Step 5: Add Some Styling</h3>
+  <p>Update App.css for better styling:</p>
+  <pre><code>.App {
+  text-align: center;
+  padding: 2rem;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 2rem;
+  border-radius: 10px;
+  color: white;
+  margin: 2rem auto;
+  max-width: 500px;
+}
+
+.counter {
+  margin-top: 2rem;
+}
+
+.counter p {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.counter button {
+  background-color: #61dafb;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0.25rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.counter button:hover {
+  background-color: #4fa8c7;}</code></pre>
+
+  <h3>📦 Step 6: Build for Production</h3>
+  <pre><code>npm run build</code></pre>
+  <p>This creates a <code>dist</code> folder with optimized files ready for deployment.</p>
+
+  <h3>🔍 What We Learned</h3>
+  <ul>
+    <li><strong>Project Setup:</strong> How to create a new Vite + React project</li>
+    <li><strong>Component Structure:</strong> Basic functional component with state</li>
+    <li><strong>State Management:</strong> Using useState hook for counter functionality</li>
+    <li><strong>Event Handling:</strong> onClick events for button interactions</li>
+    <li><strong>Styling:</strong> CSS for component styling</li>
+    <li><strong>Development Workflow:</strong> Hot reload and build process</li>
+  </ul>
+
+  <h3>🚀 Next Steps for the Demo</h3>
+  <ul>
+    <li>Add more components (Header, Footer, etc.)</li>
+    <li>Implement form handling with controlled inputs</li>
+    <li>Add conditional rendering based on state</li>
+    <li>Create a list component with mapping</li>
+    <li>Add routing with React Router</li>
+    <li>Integrate with an API for data fetching</li>
+  </ul>
+
+  <h2>💡 Recap</h2>
+  <ul>
+    <li>JSX is a syntax extension for writing UI in JavaScript.</li>
+    <li>React components can be created with functions returning JSX.</li>
+    <li>Vite is a tool that makes working with React fast and smooth.</li>
+    <li>Development server is live and reactive; production build is just static files.</li>
+  </ul>
+
+  <h2>✅ Next Steps</h2>
+  <ul>
+    <li>Create your first React component with JSX.</li>
+    <li>Understand props and component reuse.</li>
+    <li>Style your component with CSS or CSS Modules.</li>
+  </ul>
+
+  <p>Happy coding!</p>
+</body>
+</html>
