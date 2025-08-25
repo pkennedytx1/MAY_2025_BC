@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 13 - CRUD with React</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 1rem;
+      border-radius: 5px;
+      overflow-x: auto;
+      border-left: 4px solid #3498db;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #f8f9fa;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    section {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+    }
+    .crud-section {
+      border-left: 4px solid;
+    }
+    .create { border-left-color: #28a745; }
+    .read { border-left-color: #007bff; }
+    .update { border-left-color: #ffc107; }
+    .delete { border-left-color: #dc3545; }
+    .demo-section {
+      background: #f8f9fa;
+      border: 2px solid #6c757d;
+    }
+    .api-section {
+      background: #e3f2fd;
+      border: 2px solid #2196f3;
+    }
+    .useState-section {
+      background: #f3e5f5;
+      border: 2px solid #9c27b0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Module 13 – CRUD Operations with React</h1>
+  <p>
+    In this module, we'll explore <strong>CRUD operations</strong> using React and the 
+    <code>useState</code> hook. We'll use a <em>shopping list</em> as our practical example.
+  </p>
+
+  <!-- useState Hook Explanation -->
+  <section class="useState-section">
+    <h2>🎯 Understanding useState Hook</h2>
+    <p>
+      The <code>useState</code> hook is React's way of managing state in functional components. 
+      It returns an array with two elements: the current state value and a function to update it.
+    </p>
+    <pre><code>const [state, setState] = useState(initialValue);</code></pre>
+    <p><strong>Key Points:</strong></p>
+    <ul>
+      <li><code>state</code> - holds the current value</li>
+      <li><code>setState</code> - function to update the state</li>
+      <li><code>initialValue</code> - starting value (can be any type)</li>
+      <li>State updates trigger re-renders</li>
+      <li>Always use the setter function, never modify state directly</li>
+    </ul>
+  </section>
+
+  <!-- CREATE -->
+  <section class="crud-section create">
+    <h2>🟢 Create</h2>
+    <p>Adding new items to our shopping list using <code>useState</code>.</p>
+    <pre><code>import React, { useState } from "react";
+
+function ShoppingList() {
+  const [items, setItems] = useState([]);
+  const [newItem, setNewItem] = useState("");
+
+  const addItem = () => {
+    if (newItem.trim() === "") return;
+    setItems([...items, newItem]); // Best practice: use spread to create new array
+    setNewItem(""); // Clear input after adding
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;input
+        value={newItem}
+        onChange={(e) => setNewItem(e.target.value)}
+        placeholder="Enter item"
+      /&gt;
+      &lt;button onClick={addItem}&gt;Add&lt;/button&gt;
+      &lt;ul&gt;
+        {items.map((item, index) => (
+          &lt;li key={index}&gt;{item}&lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+    <p><strong>What's happening:</strong></p>
+    <ul>
+      <li>We create two state variables: <code>items</code> (array) and <code>newItem</code> (string)</li>
+      <li><code>addItem</code> function creates a new array using spread operator</li>
+      <li>This ensures React detects the state change and re-renders</li>
+    </ul>
+  </section>
+
+  <!-- READ -->
+  <section class="crud-section read">
+    <h2>🔵 Read</h2>
+    <p>Displaying items from our state using <code>map</code>.</p>
+    <pre><code>{items.map((item, index) => (
+  &lt;li key={index}&gt;{item}&lt;/li&gt;
+))}</code></pre>
+    <p><strong>Key Concepts:</strong></p>
+    <ul>
+      <li><code>map</code> transforms each array item into JSX</li>
+      <li><code>key</code> prop helps React efficiently update the DOM</li>
+      <li>React automatically re-renders when state changes</li>
+      <li>Each item in the array becomes a list element</li>
+    </ul>
+  </section>
+
+  <!-- UPDATE -->
+  <section class="crud-section update">
+    <h2>🟠 Update</h2>
+    <p>Editing existing items in our shopping list.</p>
+    <pre><code>const updateItem = (index, newValue) => {
+  setItems(items.map((item, i) => 
+    i === index ? newValue : item
+  ));
+};
+
+// Example usage inside JSX:
+&lt;ul&gt;
+  {items.map((item, index) => (
+    &lt;li key={index}&gt;
+      &lt;input
+        value={item}
+        onChange={(e) => updateItem(index, e.target.value)}
+      /&gt;
+    &lt;/li&gt;
+  ))}
+&lt;/ul&gt;</code></pre>
+    <p><strong>Update Strategy:</strong></p>
+    <ul>
+      <li>Use <code>map</code> to create a new array</li>
+      <li>Only change the item at the specified index</li>
+      <li>Keep all other items unchanged</li>
+      <li>This maintains immutability principles</li>
+    </ul>
+  </section>
+
+  <!-- DELETE -->
+  <section class="crud-section delete">
+    <h2>🔴 Delete</h2>
+    <p>Removing items from our shopping list.</p>
+    <pre><code>const deleteItem = (index) => {
+  setItems(items.filter((_, i) => i !== index));
+};
+
+// Example usage inside JSX:
+&lt;ul&gt;
+  {items.map((item, index) => (
+    &lt;li key={index}&gt;
+      {item}
+      &lt;button onClick={() => deleteItem(index)}&gt;Delete&lt;/button&gt;
+    &lt;/li&gt;
+  ))}
+&lt;/ul&gt;</code></pre>
+    <p><strong>Delete Strategy:</strong></p>
+    <ul>
+      <li>Use <code>filter</code> to create a new array</li>
+      <li>Exclude the item at the specified index</li>
+      <li>Return all other items</li>
+      <li>This creates a new array without the deleted item</li>
+    </ul>
+  </section>
+
+  <!-- API Calls Section -->
+  <section class="api-section">
+    <h2>🌐 Making API Calls with React</h2>
+    <p>
+      When working with real applications, you'll often need to fetch data from APIs. 
+      Here's how to integrate API calls with your CRUD operations:
+    </p>
+    
+    <h3>Fetching Data (GET)</h3>
+    <pre><code>const [items, setItems] = useState([]);
+const [loading, setLoading] = useState(false);
+
+const fetchItems = async () => {
+  setLoading(true);
+  try {
+    const response = await fetch('/api/items');
+    const data = await response.json();
+    setItems(data);
+  } catch (error) {
+    console.error('Error fetching items:', error);
+  } finally {
+    setLoading(false);
+  }
+};
+
+// Call this in useEffect when component mounts
+useEffect(() => {
+  fetchItems();
+}, []);</code></pre>
+
+
+  </section>
+
+  <!-- Best Practices -->
+  <section>
+    <h2>💡 Best Practices</h2>
+    
+    <h3>🔄 State Management</h3>
+    <ul>
+      <li><strong>Immutability:</strong> Always create new objects/arrays, never mutate existing state directly</li>
+      <li><strong>State Structure:</strong> Keep state as simple and flat as possible</li>
+      <li><strong>Single Source of Truth:</strong> Avoid duplicating state across multiple components</li>
+      <li><strong>State Updates:</strong> Use functional updates when new state depends on previous state</li>
+    </ul>
+
+    <h3>🚀 Performance</h3>
+    <ul>
+      <li><strong>Key Props:</strong> Use unique, stable keys for list items (avoid array indices when possible)</li>
+      <li><strong>Memoization:</strong> Use React.memo, useMemo, and useCallback for expensive operations</li>
+      <li><strong>Bundle Splitting:</strong> Lazy load components and routes when appropriate</li>
+      <li><strong>Virtual Scrolling:</strong> For long lists, consider virtualization libraries</li>
+    </ul>
+
+    <h3>🌐 API Integration</h3>
+    <ul>
+      <li><strong>Error Handling:</strong> Always wrap API calls in try-catch blocks</li>
+      <li><strong>Loading States:</strong> Show loading indicators during API calls for better UX</li>
+      <li><strong>Optimistic Updates:</strong> Update UI immediately, then sync with server</li>
+      <li><strong>Retry Logic:</strong> Implement retry mechanisms for failed requests</li>
+      <li><strong>Request Cancellation:</strong> Cancel ongoing requests when component unmounts</li>
+    </ul>
+
+    <h3>🧩 Component Design</h3>
+    <ul>
+      <li><strong>Single Responsibility:</strong> Each component should do one thing well</li>
+      <li><strong>Props Interface:</strong> Use TypeScript or PropTypes to define component contracts</li>
+      <li><strong>Default Props:</strong> Provide sensible defaults for optional props</li>
+      <li><strong>Component Composition:</strong> Prefer composition over inheritance</li>
+    </ul>
+
+    <h3>📱 User Experience</h3>
+    <ul>
+      <li><strong>Form Validation:</strong> Provide immediate feedback for user input</li>
+      <li><strong>Accessibility:</strong> Use semantic HTML and ARIA labels</li>
+      <li><strong>Responsive Design:</strong> Ensure your app works on all screen sizes</li>
+      <li><strong>Loading States:</strong> Show skeleton screens or spinners for better perceived performance</li>
+    </ul>
+
+    <h3>🔧 Development Practices</h3>
+    <ul>
+      <li><strong>Code Splitting:</strong> Break your app into smaller chunks for faster loading</li>
+      <li><strong>Environment Variables:</strong> Use .env files for configuration</li>
+      <li><strong>Error Boundaries:</strong> Catch JavaScript errors anywhere in the component tree</li>
+      <li><strong>Testing:</strong> Write unit tests for components and integration tests for user flows</li>
+    </ul>
+
+    <h3>📊 Data Flow</h3>
+    <ul>
+      <li><strong>Unidirectional Data Flow:</strong> Data flows down, events flow up</li>
+      <li><strong>Lifting State Up:</strong> Share state between components by moving it to their common ancestor</li>
+      <li><strong>Context API:</strong> Use React Context for sharing data across the component tree</li>
+      <li><strong>State Management Libraries:</strong> Consider Redux, Zustand, or Context for complex state</li>
+    </ul>
+  </section>
+
+  <hr />
+  
+  <!-- Demo Section -->
+  <section class="demo-section">
+    <h2>🎯 DEMO - Grocery List</h2>
+    <p>
+      In this demo, we'll build a complete grocery list application that demonstrates all CRUD operations:
+    </p>
+    <ul>
+      <li><strong>Create:</strong> Add new grocery items</li>
+      <li><strong>Read:</strong> Display the current list</li>
+      <li><strong>Update:</strong> Edit item names or mark as completed</li>
+      <li><strong>Delete:</strong> Remove items from the list</li>
+    </ul>
+    
+    <h3>Demo Features:</h3>
+    <ul>
+      <li>Input field to add new items</li>
+      <li>List display with edit and delete buttons</li>
+      <li>Checkbox to mark items as completed</li>
+      <li>Local storage persistence</li>
+      <li>Responsive design</li>
+    </ul>
+    
+    <p>
+      <em>This demo will showcase how all the concepts we've covered come together 
+      in a real, functional application!</em>
+    </p>
+  </section>
+</body>
+</html>
