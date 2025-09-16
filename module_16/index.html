@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>React useContext – Module 16</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 2rem auto;
+      max-width: 900px;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    code, pre {
+      background: #f4f4f4;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+    }
+    pre {
+      padding: 1rem;
+      overflow-x: auto;
+    }
+    .tip {
+      background: #e6f7ff;
+      border-left: 4px solid #1890ff;
+      padding: 0.5rem 1rem;
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>React’s <code>useContext</code></h1>
+  <p>
+    <code>useContext</code> lets you share data across your component tree
+    without passing props down manually at every level (“prop drilling”).
+  </p>
+
+  <h2>1. Creating a Context</h2>
+  <p>You create a context object outside of your components:</p>
+  <pre><code>{`import React, { createContext } from 'react';
+
+export const ThemeContext = createContext('light'); // default value
+`}</code></pre>
+
+  <h2>2. Providing a Value</h2>
+  <p>
+    Wrap the part of your app where you want the value available in a
+    <code>Provider</code>:
+  </p>
+  <pre><code>{`import React from 'react';
+import { ThemeContext } from './ThemeContext';
+
+function App() {
+  return (
+    <ThemeContext.Provider value="dark">
+      <MyComponent />
+    </ThemeContext.Provider>
+  );
+}`}</code></pre>
+
+  <h2>3. Consuming a Context</h2>
+  <p>
+    Inside any child component, call <code>useContext</code> to get the value:
+  </p>
+  <pre><code>{`import React, { useContext } from 'react';
+import { ThemeContext } from './ThemeContext';
+
+function MyComponent() {
+  const theme = useContext(ThemeContext);
+  return &lt;div&gt;Current theme: {theme}&lt;/div&gt;;
+}`}</code></pre>
+
+  <div class="tip">
+    <strong>Tip:</strong> Before React Hooks, you had to use
+    <code>Context.Consumer</code>. Now <code>useContext</code> is easier.
+  </div>
+
+  <h2>4. What useContext Is Best Used For</h2>
+  <ul>
+    <li>Global themes (light/dark)</li>
+    <li>User authentication info</li>
+    <li>Language/locale settings</li>
+    <li>Settings that rarely change</li>
+  </ul>
+
+  <h2>5. Side Effects / Limitations</h2>
+  <ul>
+    <li>
+      <strong>Re-rendering:</strong> Any time the value passed to a
+      <code>Provider</code> changes, <em>all</em> components using that context
+      re-render.
+    </li>
+    <li>
+      This can become a performance issue if you store fast-changing data in
+      context.
+    </li>
+  </ul>
+
+  <h2>6. Better State Management Patterns</h2>
+  <p>
+    For complex apps or frequently changing data, you might use:
+  </p>
+  <ul>
+    <li>
+      <strong>Atomic state:</strong> break your state into smaller pieces so
+      only the parts that need updating re-render (libraries like
+      <code>Recoil</code>, <code>Zustand</code>, <code>Jotai</code>).
+    </li>
+    <li>
+      Dedicated state management libraries (Redux, MobX, etc.) for more control
+      and tools like dev-tools or middleware.
+    </li>
+  </ul>
+
+  <h2>7. In Practice (Our Example)</h2>
+  <p>
+    In our class app, we’ll hardcode a global state using a context and consume
+    it in multiple components. This will show how context lets us avoid prop
+    drilling.
+  </p>
+  <div class="tip">
+    Keep it simple: Context is great for sharing <em>stable</em> data. For
+    dynamic data that changes often, consider splitting context or another
+    approach.
+  </div>
+</body>
+</html>
