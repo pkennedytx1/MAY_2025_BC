@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Module 17 — Back-End Development & Express (Beginner-friendly Review)</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#7dd3fc;--muted:#94a3b8;--glass:rgba(255,255,255,0.03)}
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
+    body{background:linear-gradient(180deg,#071021 0%, #08101a 60%);color:#e6eef6;line-height:1.5}
+    .wrap{max-width:1100px;margin:24px auto;padding:24px}
+    header{display:flex;align-items:center;gap:16px}
+    header h1{margin:0;font-size:1.5rem}
+    .meta{color:var(--muted);font-size:0.9rem}
+    .grid{display:grid;grid-template-columns:1fr 320px;gap:20px;margin-top:18px}
+    .card{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+    nav ul{list-style:none;padding:0;margin:0}
+    nav li{margin:8px 0}
+    a.anchor{color:var(--accent);text-decoration:none}
+    h2{margin-top:0}
+    .section{margin-bottom:18px}
+    pre{background:var(--glass);padding:12px;border-radius:8px;overflow:auto;color:#cfeefd}
+    code{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Courier New', monospace}
+    .badge{display:inline-block;background:#062433;color:var(--accent);padding:6px 8px;border-radius:999px;font-weight:600;font-size:0.8rem}
+    .chips{display:flex;gap:8px;flex-wrap:wrap}
+    .accordion{border-radius:10px;overflow:hidden}
+    summary{cursor:pointer;padding:10px;background:linear-gradient(90deg, rgba(125,211,252,0.05), rgba(125,211,252,0.02));border-bottom:1px solid rgba(255,255,255,0.03)}
+    details>div{padding:12px}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    footer{color:var(--muted);font-size:0.85rem;margin-top:18px}
+    @media (max-width:900px){.grid{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Module 17 — Back-End Development & Express</h1>
+        <div class="meta">A concise, beginner-friendly review and consolidation of the module's topics. Estimated completion: <strong>15–20 hours</strong> (module total).</div>
+      </div>
+      <div style="margin-left:auto" class="badge">Module 17 Review</div>
+    </header>
+
+    <div class="grid">
+      <main class="card">
+
+        <section class="section" id="overview">
+          <h2>Overview — What you'll learn</h2>
+          <p>This page condenses Module 17 into easy-to-scan sections. Each section intentionally covers core ideas to <em>understand</em> rather than every edge-case. When you're ready, use the practice activities and assignments from the module to apply these concepts.</p>
+          <div class="chips">
+            <span class="badge">Express</span>
+            <span class="badge">Node</span>
+            <span class="badge">JSON Web Tokens (JWT)</span>
+            <span class="badge">MongoDB</span>
+            <span class="badge">Relational vs Non-Relational</span>
+            <span class="badge">Back-End ↔ Front-End</span>
+          </div>
+        </section>
+
+        <section class="section" id="backend-intro">
+          <h2>1) What is the Back End?</h2>
+          <p>The back end is the server-side portion of an application. It handles business logic, data storage, authentication, and communication with clients (front ends, mobile apps, other services). Think of it as the "brain" and the database as the "memory."</p>
+          <ul>
+            <li><strong>Server:</strong> Runs code that responds to requests (HTTP, WebSocket, etc.).</li>
+            <li><strong>Database:</strong> Persists data (users, posts, transactions).</li>
+            <li><strong>APIs (routes):</strong> Expose endpoints clients call (e.g. GET /users, POST /login).</li>
+          </ul>
+        </section>
+
+        <section class="section" id="node-express">
+          <h2>2) Node + Express — the common combo</h2>
+          <p>Node is a JavaScript runtime that runs on servers. Express is a minimal, flexible web framework for Node — it makes defining routes, middleware, and handlers easy.</p>
+
+          <details class="accordion" open>
+            <summary>Minimal Express server (what it looks like)</summary>
+            <div>
+<pre><code>// server.js
+const express = require('express');
+const app = express();
+app.use(express.json()); // parse JSON bodies
+
+app.get('/ping', (req, res) =&gt; res.json({status: 'pong'}));
+
+app.listen(3000, () =&gt; console.log('Server listening on 3000'));
+</code></pre>
+            </div>
+          </details>
+
+          <p><strong>Key Express concepts:</strong></p>
+          <ul>
+            <li><strong>Middleware:</strong> functions that run on requests (logging, auth, parsing).</li>
+            <li><strong>Routes:</strong> endpoint handlers (GET, POST, PUT, DELETE).</li>
+            <li><strong>Static files:</strong> express.static serves HTML/CSS/JS files.</li>
+          </ul>
+        </section>
+
+        <section class="section" id="static-files">
+          <h2>3) Serving static files</h2>
+          <p>Express can serve files from a folder. Useful for demo pages, frontend builds, or simple sites.</p>
+          <pre><code>// serve 'public' folder
+app.use(express.static('public'));
+</code></pre>
+          <p>Put <code>index.html</code> and your bundle in <code>/public</code>, then visit <code>http://localhost:3000/</code>.</p>
+        </section>
+
+        <section class="section" id="jwt-intro">
+          <h2>4) JSON Web Tokens (JWTs) — quick introduction</h2>
+          <p>JWTs are compact tokens used to securely transmit information (often authentication) between parties. A token contains three base64 parts: header, payload (claims), and signature.</p>
+          <ul>
+            <li><strong>Use-cases:</strong> stateless auth, session tokens for APIs.</li>
+            <li><strong>Important:</strong> Keep the signing secret safe. JWTs can be verified but not encrypted unless you use JWE.</li>
+          </ul>
+
+          <details class="accordion">
+            <summary>Common JWT methods &amp; flow</summary>
+            <div>
+              <ol>
+                <li>User logs in with credentials → server verifies and issues a JWT.</li>
+                <li>Client stores JWT (memory or secure storage) and sends it in <code>Authorization: Bearer &lt;token&gt;</code>.</li>
+                <li>Server middleware verifies the signature and attaches the user to <code>req.user</code>.</li>
+              </ol>
+              <pre><code>// verify middleware sketch
+const jwt = require('jsonwebtoken');
+function auth(req,res,next){
+  const header = req.headers.authorization || '';
+  const token = header.split(' ')[1];
+  if(!token) return res.status(401).send('no token');
+  try{
+    req.user = jwt.verify(token, process.env.JWT_SECRET);
+    next();
+  }catch(e){
+    res.status(401).send('invalid token')
+  }
+}
+</code></pre>
+            </div>
+          </details>
+        </section>
+
+        <section class="section" id="express-jwt">
+          <h2>5) Adding Express routes with JWT</h2>
+          <p>Protect routes by placing auth middleware before route handlers. Example: <code>app.get('/profile', auth, handler)</code>.</p>
+          <pre><code>app.post('/login', async (req,res) =&gt; {
+  // validate creds
+  const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '1h'});
+  res.json({token});
+});
+</code></pre>
+        </section>
+
+        <section class="section" id="db-intro">
+          <h2>6) Databases — Introduction</h2>
+          <p>Databases store and retrieve data. Two broad categories: relational (SQL) and non-relational (NoSQL). Module 17 focuses on MongoDB (a document-based NoSQL DB).</p>
+        </section>
+
+        <section class="section" id="rel-vs-nonrel">
+          <h2>7) Relational vs Non-Relational (practical comparison)</h2>
+          <div class="two-col">
+            <div>
+              <h3>Relational (SQL)</h3>
+              <ul>
+                <li>Data stored in tables with rows and columns.</li>
+                <li>Strong schema, ACID transactions, joins across tables.</li>
+                <li>Use when data is structured and relationships are important (banking, accounting).</li>
+                <li>Common systems: PostgreSQL, MySQL, SQL Server.</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Non-Relational (NoSQL)</h3>
+              <ul>
+                <li>Flexible schemas — documents, key-value, wide-column, or graph stores.</li>
+                <li>Scale horizontally more easily for some workloads; good for rapidly changing schemas and large datasets.</li>
+                <li>Use when you need flexible records or to store nested objects (e.g. product catalog, logs).</li>
+                <li>Common systems: MongoDB (document), Redis (key-value), Cassandra (wide-column), Neo4j (graph).</li>
+              </ul>
+            </div>
+          </div>
+
+          <details class="accordion">
+            <summary>Example: modeling a blog post</summary>
+            <div>
+              <p><strong>Relational (normalized):</strong> posts table, users table, comments table, tags table + many-to-many join table for tags.</p>
+              <p><strong>Non-relational (document):</strong> post document embeds author info and an array of comments inside the post document — fewer joins, easier reads for single-post API.</p>
+              <pre><code>// MongoDB document example
+{
+  _id: ObjectId('...'),
+  title: 'Hello',
+  author: {id: 'u1', name: 'Alex'},
+  content: '...text...',
+  comments: [{user: 'u2', text: 'Nice!'}],
+  tags: ['js','web']
+}
+</code></pre>
+            </div>
+          </details>
+        </section>
+
+        <section class="section" id="mongodb-express">
+          <h2>8) MongoDB + Express — connecting</h2>
+          <p>Typical stack: Express server uses a MongoDB driver (official) or an ODM like Mongoose to interact with a MongoDB instance.</p>
+          <pre><code>// simple connection using the official driver
+const {MongoClient} = require('mongodb');
+const client = new MongoClient(process.env.MONGO_URL);
+await client.connect();
+const db = client.db('bad_bank');
+const users = db.collection('users');
+</code></pre>
+          <p><strong>DAL (Data Abstraction Layer)</strong>: keep DB access logic separated from route handlers — makes testing easier and keeps routes clean.</p>
+        </section>
+
+        <section class="section" id="connect-front-back">
+          <h2>9) Connecting Back-End to Front-End</h2>
+          <p>Back end exposes REST endpoints (or GraphQL). Front end calls these endpoints via <code>fetch</code> / XHR / axios. Use JSON as the data format.</p>
+          <pre><code>// front-end fetch example
+fetch('/api/profile', {headers:{Authorization: 'Bearer '+token}})
+  .then(r =&gt; r.json())
+  .then(data =&gt; console.log(data));
+</code></pre>
+          <p>Common considerations: CORS, auth headers, environment-specific base URLs, and handling 401/403 responses gracefully.</p>
+        </section>
+
+        <section class="section" id="practice">
+          <h2>10) Practical labs &amp; assignments — how to approach them</h2>
+          <ol>
+            <li><strong>Follow the module order</strong>: start with videos and mini-lessons, then try practice activities.</li>
+            <li><strong>Build incrementally:</strong> make a tiny Express server first, then add a JWT login, then connect to MongoDB, then implement a DAL.</li>
+            <li><strong>Test manually:</strong> use Postman or HTTPie to call endpoints as you develop.</li>
+            <li><strong>Keep secrets out of repo:</strong> use <code>.env</code> for JWT_SECRET and MONGO_URL.</li>
+          </ol>
+        </section>
+
+        <section class="section" id="cheatsheet">
+          <h2>11) Quick cheat sheet</h2>
+          <ul>
+            <li><strong>Start server:</strong> <code>node server.js</code> or <code>nodemon server.js</code></li>
+            <li><strong>Env:</strong> <code>JWT_SECRET</code>, <code>MONGO_URL</code></li>
+            <li><strong>Common HTTP codes:</strong> 200 OK, 201 Created, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 500 Server Error</li>
+            <li><strong>Dev tools:</strong> Postman, VSCode debugger, MongoDB Compass</li>
+          </ul>
+        </section>
+
+        <section class="section" id="resources">
+          <h2>12) Further resources (recommended)</h2>
+          <ul>
+            <li>Express docs — official quick start</li>
+            <li>jsonwebtoken npm package README</li>
+            <li>MongoDB official docs and MongoDB University free courses</li>
+            <li>MDN Web Docs for HTTP fundamentals</li>
+          </ul>
+        </section>
+
+        <section id="mongodb-local-options" class="p-6 bg-gray-50 rounded-2xl shadow-md mt-6">
+            <h2 class="text-2xl font-bold mb-4">Running MongoDB Locally</h2>
+            <p class="mb-4">If you want to practice MongoDB on your own machine, here are two straightforward ways to get started without using Docker or MongoDB Atlas:</p>
+            
+            
+            <div class="mb-6">
+            <h3 class="text-xl font-semibold mb-2">1️⃣ Install MongoDB Community Server Directly</h3>
+            <ul class="list-disc list-inside space-y-1">
+            <li>Download the <a href="https://www.mongodb.com/try/download/community" class="text-blue-600 underline">MongoDB Community Server</a> installer for Windows, macOS, or Linux.</li>
+            <li>This installs the <code>mongod</code> server binary and the <code>mongosh</code> shell locally.</li>
+            <li>Start your server with <code>mongod</code> and connect to it using <code>mongosh</code> or MongoDB Compass.</li>
+            </ul>
+            </div>
+            
+            
+            <div>
+            <h3 class="text-xl font-semibold mb-2">2️⃣ Use Homebrew or a Package Manager</h3>
+            <ul class="list-disc list-inside space-y-1">
+            <li><strong>macOS:</strong>
+            <pre class="bg-gray-100 p-2 rounded"><code>brew tap mongodb/brew
+            brew install mongodb-community@8.0</code></pre>
+            </li>
+            <li><strong>Linux:</strong> Add the official MongoDB repository for your distro and install via <code>apt</code> or <code>yum</code>.</li>
+            <li>This approach is simple and keeps your MongoDB version up-to-date.</li>
+            </ul>
+            </div>
+        </section>
+
+        <footer>
+          <div>Created as a concise module review. Use the module's practice activities and assignments to solidify learning.</div>
+        </footer>
+      </main>
+
+      <aside class="card">
+        <h3>Module items at a glance</h3>
+        <nav>
+          <ul>
+            <li><a class="anchor" href="#overview">Overview</a></li>
+            <li><a class="anchor" href="#backend-intro">What is the Back End?</a></li>
+            <li><a class="anchor" href="#node-express">Node + Express</a></li>
+            <li><a class="anchor" href="#static-files">Serving Static Files</a></li>
+            <li><a class="anchor" href="#jwt-intro">JWTs</a></li>
+            <li><a class="anchor" href="#express-jwt">Adding Express Routes with JWT</a></li>
+            <li><a class="anchor" href="#db-intro">Databases</a></li>
+            <li><a class="anchor" href="#rel-vs-nonrel">Relational vs Non-Relational</a></li>
+            <li><a class="anchor" href="#mongodb-express">MongoDB &amp; Express</a></li>
+            <li><a class="anchor" href="#connect-front-back">Back-End ↔ Front-End</a></li>
+            <li><a class="anchor" href="#practice">Practice tips</a></li>
+          </ul>
+        </nav>
+
+        <hr style="border-color:rgba(255,255,255,0.03)" />
+
+        <h4>Estimated time</h4>
+        <p class="meta">Full module: <strong>15–20 hours</strong>. Use the section times in the module (videos, mini-lessons, practice) to plan study sessions.</p>
+
+        <h4>Assignments due (example)</h4>
+        <p class="meta">Knowledge checks &amp; assignments are part of the module. Treat each assignment as a small project: plan, implement, test, submit.</p>
+
+      </aside>
+    </div>
+  </div>
+</body>
+</html>
