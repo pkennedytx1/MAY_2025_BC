@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Module 18 — Basic Express API, JWT Auth & Postman</title>
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#9aa4b2; --accent:#7c3aed; --accent-2:#06b6d4; --success:#16a34a;
+      --mono: 'SFMono-Regular',Consolas,monospace;
+    }
+    body{font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:linear-gradient(180deg,#071021 0%, #0f1724 100%); color:#e6eef8; margin:0; padding:32px;}
+    header{display:flex;gap:20px;align-items:center;margin-bottom:20px}
+    h1{margin:0;font-size:28px}
+    h2{color:var(--accent);font-size:18px}
+    .container{max-width:1000px;margin:0 auto}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6); margin-bottom:16px}
+    pre{background:#041025;padding:12px;border-radius:8px;overflow:auto;font-family:var(--mono);font-size:13px}
+    code{background:rgba(255,255,255,0.03);padding:0 6px;border-radius:6px}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:16px}
+    .diagram{display:flex;justify-content:center;align-items:center;padding:12px}
+    svg{max-width:100%;height:auto}
+    ul{color:var(--muted)}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);font-size:12px;margin-right:8px}
+    .callout{background:linear-gradient(90deg, rgba(124,58,237,0.08), rgba(6,182,212,0.06));border-left:4px solid var(--accent);padding:10px;border-radius:8px;color:#dfeefe}
+    .warning{border-left:4px solid #f97316;background:linear-gradient(90deg, rgba(249,115,22,0.06), rgba(255,255,255,0.01));color:#fff3e0}
+    footer{font-size:12px;color:var(--muted);margin-top:8px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Module 18: Basic Express API — Middleware, Route Handlers, JWT Auth & Postman</h1>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>1) Express API fundamentals — requests, middleware, and route handlers</h2>
+      <p>Express is a minimal Node.js web framework. At its core: <code>app</code> receives HTTP requests and passes them through middleware before reaching a route handler that returns a response.</p>
+
+      <div class="grid">
+        <div>
+          <h3>Core concepts</h3>
+          <ul>
+            <li><strong>Middleware</strong> — functions that run in the request→response cycle. They can read/modify <code>req</code>/<code>res</code>, end the response, or call <code>next()</code> to continue.</li>
+            <li><strong>Route handlers</strong> — final functions bound to HTTP verbs and paths (e.g., <code>GET /users</code>).</li>
+            <li><strong>Error-handling middleware</strong> — middleware with signature <code>(err, req, res, next)</code> used to centralize error responses.</li>
+            <li><strong>Order matters</strong> — middleware and routes are applied in the order you register them.</li>
+          </ul>
+
+          <h3>Minimal example</h3>
+          <pre><code>// app.js
+const express = require('express')
+const app = express()
+
+// builtin middleware to parse JSON bodies
+app.use(express.json())
+
+// custom middleware — logs request method and path
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path}`)
+  next()
+})
+
+// route handler
+app.post('/login', (req, res) => {
+  const { username } = req.body
+  if (!username) return res.status(400).json({ error: 'username required' })
+  res.json({ message: `hello ${username}` })
+})
+
+// error middleware (last)
+app.use((err, req, res, next) => {
+  console.error(err)
+  res.status(500).json({ error: 'internal server error' })
+})
+
+app.listen(3000)
+</code></pre>
+        </div>
+
+        <aside class="card" style="background:linear-gradient(180deg, rgba(6,182,212,0.04), rgba(124,58,237,0.03));">
+          <h3 style="color:var(--accent-2)">Middleware types</h3>
+          <ul>
+            <li><strong>Application-level:</strong> <code>app.use()</code></li>
+            <li><strong>Router-level:</strong> <code>router.use()</code></li>
+            <li><strong>Built-in:</strong> <code>express.json()</code>, <code>express.urlencoded()</code></li>
+            <li><strong>Third-party:</strong> <code>morgan</code>, <code>helmet</code>, <code>cors</code></li>
+            <li><strong>Error-handling:</strong> 4 args: <code>(err, req, res, next)</code></li>
+          </ul>
+          <div class="callout"><strong>Tip:</strong> keep middleware small and composable — one responsibility each.</div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2) JWTs — what they are and how they secure an API</h2>
+      <p>JWT (JSON Web Token) is a compact, URL-safe token format used to represent claims between two parties. They are commonly used for stateless authentication between a client and server.</p>
+
+      <h3>JWT structure (compact serialization)</h3>
+      <p>Three parts separated by dots: <code>header.payload.signature</code></p>
+      <pre><code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+.
+eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFsaWNlIiwiaWF0IjoxNTE2MjM5MDIyfQ
+.
+SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c</code></pre>
+
+      <h3>How JWTs are created and verified</h3>
+      <ol>
+        <li>The server validates credentials at login (username/password or OAuth).</li>
+        <li>Server builds a payload (claims) and signs it with a secret (HMAC) or private key (RSA/EC).</li>
+        <li>Client receives token and includes it in subsequent requests (commonly in the <code>Authorization: Bearer &lt;token&gt;</code> header).</li>
+        <li>Server verifies the signature and checks claims (expiration, audience, issuer, etc.) and then authorizes the request.</li>
+      </ol>
+
+      <div class="diagram">
+        <!-- Inline simplified flow SVG diagram -->
+        <svg viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
+          <style>.t{font-family:Arial;font-size:12px;fill:#e6eef8}.s{fill:#0b1220;stroke:#7c3aed;stroke-width:2}.b{fill:#071633;stroke:#06b6d4;stroke-width:2}</style>
+          <!-- Client -->
+          <rect x="20" y="20" width="160" height="60" rx="8" class="s"/>
+          <text x="40" y="50" class="t">Client (browser/mobile)</text>
+
+          <rect x="210" y="20" width="160" height="60" rx="8" class="b"/>
+          <text x="230" y="50" class="t">Server — /login</text>
+
+          <rect x="400" y="20" width="200" height="60" rx="8" class="s"/>
+          <text x="420" y="50" class="t">JWT issued (token)</text>
+
+          <path d="M180 50 L210 50" stroke="#9aa4b2" stroke-width="2" marker-end="url(#arrow)"/>
+          <path d="M370 50 L400 50" stroke="#9aa4b2" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <!-- second flow -->
+          <rect x="20" y="120" width="160" height="60" rx="8" class="s"/>
+          <text x="40" y="150" class="t">Client stores token</text>
+
+          <rect x="400" y="120" width="200" height="60" rx="8" class="b"/>
+          <text x="420" y="150" class="t">Server verifies token on protected route</text>
+
+          <path d="M180 140 L400 140" stroke="#9aa4b2" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+              <path d="M0 0 L10 5 L0 10 z" fill="#9aa4b2" />
+            </marker>
+          </defs>
+        </svg>
+      </div>
+
+      <h3>Example — sign a JWT in Express</h3>
+      <pre><code>// auth.js (server-side)
+const jwt = require('jsonwebtoken')
+const SECRET = process.env.JWT_SECRET || 'supersecret'
+
+function signUser(user){
+  // minimal payload: subject + roles
+  const payload = { sub: user.id, name: user.name, roles: user.roles }
+  return jwt.sign(payload, SECRET, { expiresIn: '15m' })
+}
+
+// verify middleware
+function authenticate(req, res, next){
+  const auth = req.headers.authorization || ''
+  const token = auth.split(' ')[1]
+  if (!token) return res.status(401).json({ error: 'missing token' })
+  try {
+    const claims = jwt.verify(token, SECRET)
+    req.user = claims
+    next()
+  } catch (err) {
+    return res.status(401).json({ error: 'invalid token' })
+  }
+}
+
+module.exports = { signUser, authenticate }
+</code></pre>
+
+      <div class="callout">
+        <strong>Security notes:</strong>
+        <ul>
+          <li>Use <code>https</code> always when sending tokens.</li>
+          <li>Prefer short-lived access tokens and use a separate refresh token rotated securely.</li>
+          <li>Avoid storing tokens in <code>localStorage</code> if possible — prefer <code>httpOnly</code> cookies to reduce XSS risk (but consider CSRF).</li>
+          <li>Verify claims: <code>exp</code> (expiration), <code>iss</code> (issuer), <code>aud</code> (audience), and subject <code>sub</code>.</li>
+        </ul>
+      </div>
+
+      <div class="warning" style="margin-top:8px;padding:10px;border-radius:8px">
+        <strong>Important:</strong> JWTs are not encrypted by default — they are just signed. Do not put secrets in a JWT payload. If you need to store sensitive info, encrypt the payload or store sensitive data server-side and reference by ID.
+      </div>
+
+    </section>
+
+    <section class="card">
+      <h2>3) How the frontend and JWTs typically interact</h2>
+      <p>There are a few common patterns for storing tokens on the client and sending them to the server:</p>
+
+      <h3>Pattern A — Authorization header (SPA)</h3>
+      <p>Client obtains token (from login), stores in memory or <code>localStorage</code>, and sends header on each request:</p>
+      <pre><code>// fetch example (frontend)
+fetch('/api/protected', {
+  headers: { 'Authorization': `Bearer ${token}` }
+})
+</code></pre>
+
+      <h3>Pattern B — httpOnly cookie (recommended for many apps)</h3>
+      <p>Server sets a cookie with <code>HttpOnly; Secure; SameSite=strict</code>. The browser sends cookie automatically with requests to same origin. This prevents client-side JS from reading token (protects against XSS) but requires CSRF protections (double-submit cookie or CSRF token).</p>
+
+      <h3>Frontend flow (login → use token)</h3>
+      <ol>
+        <li>POST <code>/login</code> with credentials.</li>
+        <li>Server validates and returns access token (in JSON) and optionally sets httpOnly refresh cookie.</li>
+        <li>Client stores token (or relies on cookie) and uses it for subsequent API calls.</li>
+      </ol>
+
+      <h3>Refresh tokens</h3>
+      <p>Access tokens should be short-lived (minutes). Use a refresh token (stored in an httpOnly cookie) to request new access tokens when they expire. Rotate refresh tokens and track invalidation server-side.</p>
+
+    </section>
+
+    <section class="card">
+      <h2>4) Example: Protect a route and use roles</h2>
+      <pre><code>// routes.js
+const express = require('express')
+const { authenticate } = require('./auth')
+const router = express.Router()
+
+// role-check middleware
+function requireRole(role){
+  return (req, res, next) => {
+    if (!req.user) return res.status(401).end()
+    if (!req.user.roles || !req.user.roles.includes(role)) return res.status(403).json({ error: 'forbidden' })
+    next()
+  }
+}
+
+router.get('/admin/data', authenticate, requireRole('admin'), (req, res) => {
+  res.json({ secret: 'only admins see this' })
+})
+
+module.exports = router
+</code></pre>
+    </section>
+
+    <section class="card">
+      <h2>5) Postman — quick classroom walkthrough</h2>
+      <p>Postman is a GUI tool to make requests to your API — ideal for demos and testing. Key features used in class:</p>
+      <ul>
+        <li>Create a <strong>POST</strong> request to <code>/login</code> with JSON body: <code>{"username":"alice","password":"..."}</code>.</li>
+        <li>View response JSON and copy token.</li>
+        <li>Create a new request to a protected route, add header <code>Authorization: Bearer &lt;token&gt;</code> and send.</li>
+        <li>Use Postman variables to store token: set an environment variable like <code>token</code> and then add header <code>Authorization: Bearer {{token}}</code>.</li>
+        <li>Use the <strong>Pre-request Script</strong> to programmatically authenticate before each request and automatically set the token variable.</li>
+      </ul>
+
+      <h3>Postman pre-request script example</h3>
+      <pre><code>// runs before request; logs in and sets env token
+pm.sendRequest({
+  url: pm.environment.get('baseUrl') + '/login',
+  method: 'POST',
+  header: { 'Content-Type': 'application/json' },
+  body: { mode: 'raw', raw: JSON.stringify({ username: 'alice', password: 'pass' }) }
+}, function (err, res) {
+  if (err) return console.error(err)
+  const token = res.json().token
+  pm.environment.set('token', token)
+})
+</code></pre>
+
+      <div class="callout">Demo idea: show a failing request without header, then repeat with the header to show 401 → 200.</div>
+    </section>
+
+    <section class="card">
+      <h2>6) Practical classroom exercises</h2>
+      <ol>
+        <li><strong>Live-coding:</strong> Build a small Express app with <code>/login</code>, <code>/public</code>, and <code>/protected</code>. Implement JWT issuance and verification.</li>
+        <li><strong>Postman lab:</strong> Students use Postman to log in and call protected endpoints. Have them swap storage strategies (localStorage vs cookie) and discuss tradeoffs.</li>
+        <li><strong>Edge cases:</strong> Expired token behavior, malformed token, missing audience claim, role missing — show server responses.</li>
+      </ol>
+    </section>
+
+    <footer>
+      <div>Cheat-sheet: keep JWT secrets safe; prefer short-lived tokens; use https; use httpOnly cookie when possible; use refresh tokens and server-side revocation when critical.</div>
+    </footer>
+  </div>
+</body>
+</html>
