@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphQL Beginner's Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #e10098, #ff6b9d);
+            color: white;
+            text-align: center;
+            padding: 40px 0;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .nav {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav h3 {
+            color: #e10098;
+            margin-bottom: 15px;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+        }
+
+        .nav a {
+            color: #333;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            display: block;
+        }
+
+        .nav a:hover {
+            background-color: #f0f0f0;
+            color: #e10098;
+        }
+
+        .section {
+            background: white;
+            margin-bottom: 30px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #e10098;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e10098;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #333;
+            font-size: 1.4em;
+            margin: 25px 0 15px 0;
+        }
+
+        h4 {
+            color: #555;
+            font-size: 1.2em;
+            margin: 20px 0 10px 0;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            white-space: pre-wrap !important;
+            line-height: 1.6;
+            font-size: 14px;
+            word-wrap: break-word;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .code-label {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: #4a5568;
+            color: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: #e10098;
+            color: white;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .pros, .cons {
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .pros {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+
+        .cons {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+
+        .pros h4, .cons h4 {
+            margin-top: 0;
+        }
+
+        .architecture-diagram {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px dashed #dee2e6;
+        }
+
+        .flow-step {
+            display: inline-block;
+            background: #e10098;
+            color: white;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .arrow {
+            font-size: 1.5em;
+            color: #e10098;
+            margin: 0 10px;
+        }
+
+        @media (max-width: 768px) {
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav ul {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>GraphQL Beginner's Guide</h1>
+            <p class="subtitle">A comprehensive introduction to GraphQL, Apollo Server, and modern API development</p>
+        </header>
+
+        <nav class="nav">
+            <h3>📚 Table of Contents</h3>
+            <ul>
+                <li><a href="#what-is-graphql">What is GraphQL?</a></li>
+                <li><a href="#how-graphql-works">How GraphQL Works</a></li>
+                <li><a href="#graphql-components">GraphQL Components</a></li>
+                <li><a href="#apollo-server">Apollo Server</a></li>
+                <li><a href="#apollo-vs-express">Apollo vs Express</a></li>
+                <li><a href="#rest-vs-graphql">REST vs GraphQL</a></li>
+                <li><a href="#when-to-choose">When to Choose What</a></li>
+                <li><a href="#getting-started">Getting Started</a></li>
+            </ul>
+        </nav>
+
+        <section id="what-is-graphql" class="section">
+            <h2>🚀 What is GraphQL?</h2>
+            
+            <p><strong>GraphQL</strong> is a query language and runtime for APIs that was developed by Facebook in 2012 and open-sourced in 2015. Think of it as a more efficient, powerful, and flexible alternative to REST APIs.</p>
+
+            <div class="highlight">
+                <strong>Key Concept:</strong> Instead of having multiple endpoints like REST, GraphQL has a single endpoint where clients can request exactly the data they need, nothing more, nothing less.
+            </div>
+
+            <h3>🎯 Core Philosophy</h3>
+            <ul>
+                <li><strong>Ask for what you need, get exactly that</strong> - No over-fetching or under-fetching</li>
+                <li><strong>Single endpoint</strong> - One URL to rule them all</li>
+                <li><strong>Strongly typed</strong> - Every piece of data has a specific type</li>
+                <li><strong>Hierarchical</strong> - Queries mirror the shape of the data they return</li>
+            </ul>
+
+            <h3>📝 Simple Example</h3>
+            <p>Instead of making multiple REST calls:</p>
+            <div class="code-block">
+                <div class="code-label">REST</div>
+GET /users/123
+GET /users/123/posts
+GET /users/123/friends
+            </div>
+
+            <p>You make one GraphQL query:</p>
+            <div class="code-block">
+                <div class="code-label">GraphQL</div>
+query {
+  user(id: "123") {
+    name
+    email
+    posts {
+      title
+      content
+    }
+    friends {
+      name
+    }
+  }
+}
+            </div>
+        </section>
+
+        <section id="how-graphql-works" class="section">
+            <h2>⚙️ How GraphQL Works</h2>
+
+            <div class="architecture-diagram">
+                <div class="flow-step">Client Query</div>
+                <span class="arrow">→</span>
+                <div class="flow-step">GraphQL Server</div>
+                <span class="arrow">→</span>
+                <div class="flow-step">Resolvers</div>
+                <span class="arrow">→</span>
+                <div class="flow-step">Data Sources</div>
+                <span class="arrow">→</span>
+                <div class="flow-step">Response</div>
+            </div>
+
+            <h3>🔄 The GraphQL Request Cycle</h3>
+            <ol>
+                <li><strong>Client sends a query</strong> - Specifies exactly what data is needed</li>
+                <li><strong>Server parses the query</strong> - Validates against the schema</li>
+                <li><strong>Resolvers execute</strong> - Functions that fetch the actual data</li>
+                <li><strong>Data is assembled</strong> - Results are combined into the requested shape</li>
+                <li><strong>Response sent back</strong> - Client gets exactly what was asked for</li>
+            </ol>
+
+            <h3>🏗️ Example Query Execution</h3>
+            <div class="code-block">
+                <div class="code-label">Query</div>
+query GetUser {
+  user(id: "123") {
+    name
+    posts(limit: 5) {
+      title
+      createdAt
+    }
+  }
+}
+            </div>
+
+            <div class="code-block">
+                <div class="code-label">Response</div>
+{
+  "data": {
+    "user": {
+      "name": "John Doe",
+      "posts": [
+        {
+          "title": "My First Post",
+          "createdAt": "2024-01-15T10:30:00Z"
+        },
+        {
+          "title": "Learning GraphQL",
+          "createdAt": "2024-01-16T14:20:00Z"
+        }
+      ]
+    }
+  }
+}
+            </div>
+        </section>
+
+        <section id="graphql-components" class="section">
+            <h2>🧩 What Makes Up GraphQL?</h2>
+
+            <h3>1. 📋 Schema</h3>
+            <p>The schema is like a contract that defines what data is available and how it's structured.</p>
+            <div class="code-block">
+                <div class="code-label">Schema Definition</div>
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  posts: [Post!]!
+}
+
+type Post {
+  id: ID!
+  title: String!
+  content: String!
+  author: User!
+  createdAt: String!
+}
+
+type Query {
+  user(id: ID!): User
+  users: [User!]!
+  post(id: ID!): Post
+}
+            </div>
+
+            <h3>2. 🔍 Queries</h3>
+            <p>Queries are how clients request data (like GET in REST).</p>
+            <div class="code-block">
+                <div class="code-label">Query Examples</div>
+# Get a specific user
+query {
+  user(id: "123") {
+    name
+    email
+  }
+}
+
+# Get all users with their posts
+query {
+  users {
+    name
+    posts {
+      title
+    }
+  }
+}
+            </div>
+
+            <h3>3. ✏️ Mutations</h3>
+            <p>Mutations modify data (like POST, PUT, DELETE in REST).</p>
+            <div class="code-block">
+                <div class="code-label">Mutation Examples</div>
+mutation {
+  createUser(input: {
+    name: "Jane Doe"
+    email: "jane@example.com"
+  }) {
+    id
+    name
+    email
+  }
+}
+
+mutation {
+  updatePost(id: "456", input: {
+    title: "Updated Title"
+  }) {
+    id
+    title
+  }
+}
+            </div>
+
+            <h3>4. 📡 Subscriptions</h3>
+            <p>Subscriptions enable real-time updates (like WebSockets).</p>
+            <div class="code-block">
+                <div class="code-label">Subscription Example</div>
+subscription {
+  postAdded {
+    id
+    title
+    author {
+      name
+    }
+  }
+}
+            </div>
+
+            <h3>5. 🔧 Resolvers</h3>
+            <p>Resolvers are functions that fetch the actual data for each field.</p>
+            <div class="code-block">
+                <div class="code-label">Resolver Example</div>
+const resolvers = {
+  Query: {
+    user: async (parent, { id }) => {
+      return await User.findById(id);
+    },
+    users: async () => {
+      return await User.findAll();
+    }
+  },
+  User: {
+    posts: async (user) => {
+      return await Post.findByUserId(user.id);
+    }
+  }
+};
+            </div>
+        </section>
+
+        <section id="apollo-server" class="section">
+            <h2>🚀 What is Apollo Server?</h2>
+
+            <p><strong>Apollo Server</strong> is a popular, production-ready GraphQL server implementation for Node.js. Think of it as the "Express.js for GraphQL" - it handles all the heavy lifting of running a GraphQL server.</p>
+
+            <h3>🎯 What Apollo Server Provides</h3>
+            <ul>
+                <li><strong>GraphQL execution engine</strong> - Parses and executes queries</li>
+                <li><strong>Schema validation</strong> - Ensures queries match your schema</li>
+                <li><strong>Built-in GraphQL Playground</strong> - Interactive query interface</li>
+                <li><strong>Caching</strong> - Automatic query result caching</li>
+                <li><strong>Error handling</strong> - Standardized error responses</li>
+                <li><strong>Middleware support</strong> - Authentication, logging, etc.</li>
+            </ul>
+
+            <h3>🏗️ Basic Apollo Server Setup</h3>
+            <div class="code-block">
+                <div class="code-label">server.js</div>
+const { ApolloServer, gql } = require('apollo-server-express');
+const express = require('express');
+
+// Define your schema
+const typeDefs = gql`
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+  }
+
+  type Query {
+    users: [User!]!
+    user(id: ID!): User
+  }
+`;
+
+// Define your resolvers
+const resolvers = {
+  Query: {
+    users: () => [
+      { id: '1', name: 'John Doe', email: 'john@example.com' },
+      { id: '2', name: 'Jane Smith', email: 'jane@example.com' }
+    ],
+    user: (parent, { id }) => {
+      return { id, name: 'John Doe', email: 'john@example.com' };
+    }
+  }
+};
+
+async function startServer() {
+  // Create Apollo Server
+  const server = new ApolloServer({ 
+    typeDefs, 
+    resolvers,
+    introspection: true,
+    playground: true
+  });
+
+  // Create Express app
+  const app = express();
+
+  // Apply Apollo GraphQL middleware
+  server.applyMiddleware({ app, path: '/graphql' });
+
+  // Start the server
+  app.listen(4000, () => {
+    console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+  });
+}
+
+startServer();
+            </div>
+        </section>
+
+        <section id="apollo-vs-express" class="section">
+            <h2>🤔 Apollo Server vs Express Server</h2>
+
+            <div class="highlight">
+                <strong>Important:</strong> Apollo Server and Express aren't competitors - they work together! Apollo Server can run on top of Express, or standalone.
+            </div>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Express Server</th>
+                        <th>Apollo Server</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Purpose</strong></td>
+                        <td>General-purpose web framework</td>
+                        <td>Specialized GraphQL server</td>
+                    </tr>
+                    <tr>
+                        <td><strong>API Style</strong></td>
+                        <td>REST, custom endpoints</td>
+                        <td>GraphQL only</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Routing</strong></td>
+                        <td>Multiple routes (/users, /posts, etc.)</td>
+                        <td>Single endpoint (/graphql)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Fetching</strong></td>
+                        <td>Manual in each route handler</td>
+                        <td>Automatic via resolvers</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type Safety</strong></td>
+                        <td>Manual validation needed</td>
+                        <td>Built-in schema validation</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Caching</strong></td>
+                        <td>Manual implementation</td>
+                        <td>Built-in query caching</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>🔄 How They Work Together</h3>
+            <div class="code-block">
+                <div class="code-label">Combined Setup</div>
+const express = require('express');
+const { ApolloServer } = require('apollo-server-express');
+
+const app = express();
+
+// Regular Express routes
+app.get('/health', (req, res) => {
+  res.json({ status: 'OK' });
+});
+
+app.use('/static', express.static('public'));
+
+// Apollo Server for GraphQL
+const server = new ApolloServer({ typeDefs, resolvers });
+server.applyMiddleware({ app, path: '/graphql' });
+
+// Express handles everything else
+app.listen(4000);
+            </div>
+
+            <h3>🎯 When to Use Each</h3>
+            <ul>
+                <li><strong>Use Express when:</strong> Building traditional web apps, need custom routing, mixing different API styles</li>
+                <li><strong>Use Apollo Server when:</strong> Building GraphQL APIs, want built-in GraphQL features, need strong typing</li>
+                <li><strong>Use both when:</strong> You want GraphQL for your main API but also need some REST endpoints or static file serving</li>
+            </ul>
+        </section>
+
+        <section id="rest-vs-graphql" class="section">
+            <h2>⚔️ REST vs GraphQL: The Complete Breakdown</h2>
+
+            <h3>🏛️ What is REST?</h3>
+            <p><strong>REST (Representational State Transfer)</strong> is an architectural style for web services that uses standard HTTP methods and multiple endpoints.</p>
+
+            <h3>🆚 Key Differences</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>REST</th>
+                        <th>GraphQL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Endpoints</strong></td>
+                        <td>Multiple (/users, /posts, /comments)</td>
+                        <td>Single (/graphql)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Fetching</strong></td>
+                        <td>Fixed data structure per endpoint</td>
+                        <td>Client specifies exact data needed</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Over/Under Fetching</strong></td>
+                        <td>Common problem</td>
+                        <td>Eliminated by design</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HTTP Methods</strong></td>
+                        <td>GET, POST, PUT, DELETE, etc.</td>
+                        <td>Primarily POST</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Caching</strong></td>
+                        <td>HTTP caching works well</td>
+                        <td>More complex caching</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Learning Curve</strong></td>
+                        <td>Easier to learn</td>
+                        <td>Steeper learning curve</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>📊 Example Comparison</h3>
+            <h4>Scenario: Get a user's name and their last 3 post titles</h4>
+
+            <div class="code-block">
+                <div class="code-label">REST Approach</div>
+// Multiple requests needed
+GET /api/users/123
+// Returns: { id: 123, name: "John", email: "john@example.com", bio: "...", avatar: "..." }
+
+GET /api/users/123/posts?limit=3
+// Returns: [
+//   { id: 1, title: "Post 1", content: "...", createdAt: "...", tags: [...] },
+//   { id: 2, title: "Post 2", content: "...", createdAt: "...", tags: [...] },
+//   { id: 3, title: "Post 3", content: "...", createdAt: "...", tags: [...] }
+// ]
+
+// Problems:
+// - 2 HTTP requests
+// - Over-fetching: got email, bio, avatar, content, createdAt, tags we don't need
+// - Potential under-fetching: might need more user data later
+            </div>
+
+            <div class="code-block">
+                <div class="code-label">GraphQL Approach</div>
+// Single request
+POST /graphql
+{
+  "query": "{ user(id: 123) { name posts(limit: 3) { title } } }"
+}
+
+// Returns exactly what we asked for:
+{
+  "data": {
+    "user": {
+      "name": "John",
+      "posts": [
+        { "title": "Post 1" },
+        { "title": "Post 2" },
+        { "title": "Post 3" }
+      ]
+    }
+  }
+}
+
+// Benefits:
+// - 1 HTTP request
+// - No over-fetching: got exactly what we needed
+// - No under-fetching: can easily add more fields if needed
+            </div>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>✅ REST Pros</h4>
+                    <ul>
+                        <li>Simple and well-understood</li>
+                        <li>Great HTTP caching support</li>
+                        <li>Easy to debug with browser tools</li>
+                        <li>Stateless and scalable</li>
+                        <li>Works well with CDNs</li>
+                        <li>Mature ecosystem and tooling</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>❌ REST Cons</h4>
+                    <ul>
+                        <li>Over-fetching and under-fetching</li>
+                        <li>Multiple round trips needed</li>
+                        <li>API versioning challenges</li>
+                        <li>Rigid data structure</li>
+                        <li>Documentation can become outdated</li>
+                        <li>No built-in real-time features</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>✅ GraphQL Pros</h4>
+                    <ul>
+                        <li>Precise data fetching</li>
+                        <li>Single endpoint</li>
+                        <li>Strong type system</li>
+                        <li>Self-documenting</li>
+                        <li>Real-time subscriptions</li>
+                        <li>Excellent developer tools</li>
+                        <li>No API versioning needed</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>❌ GraphQL Cons</h4>
+                    <ul>
+                        <li>Steeper learning curve</li>
+                        <li>Complex caching</li>
+                        <li>Potential for expensive queries</li>
+                        <li>Less mature ecosystem</li>
+                        <li>Overkill for simple APIs</li>
+                        <li>File uploads are tricky</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="when-to-choose" class="section">
+            <h2>🎯 When to Choose GraphQL vs REST</h2>
+
+            <h3>🚀 Choose GraphQL When:</h3>
+            <div class="highlight">
+                <strong>Perfect for:</strong> Complex applications with varied data requirements
+            </div>
+            <ul>
+                <li><strong>Mobile applications</strong> - Bandwidth is precious, need precise data</li>
+                <li><strong>Complex frontend requirements</strong> - Different views need different data</li>
+                <li><strong>Multiple client types</strong> - Web, mobile, desktop with different needs</li>
+                <li><strong>Rapid prototyping</strong> - Easy to add/remove fields without breaking clients</li>
+                <li><strong>Real-time features</strong> - Built-in subscription support</li>
+                <li><strong>Microservices</strong> - Single GraphQL gateway can aggregate multiple services</li>
+                <li><strong>Developer experience matters</strong> - Excellent tooling and introspection</li>
+            </ul>
+
+            <h3>🏛️ Choose REST When:</h3>
+            <div class="highlight">
+                <strong>Perfect for:</strong> Simple, straightforward APIs with standard requirements
+            </div>
+            <ul>
+                <li><strong>Simple CRUD operations</strong> - Basic create, read, update, delete</li>
+                <li><strong>Caching is critical</strong> - HTTP caching works out of the box</li>
+                <li><strong>File uploads/downloads</strong> - REST handles these naturally</li>
+                <li><strong>Team familiarity</strong> - Everyone knows REST</li>
+                <li><strong>Third-party integrations</strong> - Most services provide REST APIs</li>
+                <li><strong>Simple client requirements</strong> - Don't need flexible data fetching</li>
+                <li><strong>Quick development</strong> - Faster to get started</li>
+            </ul>
+
+            <h3>🤝 Hybrid Approach</h3>
+            <p>You don't have to choose just one! Many successful applications use both:</p>
+            <div class="code-block">
+                <div class="code-label">Hybrid Example</div>
+// GraphQL for complex data queries
+POST /graphql
+{ user(id: 123) { name posts { title comments { text author } } } }
+
+// REST for simple operations
+GET /api/health
+POST /api/upload
+GET /api/download/file123.pdf
+DELETE /api/cache
+            </div>
+
+            <h3>📊 Decision Matrix</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Scenario</th>
+                        <th>Recommended</th>
+                        <th>Why</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Social media app</td>
+                        <td>GraphQL</td>
+                        <td>Complex nested data, mobile optimization</td>
+                    </tr>
+                    <tr>
+                        <td>Simple blog</td>
+                        <td>REST</td>
+                        <td>Simple CRUD, caching important</td>
+                    </tr>
+                    <tr>
+                        <td>E-commerce platform</td>
+                        <td>GraphQL</td>
+                        <td>Multiple client types, complex product data</td>
+                    </tr>
+                    <tr>
+                        <td>File storage service</td>
+                        <td>REST</td>
+                        <td>File operations, HTTP caching</td>
+                    </tr>
+                    <tr>
+                        <td>Real-time dashboard</td>
+                        <td>GraphQL</td>
+                        <td>Subscriptions, precise data needs</td>
+                    </tr>
+                    <tr>
+                        <td>Simple API for IoT devices</td>
+                        <td>REST</td>
+                        <td>Simplicity, low overhead</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="getting-started" class="section">
+            <h2>🏁 Getting Started with GraphQL</h2>
+
+            <h3>📦 Installation</h3>
+            <div class="code-block">
+                <div class="code-label">npm</div>
+npm install apollo-server-express graphql express
+            </div>
+
+            <h3>🚀 Your First GraphQL Server</h3>
+            <div class="code-block">
+                <div class="code-label">server.js</div>
+const { ApolloServer, gql } = require('apollo-server-express');
+const express = require('express');
+
+// Sample data
+const books = [
+  { id: '1', title: 'The Awakening', author: 'Kate Chopin' },
+  { id: '2', title: 'City of Glass', author: 'Paul Auster' }
+];
+
+// Schema definition
+const typeDefs = gql`
+  type Book {
+    id: ID!
+    title: String!
+    author: String!
+  }
+
+  type Query {
+    books: [Book!]!
+    book(id: ID!): Book
+  }
+
+  type Mutation {
+    addBook(title: String!, author: String!): Book!
+  }
+`;
+
+// Resolvers
+const resolvers = {
+  Query: {
+    books: () => books,
+    book: (parent, { id }) => books.find(book => book.id === id)
+  },
+  Mutation: {
+    addBook: (parent, { title, author }) => {
+      const book = {
+        id: String(books.length + 1),
+        title,
+        author
+      };
+      books.push(book);
+      return book;
+    }
+  }
+};
+
+async function startServer() {
+  const server = new ApolloServer({ 
+    typeDefs, 
+    resolvers,
+    introspection: true,
+    playground: true
+  });
+
+  const app = express();
+  server.applyMiddleware({ app });
+
+  app.listen(4000, () => {
+    console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+    console.log(`🎮 GraphQL Playground available for testing queries`);
+  });
+}
+
+startServer().catch(error => {
+  console.error('Error starting server:', error);
+});
+            </div>
+
+            <h3>🧪 Test Queries</h3>
+            <p>Once your server is running, visit <code>http://localhost:4000/graphql</code> to use GraphQL Playground and try these queries:</p>
+
+            <div class="code-block">
+                <div class="code-label">Query All Books</div>
+query {
+  books {
+    id
+    title
+    author
+  }
+}
+            </div>
+
+            <div class="code-block">
+                <div class="code-label">Query Single Book</div>
+query {
+  book(id: "1") {
+    title
+    author
+  }
+}
+            </div>
+
+            <div class="code-block">
+                <div class="code-label">Add New Book</div>
+mutation {
+  addBook(title: "1984", author: "George Orwell") {
+    id
+    title
+    author
+  }
+}
+            </div>
+
+            <h3>📚 Next Steps</h3>
+            <ul>
+                <li><strong>Connect to a database</strong> - Replace sample data with real database queries</li>
+                <li><strong>Add authentication</strong> - Protect your API with user authentication</li>
+                <li><strong>Implement subscriptions</strong> - Add real-time features</li>
+                <li><strong>Add error handling</strong> - Proper error responses and logging</li>
+                <li><strong>Optimize performance</strong> - Add caching and query complexity analysis</li>
+                <li><strong>Learn GraphQL clients</strong> - Apollo Client, Relay, or simple fetch</li>
+            </ul>
+
+            <div class="highlight">
+                <strong>Pro Tip:</strong> Start simple with basic queries and mutations, then gradually add more complex features like subscriptions, custom scalars, and advanced caching strategies.
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 40px 0; color: #666;">
+            <p>🎓 <strong>Happy Learning!</strong> GraphQL opens up a world of efficient, flexible API development.</p>
+            <p style="margin-top: 10px;">Remember: The best way to learn GraphQL is to build something with it. Start small, experiment, and gradually add complexity.</p>
+        </footer>
+    </div>
+</body>
+</html>
