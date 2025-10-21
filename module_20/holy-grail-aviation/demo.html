@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holy Grail Weather - Demo</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .demo-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        .features {
+            text-align: left;
+            margin: 2rem 0;
+        }
+        .feature {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+            padding: 0.5rem;
+        }
+        .feature i {
+            font-size: 1.5rem;
+            color: #667eea;
+            margin-right: 1rem;
+            width: 30px;
+        }
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+        .status {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 10px;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="demo-container">
+        <div class="logo">
+            <i class="fas fa-plane"></i>
+        </div>
+        <h1>Holy Grail Weather</h1>
+        <p class="subtitle">Professional weather data for aviation enthusiasts</p>
+        
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-cloud-sun"></i>
+                <span>Real-time weather conditions and forecasts</span>
+            </div>
+            <div class="feature">
+                <i class="fas fa-plane"></i>
+                <span>Aviation-specific weather parameters</span>
+            </div>
+            <div class="feature">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>GPS location detection and city search</span>
+            </div>
+            <div class="feature">
+                <i class="fas fa-mobile-alt"></i>
+                <span>Responsive design for all devices</span>
+            </div>
+            <div class="feature">
+                <i class="fas fa-bolt"></i>
+                <span>Powered by Open Meteo API (completely free)</span>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <a href="frontend/index.html" class="btn">
+                <i class="fas fa-rocket"></i> Launch App
+            </a>
+            <button onclick="checkBackend()" class="btn btn-secondary">
+                <i class="fas fa-server"></i> Check Backend
+            </button>
+        </div>
+
+        <div id="status" class="status" style="display: none;">
+            <i class="fas fa-spinner fa-spin"></i> Checking backend status...
+        </div>
+    </div>
+
+    <script>
+        async function checkBackend() {
+            const statusDiv = document.getElementById('status');
+            statusDiv.style.display = 'block';
+            statusDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking backend status...';
+
+            try {
+                const response = await fetch('http://localhost:5001/api/health');
+                if (response.ok) {
+                    const data = await response.json();
+                    statusDiv.innerHTML = `<i class="fas fa-check-circle"></i> Backend is running! ${data.message}<br><small>Port: 5001 | Environment: ${data.environment}</small>`;
+                    statusDiv.style.background = 'rgba(76, 175, 80, 0.1)';
+                    statusDiv.style.color = '#4caf50';
+                } else {
+                    throw new Error('Backend not responding');
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Backend is not running. Please start it first:<br><code>cd backend && PORT=5001 node server.js</code>`;
+                statusDiv.style.background = 'rgba(244, 67, 54, 0.1)';
+                statusDiv.style.color = '#f44336';
+            }
+        }
+
+        // Auto-check backend on page load
+        window.addEventListener('load', () => {
+            setTimeout(checkBackend, 1000);
+        });
+    </script>
+</body>
+</html>

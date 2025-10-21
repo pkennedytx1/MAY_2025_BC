@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1761007460700",
+    "name": "Dallas",
+    "country": "United States",
+    "latitude": 32.78306,
+    "longitude": -96.80667,
+    "note": "",
+    "createdAt": "2025-10-21T00:44:20.700Z"
+  },
+  {
+    "id": "1761007476327",
+    "name": "Emerald Isle",
+    "country": "United States",
+    "latitude": 34.67794,
+    "longitude": -76.95078,
+    "note": "For vacation",
+    "createdAt": "2025-10-21T00:44:36.327Z"
+  },
+  {
+    "id": "1761010960733",
+    "name": "San Antonio",
+    "country": "United States",
+    "latitude": 29.42412,
+    "longitude": -98.49363,
+    "note": "Howdy",
+    "createdAt": "2025-10-21T01:42:40.733Z"
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "cacheTimeout": 600000,
+  "maxCacheSize": 1000,
+  "logLevel": "info",
+  "apiRateLimit": 1000
+}

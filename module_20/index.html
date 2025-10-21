@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 20 – The Holy Grail Design (Full-Stack JavaScript)</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      background: #f8f9fa;
+      color: #222;
+      line-height: 1.6;
+    }
+
+    header, footer {
+      background: #003366;
+      color: white;
+      padding: 1rem 2rem;
+    }
+
+    header h1, footer p {
+      margin: 0;
+    }
+
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 1.5rem;
+      max-width: 1200px;
+      margin: auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    nav {
+      flex: 1 1 200px;
+      max-width: 220px;
+      padding: 1rem;
+      background: #f0f4f8;
+      border-right: 1px solid #ddd;
+      border-radius: 8px 0 0 8px;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    nav li {
+      margin: 0.5rem 0;
+    }
+
+    nav a {
+      color: #003366;
+      text-decoration: none;
+    }
+
+    article {
+      flex: 3 1 600px;
+      padding: 1.5rem;
+    }
+
+    aside {
+      flex: 1 1 200px;
+      max-width: 260px;
+      background: #f7fafc;
+      padding: 1rem;
+      border-left: 1px solid #ddd;
+      border-radius: 0 8px 8px 0;
+    }
+
+    code {
+      background: #f3f3f3;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+
+    pre {
+      background: #f3f3f3;
+      padding: 1rem;
+      overflow-x: auto;
+      border-radius: 6px;
+    }
+
+    h2 {
+      color: #003366;
+      border-bottom: 2px solid #dde;
+      padding-bottom: 0.25rem;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        flex-direction: column;
+      }
+      nav, aside {
+        max-width: 100%;
+        border: none;
+        border-radius: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Module 20 – The Holy Grail Design (Full-Stack JavaScript)</h1>
+  </header>
+
+  <main>
+    <nav>
+      <h3>Contents</h3>
+      <ul>
+        <li><a href="#frontend">Front-End Layout</a></li>
+        <li><a href="#backend">Back-End Architecture</a></li>
+        <li><a href="#swagger">Swagger & Documentation</a></li>
+        <li><a href="#why-docs">Why Documentation Matters</a></li>
+      </ul>
+    </nav>
+
+    <article>
+      <section id="frontend">
+        <h2>The Holy Grail Layout (Front End)</h2>
+        <p>
+          The <strong>Holy Grail Layout</strong> is a classic web design pattern that balances 
+          flexibility and usability. It features:
+        </p>
+        <ul>
+          <li>A fixed <strong>header</strong> and <strong>footer</strong></li>
+          <li>A flexible <strong>main content area</strong> in the center</li>
+          <li>Two sidebars for <strong>navigation</strong> and <strong>extras</strong></li>
+        </ul>
+
+        <p>Modern CSS makes it easy to achieve this with <code>flexbox</code> or <code>grid</code>:</p>
+        <pre><code>&lt;header&gt;Header&lt;/header&gt;
+&lt;main&gt;
+  &lt;nav&gt;Navigation&lt;/nav&gt;
+  &lt;article&gt;Main Content&lt;/article&gt;
+  &lt;aside&gt;Sidebar&lt;/aside&gt;
+&lt;/main&gt;
+&lt;footer&gt;Footer&lt;/footer&gt;
+</code></pre>
+
+        <p><strong>CSS Grid Example:</strong></p>
+        <pre><code>main {
+  display: grid;
+  grid-template-areas:
+    "nav article aside";
+  grid-template-columns: 1fr 3fr 1fr;
+  gap: 1rem;
+}
+</code></pre>
+
+        <p>This approach adapts well to all screen sizes while keeping a semantic and logical structure.</p>
+      </section>
+
+      <section id="backend">
+        <h2>The Holy Grail Architecture (Back End)</h2>
+        <p>
+          In the back end, the “Holy Grail” concept refers to a clean, layered architecture
+          that separates logic into distinct responsibilities — preventing spaghetti code and
+          making systems easier to maintain.
+        </p>
+
+        <ul>
+          <li><strong>Routes:</strong> define endpoints and handle HTTP requests</li>
+          <li><strong>Controllers:</strong> interpret requests and call services</li>
+          <li><strong>Services:</strong> contain core business logic</li>
+          <li><strong>Data Access (Models/Repositories):</strong> interact with the database</li>
+        </ul>
+
+        <p><strong>Example (Node + Express):</strong></p>
+        <pre><code>// routes/userRoutes.js
+import express from "express";
+import { getUsers } from "../controllers/userController.js";
+const router = express.Router();
+router.get("/", getUsers);
+export default router;
+
+// controllers/userController.js
+import userService from "../services/userService.js";
+export const getUsers = async (req, res) =&gt; {
+  const users = await userService.listUsers();
+  res.json(users);
+};
+
+// services/userService.js
+import userRepository from "../data/userRepository.js";
+export default {
+  listUsers: async () =&gt; userRepository.findAll()
+};
+
+// data/userRepository.js
+import db from "../config/db.js";
+export default {
+  findAll: async () =&gt; db("users").select("*")
+};
+</code></pre>
+
+        <p>This pattern keeps concerns clearly defined — improving testability, scalability, and developer clarity.</p>
+      </section>
+
+      <section id="swagger">
+        <h2>API Documentation with Swagger (OpenAPI)</h2>
+        <p>
+          <strong>Swagger</strong> (now known as <strong>OpenAPI Specification</strong>)
+          is a toolset for documenting RESTful APIs in a standardized way.
+        </p>
+
+        <p><strong>Benefits:</strong></p>
+        <ul>
+          <li>Creates an interactive, visual API explorer</li>
+          <li>Ensures consistency across endpoints</li>
+          <li>Helps developers and stakeholders understand API behavior</li>
+        </ul>
+
+        <p><strong>Example Setup:</strong></p>
+        <pre><code>npm install swagger-ui-express yamljs
+
+// app.js
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
+const swaggerDoc = YAML.load("./swagger.yaml");
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+</code></pre>
+      </section>
+
+      <section id="why-docs">
+        <h2>Why Documentation Matters</h2>
+        <p>
+          Good documentation is as valuable as good code. It improves:
+        </p>
+        <ul>
+          <li><strong>Team onboarding:</strong> new developers can ramp up quickly</li>
+          <li><strong>API reliability:</strong> consumers understand contracts and limits</li>
+          <li><strong>Debugging & maintenance:</strong> easier to trace logic and data flows</li>
+          <li><strong>Knowledge sharing:</strong> reduces siloed information</li>
+        </ul>
+
+        <p>In modern full-stack teams, documentation bridges the gap between the front-end, back-end, and business goals — ensuring everyone speaks the same technical language.</p>
+      </section>
+    </article>
+
+    <aside>
+      <h3>Quick References</h3>
+      <ul>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Responsive_Design">Responsive Layout Guide</a></li>
+        <li><a href="https://expressjs.com/en/guide/routing.html">Express Routing</a></li>
+        <li><a href="https://swagger.io/specification/">OpenAPI Specification</a></li>
+      </ul>
+    </aside>
+  </main>
+
+  <footer>
+    <p>Module 20 — Full-Stack JavaScript Design Patterns | © 2025</p>
+  </footer>
+</body>
+</html>

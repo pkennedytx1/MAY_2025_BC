@@ -1,0 +1,152 @@
+{
+  "current_32.78306_-96.80667": {
+    "data": {
+      "latitude": 32.784855,
+      "longitude": -96.80359,
+      "generationtime_ms": 0.1437664031982422,
+      "utc_offset_seconds": -18000,
+      "timezone": "America/Chicago",
+      "timezone_abbreviation": "GMT-5",
+      "elevation": 140,
+      "current_units": {
+        "time": "iso8601",
+        "interval": "seconds",
+        "temperature_2m": "°C",
+        "relative_humidity_2m": "%",
+        "apparent_temperature": "°C",
+        "is_day": "",
+        "precipitation": "mm",
+        "rain": "mm",
+        "showers": "mm",
+        "snowfall": "cm",
+        "weather_code": "wmo code",
+        "cloud_cover": "%",
+        "pressure_msl": "hPa",
+        "surface_pressure": "hPa",
+        "wind_speed_10m": "km/h",
+        "wind_direction_10m": "°",
+        "dewpoint_2m": "°C",
+        "visibility": "m"
+      },
+      "current": {
+        "time": "2025-10-20T19:45",
+        "interval": 900,
+        "temperature_2m": 28,
+        "relative_humidity_2m": 46,
+        "apparent_temperature": 28.7,
+        "is_day": 0,
+        "precipitation": 0,
+        "rain": 0,
+        "showers": 0,
+        "snowfall": 0,
+        "weather_code": 0,
+        "cloud_cover": 0,
+        "pressure_msl": 1010.3,
+        "surface_pressure": 994.4,
+        "wind_speed_10m": 7.4,
+        "wind_direction_10m": 129,
+        "dewpoint_2m": 15.3,
+        "visibility": 41600
+      },
+      "daily": {
+        "time": [
+          "2025-10-20",
+          "2025-10-21",
+          "2025-10-22"
+        ],
+        "temperature_2m_max": [
+          32.9,
+          26.9,
+          29.2
+        ],
+        "temperature_2m_min": [
+          13.4,
+          16.9,
+          10.9
+        ],
+        "weather_code": [
+          0,
+          3,
+          3
+        ]
+      }
+    },
+    "timestamp": 1761008084080,
+    "expiresAt": 1761008684080
+  },
+  "current_34.67794_-76.95078": {
+    "data": {
+      "latitude": 34.673374,
+      "longitude": -76.94349,
+      "generationtime_ms": 0.13720989227294922,
+      "utc_offset_seconds": -14400,
+      "timezone": "America/New_York",
+      "timezone_abbreviation": "GMT-4",
+      "elevation": 3,
+      "current_units": {
+        "time": "iso8601",
+        "interval": "seconds",
+        "temperature_2m": "°C",
+        "relative_humidity_2m": "%",
+        "apparent_temperature": "°C",
+        "is_day": "",
+        "precipitation": "mm",
+        "rain": "mm",
+        "showers": "mm",
+        "snowfall": "cm",
+        "weather_code": "wmo code",
+        "cloud_cover": "%",
+        "pressure_msl": "hPa",
+        "surface_pressure": "hPa",
+        "wind_speed_10m": "km/h",
+        "wind_direction_10m": "°",
+        "dewpoint_2m": "°C",
+        "visibility": "m"
+      },
+      "current": {
+        "time": "2025-10-20T21:30",
+        "interval": 900,
+        "temperature_2m": 17.1,
+        "relative_humidity_2m": 55,
+        "apparent_temperature": 14.5,
+        "is_day": 0,
+        "precipitation": 0,
+        "rain": 0,
+        "showers": 0,
+        "snowfall": 0,
+        "weather_code": 0,
+        "cloud_cover": 0,
+        "pressure_msl": 1018.4,
+        "surface_pressure": 1018,
+        "wind_speed_10m": 14,
+        "wind_direction_10m": 288,
+        "dewpoint_2m": 8,
+        "visibility": 24200
+      },
+      "daily": {
+        "time": [
+          "2025-10-20",
+          "2025-10-21",
+          "2025-10-22"
+        ],
+        "temperature_2m_max": [
+          22.9,
+          22,
+          24
+        ],
+        "temperature_2m_min": [
+          15.3,
+          15.9,
+          16
+        ],
+        "weather_code": [
+          2,
+          3,
+          3
+        ]
+      }
+    },
+    "timestamp": 1761010945919,
+    "expiresAt": 1761011545919
+  }
+}

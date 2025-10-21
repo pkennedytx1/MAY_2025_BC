@@ -1,0 +1,373 @@
+[
+  {
+    "timestamp": "2025-10-21T00:44:20.702Z",
+    "type": "favorite",
+    "action": "add",
+    "favoriteId": "1761007460700",
+    "location": "Dallas"
+  },
+  {
+    "timestamp": "2025-10-21T00:44:36.328Z",
+    "type": "favorite",
+    "action": "add",
+    "favoriteId": "1761007476327",
+    "location": "Emerald Isle"
+  },
+  {
+    "timestamp": "2025-10-21T00:44:39.299Z",
+    "type": "cache",
+    "action": "set",
+    "key": "current_32.78306_-96.80667",
+    "size": 927
+  },
+  {
+    "timestamp": "2025-10-21T00:44:39.301Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 661,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:44:44.999Z",
+    "type": "cache",
+    "action": "set",
+    "key": "current_34.67794_-76.95078",
+    "size": 926
+  },
+  {
+    "timestamp": "2025-10-21T00:44:45.001Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "34.67794",
+      "longitude": "-76.95078"
+    },
+    "responseTime": 671,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:44:49.434Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 0,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:45:37.553Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "34.67794",
+      "longitude": "-76.95078"
+    },
+    "responseTime": 3,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:45:39.800Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 97,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:49:35.066Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 2,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:49:41.915Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 4,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:49:51.277Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "34.67794",
+      "longitude": "-76.95078"
+    },
+    "responseTime": 5,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:51:20.420Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 2,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:51:43.073Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 0,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:51:46.492Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 0,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:51:48.707Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 1,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:52:00.694Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 1,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:52:09.602Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 1,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:52:14.462Z",
+    "type": "api_call",
+    "endpoint": "forecast",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667",
+      "days": "3"
+    },
+    "responseTime": 572,
+    "success": false
+  },
+  {
+    "timestamp": "2025-10-21T00:53:19.497Z",
+    "type": "api_call",
+    "endpoint": "forecast",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667",
+      "days": "3"
+    },
+    "responseTime": 606,
+    "success": false
+  },
+  {
+    "timestamp": "2025-10-21T00:53:29.862Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 1,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:53:32.230Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 1,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:53:51.124Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 3,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:53:59.449Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 0,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:54:03.882Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 1,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:54:06.926Z",
+    "type": "api_call",
+    "endpoint": "forecast",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667",
+      "days": "3"
+    },
+    "responseTime": 610,
+    "success": false
+  },
+  {
+    "timestamp": "2025-10-21T00:54:24.692Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 2,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:54:33.462Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 1,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:54:44.081Z",
+    "type": "cache",
+    "action": "set",
+    "key": "current_32.78306_-96.80667",
+    "size": 1083
+  },
+  {
+    "timestamp": "2025-10-21T00:54:44.081Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 1160,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:54:46.917Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 0,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:55:22.018Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 8,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T00:56:56.371Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "32.78306",
+      "longitude": "-96.80667"
+    },
+    "responseTime": 2,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T01:42:25.924Z",
+    "type": "cache",
+    "action": "set",
+    "key": "current_34.67794_-76.95078",
+    "size": 1074
+  },
+  {
+    "timestamp": "2025-10-21T01:42:25.925Z",
+    "type": "api_call",
+    "endpoint": "current",
+    "params": {
+      "latitude": "34.67794",
+      "longitude": "-76.95078"
+    },
+    "responseTime": 779,
+    "success": true
+  },
+  {
+    "timestamp": "2025-10-21T01:42:40.734Z",
+    "type": "favorite",
+    "action": "add",
+    "favoriteId": "1761010960733",
+    "location": "San Antonio"
+  }
+]
