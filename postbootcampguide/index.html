@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post-Bootcamp Success Roadmap - Full Stack JavaScript Developer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .intro {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        
+        .intro h2 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .section-header h2 {
+            font-size: 1.8em;
+            flex: 1;
+        }
+        
+        .icon {
+            font-size: 2em;
+        }
+        
+        .checklist {
+            list-style: none;
+        }
+        
+        .checklist-item {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-left: 50px;
+        }
+        
+        .checklist-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+        
+        .checklist-item::before {
+            content: '☐';
+            position: absolute;
+            left: 15px;
+            font-size: 1.5em;
+            color: #667eea;
+        }
+        
+        .checklist-item strong {
+            color: #764ba2;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+        
+        .priority-high {
+            border-left-color: #e74c3c;
+        }
+        
+        .priority-high::before {
+            color: #e74c3c;
+        }
+        
+        .tips {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .tips h3 {
+            color: #856404;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tips ul {
+            margin-left: 20px;
+        }
+        
+        .tips li {
+            margin-bottom: 8px;
+        }
+        
+        .warning {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .warning h3 {
+            color: #721c24;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .timeline {
+            background: #e7f3ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .timeline h3 {
+            color: #0066cc;
+            margin-bottom: 15px;
+        }
+        
+        .timeline-item {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .timeline-item::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #0066cc;
+            font-weight: bold;
+        }
+        
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        footer p {
+            margin-bottom: 10px;
+        }
+        
+        .resources {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .resource-card {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+        
+        .resource-card h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+            }
+            
+            .checklist-item:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Post-Bootcamp Success Roadmap</h1>
+            <p>Your Strategic Guide to Landing Your First Developer Role</p>
+        </header>
+        
+        <div class="content">
+            <div class="intro">
+                <h2>Welcome to Your Next Chapter!</h2>
+                <p>Congratulations on completing the bootcamp! The real work starts now, but you're not alone. This roadmap will guide you through the strategic steps needed to differentiate yourself in a competitive 2025 job market where AI has changed the landscape. Remember: consistency and authenticity beat perfection every time.</p>
+            </div>
+            
+            <!-- TECHNICAL SKILLS SECTION -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="icon">💻</span>
+                    <h2>Phase 1: Solidify Your Technical Foundation</h2>
+                </div>
+                
+                <ul class="checklist">
+                    <li class="checklist-item priority-high">
+                        <strong>Build Your Showcase Full-Stack Application</strong>
+                        Create a production-ready app using React + Express + (PostgreSQL or MongoDB). This should solve a real problem, not just be a CRUD app. Deploy it to AWS (EC2, Elastic Beanstalk, or Amplify) with proper CI/CD pipeline.
+                    </li>
+                    <li class="checklist-item priority-high">
+                        <strong>Integrate AI Into Your Workflow</strong>
+                        Learn to use GitHub Copilot, ChatGPT, or Claude for code generation, debugging, and learning. Document how AI helps you—this makes you AI-native, not AI-threatened. Build a small project that uses an AI API (OpenAI, Anthropic, or Hugging Face).
+                    </li>
+                    <li class="checklist-item">
+                        <strong>Master Your Cloud Basics</strong>
+                        Complete AWS Cloud Practitioner certification or build 3 projects using different AWS services (S3, Lambda, RDS, etc.). Understand how to deploy, monitor, and scale applications in the cloud.
+                    </li>
+                    <li class="checklist-item">
+                        <strong>Contribute to Open Source</strong>
+                        Find 2-3 projects on GitHub that interest you. Start with documentation improvements or small bug fixes. This builds your public portfolio and teaches you collaborative development.
+                    </li>
+                    <li class="checklist-item">
+                        <strong>Learn Testing & DevOps Fundamentals</strong>
+                        Write tests for your projects (Jest, React Testing Library). Set up basic CI/CD with GitHub Actions. These skills separate juniors from mid-level developers.
+                    </li>
+                </ul>
+                
+                <div class="tips">
+                    <h3>💡 Pro Tips</h3>
+                    <ul>
+                        <li>Your showcase app should be something you can demo in 5 minutes during interviews</li>
+                        <li>Write a detailed README with architecture decisions—this shows your thinking process</li>
+                        <li>Keep your code clean and well-commented; hiring managers will read it</li>
+                        <li>Focus on one strong project rather than five mediocre ones</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- PERSONAL BRAND SECTION -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="icon">🎯</span>
+                    <h2>Phase 2: Build Your Personal Brand</h2>
+                </div>
+                
+                <ul class="checklist">
+                    <li class="checklist-item priority-high">
+                        <strong>Define Your Specialization</strong>
+                        Don't be "full-stack developer"—be specific: "React developer building fintech tools" or "backend engineer specializing in API design." Your niche makes you memorable.
+                    </li>
+                    <li class="checklist-item priority-high">
+                        <strong>Optimize Your LinkedIn Profile</strong>
+                        Professional headshot, compelling headline, detailed experience section with specific achievements. Turn on "Open to Work" with specific roles. Post consistently (2-3x per week minimum).
+                    </li>
+                    <li class="checklist-item">
+                        <strong>Write Technical Content</strong>
+                        Publish 2-4 articles per month on dev.to, Medium, or your own blog. Topics: "What I learned building X," "5 mistakes I made as a bootcamp grad," "How to integrate Y with Z." New tech is new to everyone—your fresh perspective is valuable.
+                    </li>
+                    <li class="checklist-item">
+                        <strong>Create Video Content (Optional but Powerful)</strong>
+                        Record 2-3 tutorial videos on YouTube showing how to build something specific. Even simple 10-minute tutorials demonstrate communication skills and technical knowledge.
+                    </li>
+                    <li class="checklist-item">
+                        <strong>Maintain an Active GitHub Profile</strong>
+                        Commit regularly (even small improvements count). Pin your best 3-4 projects. Keep a streak going—consistency matters. Write good commit messages.
+                    </li>
+                </ul>
+                
+                <div class="warning">
+                    <h3>⚠️ Common Mistakes to Avoid</h3>
+                    <ul>
+                        <li><strong>Generic content:</strong> Don't write "Introduction to React"—write "How I built a real-time chat app with React and WebSockets"</li>
+                        <li><strong>Inconsistency:</strong> Posting once then disappearing for months kills momentum</li>
+                        <li><strong>Self-promotion only:</strong> Share others' content, comment thoughtfully, be part of the community</li>
+                        <li><strong>Perfectionism:</strong> Done is better than perfect. Ship your content and iterate.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- NETWORKING SECTION -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="icon">🤝</span>
+                    <h2>Phase 3: Strategic Networking</h2>
+                </div>
+                
+                <div class="tips" style="background: #e8f5e9; border-color: #4caf50;">
+                    <h3 style="color: #2e7d32;">📍 Where to Network: Specific Places to Go</h3>
+                    <p style="margin-bottom: 15px;"><strong>Local In-Person Events:</strong></p>
+                    <ul>
+                        <li><strong>Meetup.com:</strong> Search for JavaScript, React, Node.js, or Full Stack groups in your city. Most major cities have weekly or monthly meetups</li>
+                        <li><strong>Eventbrite:</strong> Filter by "Technology" and your location to find workshops, talks, and networking events</li>
+                        <li><strong>Local coding bootcamps:</strong> Many host alumni events and guest speaker nights that are open to the public</li>
+                        <li><strong>University tech talks:</strong> Check local university CS departments for public seminars and career fairs</li>
+                        <li><strong>Co-working spaces:</strong> WeWork, Industrious, and local spaces often host tech talks and demo nights</li>
+                        <li><strong>Tech company office hours:</strong> Companies like AWS, Google Cloud, and Microsoft often host free community events</li>
+                    </ul>
+                    
+                    <p style="margin: 15px 0;"><strong>Major Conferences & Events (2025):</strong></p>
+                    <ul>
+                        <li><strong>DeveloperWeek</strong> (Feb 11-13, Santa Clara, CA) - Nation's largest developer conference with 800+ hackathon participants</li>
+                        <li><strong>React Miami</strong> (April 17-18, Miami, FL) - 500+ React developers, workshops, and networking</li>
+                        <li><strong>JSConf</strong> (Multiple cities throughout 2025) - Premier JavaScript conference series</li>
+                        <li><strong>AWS re:Invent</strong> (Nov 24-27, Las Vegas, NV) - Cloud computing and full stack development</li>
+                        <li><strong>Microsoft Ignite</strong> (Nov 4-7, Chicago, IL) - Developer tools, AI, and cloud tech</li>
+                        <li><strong>LeadDev</strong> (Oct 15-17, NYC & Nov 3-4, Berlin) - Engineering leadership and development</li>
+                        <li><strong>.NET Conf</strong> (Virtual, 100,000+ global participants) - Free virtual conference</li>
+                    </ul>
+                    
+                    <p style="margin: 15px 0;"><strong>Hackathons (Great for Networking!):</strong></p>
+                    <ul>
+                        <li><strong>Devpost.com:</strong> Browse hundreds of online and in-person hackathons year-round</li>
+                        <li><strong>HackerEarth:</strong> Global platform with AI, web3, and full-stack hackathons</li>
+                        <li><strong>MLH (Major League Hacking):</strong> Season of hackathons at universities nationwide</li>
+                        <li><strong>Local university hackathons:</strong> HackMIT, Hack the North (Canada), PennApps, etc.</li>
+                        <li><strong>Company-sponsored hackathons:</strong> Google Cloud, AWS, Microsoft often run themed events</li>
+                    </ul>
+                    
+                    <p style="margin: 15px 0;"><strong>Online Communities to Join:</strong></p>
+                    <ul>
+                        <li><strong>Discord Servers:</strong> Reactiflux (React), The Programmer's Hangout, JavaScript Discord</li>
+                        <li><strong>Reddit:</strong> r/webdev, r/javascript, r/reactjs, r/node, r/cscareerquestions</li>
+                        <li><strong>Dev.to:</strong> Engage with articles, comment thoughtfully, build your profile</li>
+                        <li><strong>Twitter/X Tech Communities:</strong> Follow and engage with developers in your stack</li>
+                        <li><strong>LinkedIn Groups:</strong> Full Stack Developers, JavaScript Developers, React Developers</li>
+                    </ul>
+                    
+                    <p style="margin: 15px 0;"><strong>Industry-Specific Meetups:</strong></p>
+                    <ul>
+                        <li><strong>Frontend Masters Meetups:</strong> Advanced UI/UX techniques and best practices</li>
+                        <li><strong>Node.js User Groups:</strong> Find local chapters at nodejs.org</li>
+                        <li><strong>React User Groups:</strong> Search "React meetup [your city]"</li>
+                        <li><strong>AWS User Groups:</strong> Free monthly meetups in most major cities</li>
+                        <li><strong>Women Who Code, Black Girls Code, etc.:</strong> Diversity-focused tech communities</li>
+                    </ul>
+                </div>
+                
+                <ul class="checklist">
+                    <li class="checklist-item priority-high">
+                        <strong>Attend In-Person Events Monthly</strong>
+                        Go to meetups, conferences, or hackathons using the resources above. Quality over quantity—aim for 2-3 meaningful conversations per event, not 20 business cards. Actually listen to the talks and ask thoughtful questions.
+                    </li>
+                    <li class="checklist-item priority-high">
+                        <strong>Nurture Lateral Connections</strong>
+                        Your bootcamp cohort and peers are your future network. They'll be hiring managers in 3-5 years. Stay in touch, collaborate on projects, share job leads with each other.
+                    </li>
+                    <li class="checklist-item">
+                        <strong>Schedule Informational Interviews</strong>
+                        Reach out to developers at companies you're interested in. Research first—mention something specific about their work or a blog post. Ask about their tech stack, challenges, or career path. Don't ask for referrals immediately.
+                    </li>
+                    <li class="checklist-item">
+                        <strong>Find a Mentor (or Mentors)</strong>
+                        Look for someone 2-3 years ahead of you who remembers being where you are. Most people are willing to help—just be respectful of their time. Ask specific questions, not "how do I get a job?"
+                    </li>
+                    <li class="checklist-item">
+                        <strong>Join Online Communities</strong>
+                        Participate actively in Discord servers, Slack groups, or subreddits for your tech stack. Answer questions, share resources, be helpful. Networking isn't always in-person.
+                    </li>
+                    <li class="checklist-item">
+                        <strong>Offer Reverse Mentoring</strong>
+                        Teach someone senior a new tool or AI framework they haven't learned. Everyone has knowledge gaps—your recent training is an asset.
+                    </li>
+                </ul>
+                
+                <div class="tips">
+                    <h3>💡 Unconventional Networking Strategies</h3>
+                    <ul>
+                        <li><strong>Comment Strategically:</strong> Leave thoughtful comments on LinkedIn posts from engineers at target companies before connecting</li>
+                        <li><strong>Open Source Collaboration:</strong> Find projects maintained by engineers at companies you want to work for</li>
+                        <li><strong>Learn in Public:</strong> Document your struggles and solutions—vulnerability builds authentic connection</li>
+                        <li><strong>Coffee Chat Research:</strong> Always research the person and company beforehand; reference something specific</li>
+                        <li><strong>Follow Up Formula:</strong> Within 48 hours, reference something specific from your conversation plus a relevant article or resource</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- JOB APPLICATION SECTION -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="icon">📝</span>
+                    <h2>Phase 4: Strategic Job Applications</h2>
+                </div>
+                
+                <ul class="checklist">
+                    <li class="checklist-item priority-high">
+                        <strong>Quality Over Quantity</strong>
+                        Stop mass applying. Target 10-15 companies per week that genuinely interest you. Research each one thoroughly. Tailor every application.
+                    </li>
+                    <li class="checklist-item priority-high">
+                        <strong>Use AI Strategically for Resumes</strong>
+                        Use ChatGPT or Claude to help tailor your resume to job descriptions, but review carefully. Ensure it's accurate and authentic. Keep a master resume and create targeted versions.
+                    </li>
+                    <li class="checklist-item priority-high">
+                        <strong>Write Cover Letters Yourself</strong>
+                        AI-generated cover letters are obvious. Write yours authentically, then have AI suggest improvements based on the job description. Incorporate those suggestions in your own words. Show genuine interest in the company's mission and tech.
+                    </li>
+                    <li class="checklist-item">
+                        <strong>Don't Ignore Small Companies</strong>
+                        Startups and smaller companies are more open to junior developers, often offer remote flexibility, and provide faster growth opportunities. Big companies aren't always more stable.
+                    </li>
+                    <li class="checklist-item">
+                        <strong>Track Everything</strong>
+                        Use a spreadsheet or Notion to track applications: company, date applied, contact person, status, follow-up dates. This prevents duplicate applications and helps you follow up strategically.
+                    </li>
+                    <li class="checklist-item">
+                        <strong>Leverage Your Network</strong>
+                        When you apply, see if anyone in your network has a connection at that company. A warm introduction dramatically increases your callback rate.
+                    </li>
+                </ul>
+                
+                <div class="warning">
+                    <h3>⚠️ Red Flags to Watch For</h3>
+                    <ul>
+                        <li>Job posts requiring 5+ years experience for "junior" roles (apply anyway if you meet 60% of requirements)</li>
+                        <li>Companies with no online presence or terrible Glassdoor reviews</li>
+                        <li>Positions requiring extensive unpaid "trial projects" before interviews</li>
+                        <li>Vague job descriptions or unrealistic salary ranges</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- TIMELINE SECTION -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="icon">📅</span>
+                    <h2>Your 90-Day Action Plan</h2>
+                </div>
+                
+                <div class="timeline">
+                    <h3>Weeks 1-2: Foundation</h3>
+                    <div class="timeline-item">Start building your showcase full-stack project</div>
+                    <div class="timeline-item">Optimize LinkedIn profile and GitHub</div>
+                    <div class="timeline-item">Write your first technical article</div>
+                    <div class="timeline-item">Reach out to 5 bootcamp peers to stay connected</div>
+                    
+                    <h3 style="margin-top: 20px;">Weeks 3-4: Building Momentum</h3>
+                    <div class="timeline-item">Deploy your showcase app to AWS</div>
+                    <div class="timeline-item">Attend your first in-person meetup</div>
+                    <div class="timeline-item">Publish second article</div>
+                    <div class="timeline-item">Start applying to 3-5 strategic positions per week</div>
+                    
+                    <h3 style="margin-top: 20px;">Weeks 5-8: Consistency</h3>
+                    <div class="timeline-item">Continue building and improving projects</div>
+                    <div class="timeline-item">Post on LinkedIn 2-3x per week</div>
+                    <div class="timeline-item">Schedule 2 informational interviews</div>
+                    <div class="timeline-item">Contribute to open source (small PRs)</div>
+                    <div class="timeline-item">Maintain application pace</div>
+                    
+                    <h3 style="margin-top: 20px;">Weeks 9-12: Scaling Up</h3>
+                    <div class="timeline-item">Have a portfolio of 2-3 strong projects</div>
+                    <div class="timeline-item">Active in at least one online community</div>
+                    <div class="timeline-item">Regular content creation (articles/videos)</div>
+                    <div class="timeline-item">Strong network of 20+ meaningful connections</div>
+                    <div class="timeline-item">Interview practice and technical prep</div>
+                </div>
+            </div>
+            
+            <!-- RESOURCES SECTION -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="icon">📚</span>
+                    <h2>Essential Resources</h2>
+                </div>
+                
+                <div class="resources">
+                    <div class="resource-card">
+                        <h4>Technical Learning</h4>
+                        <ul style="margin-left: 20px;">
+                            <li>FreeCodeCamp</li>
+                            <li>AWS Free Tier</li>
+                            <li>Codecademy Pro</li>
+                            <li>Frontend Mentor</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <h4>Content Platforms</h4>
+                        <ul style="margin-left: 20px;">
+                            <li>dev.to</li>
+                            <li>Medium</li>
+                            <li>Hashnode</li>
+                            <li>YouTube</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <h4>Networking</h4>
+                        <ul style="margin-left: 20px;">
+                            <li>Meetup.com</li>
+                            <li>Eventbrite</li>
+                            <li>Tech Twitter/X</li>
+                            <li>Discord communities</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <h4>Job Search</h4>
+                        <ul style="margin-left: 20px;">
+                            <li>LinkedIn</li>
+                            <li>AngelList/Wellfound</li>
+                            <li>Built In [City]</li>
+                            <li>YC Jobs Board</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- MINDSET SECTION -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="icon">🧠</span>
+                    <h2>Mindset & Sustainability</h2>
+                </div>
+                
+                <div class="tips">
+                    <h3>💪 Remember These Truths</h3>
+                    <ul>
+                        <li><strong>It's a marathon, not a sprint:</strong> Most bootcamp grads take 3-6 months to land their first role. That's normal.</li>
+                        <li><strong>Rejection is redirection:</strong> Every "no" teaches you something. Keep iterating.</li>
+                        <li><strong>Imposter syndrome is real:</strong> Everyone feels it. Keep building despite the doubt.</li>
+                        <li><strong>Your first job isn't your forever job:</strong> Get something on your resume and grow from there.</li>
+                        <li><strong>Community over competition:</strong> Help others succeed. What goes around comes around.</li>
+                        <li><strong>Authenticity wins:</strong> Be genuinely interested in people's work, not just what they can do for you.</li>
+                    </ul>
+                </div>
+                
+                <div class="tips">
+                    <h3>🎯 Weekly Habits for Success</h3>
+                    <ul>
+                        <li>Code every day, even if just 30 minutes</li>
+                        <li>Apply to 5-10 strategic positions</li>
+                        <li>Engage on LinkedIn daily</li>
+                        <li>Learn something new and document it</li>
+                        <li>Reach out to 2-3 new people</li>
+                        <li>Review and update your projects</li>
+                        <li>Take breaks and avoid burnout</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p><strong>You've got this! 🚀</strong></p>
+            <p>The tech industry needs diverse perspectives and fresh talent. Your bootcamp was just the beginning.</p>
+            <p>Stay consistent, stay authentic, stay curious.</p>
+            <p style="margin-top: 20px; opacity: 0.8;">© 2025 Your Bootcamp | Keep building, keep learning, keep connecting</p>
+        </footer>
+    </div>
+</body>
+</html>
