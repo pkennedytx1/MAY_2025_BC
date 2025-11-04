@@ -1,0 +1,27 @@
+{
+  "name": "firebase-auth-demo",
+  "version": "1.0.0",
+  "description": "Firebase Authentication Demo App for Students",
+  "main": "index.html",
+  "scripts": {
+    "serve": "firebase serve",
+    "deploy": "firebase deploy",
+    "deploy:hosting": "firebase deploy --only hosting",
+    "deploy:functions": "firebase deploy --only functions",
+    "deploy:rules": "firebase deploy --only firestore:rules",
+    "logs": "firebase functions:log",
+    "open": "firebase open"
+  },
+  "keywords": [
+    "firebase",
+    "authentication",
+    "firestore",
+    "cloud-functions",
+    "educational"
+  ],
+  "author": "MIT Bootcamp",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {}
+}
+

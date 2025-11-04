@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Auth Demo - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header dashboard-header">
+            <div>
+                <h1>🎯 Dashboard</h1>
+                <p class="subtitle">Secure Area - Authenticated Users Only</p>
+            </div>
+            <button id="logoutBtn" class="btn btn-secondary">Log Out</button>
+        </header>
+
+        <main class="dashboard-main">
+            <!-- Loading State -->
+            <div id="loadingState" class="loading">
+                <p>Loading your data...</p>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div id="dashboardContent" style="display: none;">
+                <!-- User Profile Section -->
+                <section class="dashboard-section">
+                    <h2>👤 Your Profile</h2>
+                    <div class="profile-card">
+                        <div class="profile-info">
+                            <p><strong>Name:</strong> <span id="userName">Loading...</span></p>
+                            <p><strong>Email:</strong> <span id="userEmail">Loading...</span></p>
+                            <p><strong>User ID:</strong> <span id="userId">Loading...</span></p>
+                            <p><strong>Account Created:</strong> <span id="accountCreated">Loading...</span></p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Notes Section (Firestore Demo) -->
+                <section class="dashboard-section">
+                    <h2>📝 Your Notes</h2>
+                    <p class="section-description">This demonstrates Firestore real-time database operations</p>
+                    
+                    <div class="notes-container">
+                        <form id="noteForm" class="note-form">
+                            <input type="text" id="noteTitle" placeholder="Note title" required>
+                            <textarea id="noteContent" placeholder="Write your note here..." required rows="3"></textarea>
+                            <button type="submit" class="btn btn-primary">Add Note</button>
+                        </form>
+
+                        <div id="notesList" class="notes-list">
+                            <!-- Notes will be dynamically added here -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Cloud Function Demo -->
+                <section class="dashboard-section">
+                    <h2>☁️ Cloud Function Demo</h2>
+                    <p class="section-description">Test a Firebase Cloud Function</p>
+                    
+                    <div class="cloud-function-demo">
+                        <button id="testCloudFunction" class="btn btn-secondary">Test Cloud Function</button>
+                        <div id="cloudFunctionResult" class="function-result" style="display: none;"></div>
+                    </div>
+                </section>
+
+                <!-- Statistics Section -->
+                <section class="dashboard-section">
+                    <h2>📊 Statistics</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3 id="noteCount">0</h3>
+                            <p>Total Notes</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="loginCount">0</h3>
+                            <p>Login Count</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="lastLogin">--</h3>
+                            <p>Last Login</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="dashboard.js"></script>
+</body>
+</html>
+

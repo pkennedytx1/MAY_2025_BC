@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Auth Demo - Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🔥 Firebase Authentication Demo</h1>
+            <p class="subtitle">Learn Firebase Auth, Firestore & Cloud Functions</p>
+        </header>
+
+        <main class="main-content">
+            <div class="hero">
+                <h2>Welcome to Firebase Learning</h2>
+                <p>This demo app teaches you:</p>
+                <ul class="features-list">
+                    <li>✅ User Registration & Login</li>
+                    <li>✅ Firebase Authentication</li>
+                    <li>✅ Firestore Database Operations</li>
+                    <li>✅ Protected Routes</li>
+                    <li>✅ Cloud Functions Integration</li>
+                </ul>
+            </div>
+
+            <div class="action-cards">
+                <div class="card">
+                    <h3>New User?</h3>
+                    <p>Create an account to get started</p>
+                    <a href="auth.html?mode=signup" class="btn btn-primary">Sign Up</a>
+                </div>
+
+                <div class="card">
+                    <h3>Have an Account?</h3>
+                    <p>Log in to access your dashboard</p>
+                    <a href="auth.html?mode=login" class="btn btn-secondary">Log In</a>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>📚 What You'll Learn</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <h4>Authentication</h4>
+                        <p>Email/password authentication with Firebase Auth</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Firestore</h4>
+                        <p>Real-time database operations and queries</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Security</h4>
+                        <p>Protected routes and secure data access</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Cloud Functions</h4>
+                        <p>Server-side logic and triggers</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Built with ❤️ for learning Firebase</p>
+        </footer>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { auth, onAuthStateChanged } from './firebase-config.js';
+        
+        // Check if user is already logged in
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, redirect to dashboard
+                window.location.href = 'dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html>
+

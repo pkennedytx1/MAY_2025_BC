@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serverless Development with Firebase</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #202122;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        header {
+            background: #f6f6f6;
+            border-bottom: 1px solid #a2a9b1;
+            padding: 20px 30px;
+        }
+        h1 {
+            font-size: 2.2em;
+            font-weight: 400;
+            margin-bottom: 5px;
+            border-bottom: 1px solid #a2a9b1;
+            padding-bottom: 10px;
+        }
+        .subtitle {
+            color: #54595d;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        nav {
+            background: #f8f9fa;
+            border: 1px solid #a2a9b1;
+            padding: 15px;
+            margin: 20px 30px;
+        }
+        nav h2 {
+            font-size: 1em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        nav ul {
+            list-style: none;
+        }
+        nav ul ul {
+            margin-left: 20px;
+        }
+        nav li {
+            margin: 5px 0;
+        }
+        nav a {
+            color: #0645ad;
+            text-decoration: none;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        main {
+            padding: 20px 30px;
+        }
+        h2 {
+            font-size: 1.8em;
+            font-weight: 400;
+            border-bottom: 1px solid #a2a9b1;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+        }
+        h3 {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        h4 {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border: 1px solid #eaecf0;
+            border-radius: 2px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #f8f9fa;
+            border: 1px solid #eaecf0;
+            padding: 15px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+        pre code {
+            background: none;
+            border: none;
+            padding: 0;
+        }
+        .info-box {
+            background: #f0f7ff;
+            border-left: 4px solid #36c;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .warning-box {
+            background: #fef6e7;
+            border-left: 4px solid #fc3;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .tip-box {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            border: 1px solid #a2a9b1;
+        }
+        th, td {
+            border: 1px solid #a2a9b1;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #eaecf0;
+            font-weight: 600;
+        }
+        .diagram {
+            background: #f8f9fa;
+            border: 2px solid #a2a9b1;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Serverless Development with Firebase</h1>
+            <p class="subtitle">A comprehensive guide to building full-stack serverless applications</p>
+        </header>
+
+        <nav>
+            <h2>Contents</h2>
+            <ul>
+                <li><a href="#what-is-serverless">1. What is Serverless?</a></li>
+                <li><a href="#serverless-architecture">2. Serverless Architecture Overview</a></li>
+                <li><a href="#firebase-dive">3. Firebase Deep Dive</a>
+                    <ul>
+                        <li><a href="#firebase-pattern">3.1 Firebase App Pattern</a></li>
+                        <li><a href="#realtime-database">3.2 Realtime Database</a></li>
+                        <li><a href="#firebase-storage">3.3 Firebase Storage</a></li>
+                        <li><a href="#setup-database">3.4 Setting Up Firebase Database</a></li>
+                        <li><a href="#cloud-functions">3.5 Cloud Functions</a></li>
+                        <li><a href="#using-functions">3.6 Using Cloud Functions</a></li>
+                        <li><a href="#authentication">3.7 Authentication</a></li>
+                        <li><a href="#auth-routes">3.8 Authenticating Server Routes</a></li>
+                    </ul>
+                </li>
+                <li><a href="#best-practices">4. Best Practices</a></li>
+                <li><a href="#common-pitfalls">5. Common Pitfalls</a></li>
+                <li><a href="#deployment">6. Deployment Considerations</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <section id="what-is-serverless">
+                <h2>What is Serverless?</h2>
+                
+                <p><strong>Serverless computing</strong> is a cloud computing execution model where the cloud provider dynamically manages the allocation and provisioning of servers. Despite the name, servers are still involved, but developers don't need to worry about server management, scaling, or infrastructure maintenance.</p>
+
+                <h3>Is it Actually Serverless?</h3>
+                
+                <p>The term "serverless" is somewhat misleading. Servers still exist and run your code, but:</p>
+                
+                <ul>
+                    <li><strong>You don't provision or manage servers</strong> - The cloud provider handles all infrastructure</li>
+                    <li><strong>You don't pay for idle time</strong> - Only charged when your code executes</li>
+                    <li><strong>Automatic scaling</strong> - The provider scales your application automatically based on demand</li>
+                    <li><strong>No server maintenance</strong> - Updates, patching, and security are handled by the provider</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Think of it this way:</strong> Traditional hosting is like owning a car (you maintain it, pay for it whether you drive or not). Serverless is like using Uber (you only pay when you need it, someone else maintains the vehicles).
+                </div>
+
+                <h3>Key Characteristics</h3>
+                
+                <ul>
+                    <li><strong>Event-driven:</strong> Functions execute in response to events (HTTP requests, database changes, file uploads)</li>
+                    <li><strong>Stateless:</strong> Each function execution is independent</li>
+                    <li><strong>Ephemeral:</strong> Functions exist only for the duration of execution</li>
+                    <li><strong>Managed:</strong> Infrastructure, scaling, and availability handled by provider</li>
+                </ul>
+            </section>
+
+            <section id="serverless-architecture">
+                <h2>Serverless Architecture Overview</h2>
+
+                <div class="diagram">
+                    Client (Frontend)<br>
+                    ↓<br>
+                    API Gateway / HTTP Triggers<br>
+                    ↓<br>
+                    Cloud Functions (Lambda/Functions)<br>
+                    ↓<br>
+                    Database / Storage / External Services
+                </div>
+
+                <h3>Components of Serverless Architecture</h3>
+
+                <h4>Frontend</h4>
+                <p>Static files (HTML, CSS, JavaScript) hosted on CDN or static hosting services. Modern frameworks like React, Vue, or Angular compile to static assets that are served globally.</p>
+                <ul>
+                    <li>Deployed to Firebase Hosting, Netlify, Vercel, or similar</li>
+                    <li>No server required - just files served from CDN</li>
+                    <li>Fast global delivery with edge caching</li>
+                </ul>
+
+                <h4>Backend (Cloud Functions / Lambda)</h4>
+                <p>Individual functions that run in response to events. Each function performs a specific task:</p>
+                <ul>
+                    <li>API endpoints (HTTP triggers)</li>
+                    <li>Database operations (CRUD)</li>
+                    <li>Authentication verification</li>
+                    <li>Data processing and transformations</li>
+                    <li>Third-party API integrations</li>
+                    <li>Scheduled tasks (cron jobs)</li>
+                </ul>
+
+                <h4>Database</h4>
+                <p>Serverless databases that scale automatically:</p>
+                <ul>
+                    <li><strong>NoSQL:</strong> Firebase Realtime Database, Firestore, DynamoDB</li>
+                    <li><strong>SQL:</strong> Amazon Aurora Serverless, Google Cloud SQL</li>
+                    <li>Pay per read/write operation</li>
+                    <li>Automatic backups and replication</li>
+                </ul>
+
+                <h4>Storage</h4>
+                <p>Object storage for files, images, and media:</p>
+                <ul>
+                    <li>Firebase Storage, AWS S3, Google Cloud Storage</li>
+                    <li>Direct uploads from client</li>
+                    <li>Secure access via signed URLs</li>
+                    <li>Built-in CDN distribution</li>
+                </ul>
+
+                <h3>Benefits of Serverless</h3>
+                <table>
+                    <tr>
+                        <th>Benefit</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>Cost Efficiency</td>
+                        <td>Pay only for actual usage, not idle server time</td>
+                    </tr>
+                    <tr>
+                        <td>Auto-scaling</td>
+                        <td>Automatically handles traffic spikes without configuration</td>
+                    </tr>
+                    <tr>
+                        <td>Reduced Ops</td>
+                        <td>No server management, patching, or maintenance</td>
+                    </tr>
+                    <tr>
+                        <td>Fast Development</td>
+                        <td>Focus on code, not infrastructure</td>
+                    </tr>
+                    <tr>
+                        <td>High Availability</td>
+                        <td>Built-in redundancy and disaster recovery</td>
+                    </tr>
+                </table>
+
+                <h3>Challenges</h3>
+                <ul>
+                    <li><strong>Cold starts:</strong> Initial function invocation may be slow</li>
+                    <li><strong>Vendor lock-in:</strong> Tight coupling with provider's services</li>
+                    <li><strong>Debugging:</strong> Harder to debug distributed systems</li>
+                    <li><strong>Execution limits:</strong> Timeout limits (typically 60-540 seconds)</li>
+                    <li><strong>Statelessness:</strong> Can't maintain state between executions</li>
+                </ul>
+            </section>
+
+            <section id="firebase-dive">
+                <h2>Firebase Deep Dive</h2>
+
+                <p><strong>Firebase</strong> is Google's comprehensive app development platform that provides a complete serverless backend solution. It includes hosting, databases, authentication, storage, cloud functions, and more - all fully managed and integrated.</p>
+
+                <section id="firebase-pattern">
+                    <h3>Firebase App Pattern</h3>
+
+                    <p>Firebase applications follow a specific pattern that differs from traditional server-based apps:</p>
+
+                    <h4>Traditional Pattern</h4>
+                    <pre><code>Client → Server → Database
+(All logic on server)</code></pre>
+
+                    <h4>Firebase Pattern</h4>
+                    <pre><code>Client ← → Firebase Services
+(Logic distributed between client and cloud functions)</code></pre>
+
+                    <h4>Typical Firebase App Structure</h4>
+                    <pre><code>my-firebase-app/
+├── public/              # Frontend files (hosted)
+│   ├── index.html
+│   ├── app.js
+│   └── styles.css
+├── functions/           # Cloud Functions (backend)
+│   ├── index.js
+│   └── package.json
+├── firebase.json        # Firebase configuration
+└── .firebaserc          # Project configuration</code></pre>
+
+                    <h4>Initialization Pattern</h4>
+                    <pre><code>// Initialize Firebase in your app
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
+import { getFunctions } from 'firebase/functions';
+
+const firebaseConfig = {
+  apiKey: "your-api-key",
+  authDomain: "your-app.firebaseapp.com",
+  projectId: "your-project-id",
+  storageBucket: "your-app.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "your-app-id"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Initialize services
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+const functions = getFunctions(app);</code></pre>
+
+                    <div class="tip-box">
+                        <strong>Best Practice:</strong> Keep your Firebase config in environment variables or a separate config file. Never commit API keys to public repositories (though Firebase API keys are safe to expose in client code).
+                    </div>
+                </section>
+
+                <section id="realtime-database">
+                    <h3>Realtime Database</h3>
+
+                    <p>Firebase Realtime Database is a cloud-hosted NoSQL database that stores data as JSON and synchronizes it in realtime across all connected clients.</p>
+
+                    <h4>Key Features</h4>
+                    <ul>
+                        <li><strong>Realtime synchronization:</strong> Data updates instantly across all clients</li>
+                        <li><strong>Offline support:</strong> Apps remain functional when offline, sync when reconnected</li>
+                        <li><strong>JSON tree structure:</strong> Simple, hierarchical data organization</li>
+                        <li><strong>Scalability:</strong> Handles millions of simultaneous connections</li>
+                    </ul>
+
+                    <h4>When to Use Realtime Database vs Firestore</h4>
+                    <table>
+                        <tr>
+                            <th>Use Realtime Database</th>
+                            <th>Use Firestore</th>
+                        </tr>
+                        <tr>
+                            <td>Need lowest latency sync</td>
+                            <td>Need complex queries</td>
+                        </tr>
+                        <tr>
+                            <td>Simple data structure</td>
+                            <td>Structured collections/documents</td>
+                        </tr>
+                        <tr>
+                            <td>Presence detection (who's online)</td>
+                            <td>Larger dataset with better indexing</td>
+                        </tr>
+                        <tr>
+                            <td>Frequent small updates</td>
+                            <td>Automatic multi-region replication</td>
+                        </tr>
+                    </table>
+
+                    <h4>Basic Operations</h4>
+                    <pre><code>import { getDatabase, ref, set, get, onValue, push } from 'firebase/database';
+
+const db = getDatabase();
+
+// Write data
+const userId = 'user123';
+set(ref(db, 'users/' + userId), {
+  username: 'john_doe',
+  email: 'john@example.com',
+  profile_picture: 'url_to_image'
+});
+
+// Read data once
+const snapshot = await get(ref(db, 'users/' + userId));
+if (snapshot.exists()) {
+  console.log(snapshot.val());
+}
+
+// Listen to data changes (realtime)
+const starCountRef = ref(db, 'posts/' + postId + '/starCount');
+onValue(starCountRef, (snapshot) => {
+  const data = snapshot.val();
+  console.log('Star count updated:', data);
+});
+
+// Push new child with auto-generated key
+const newPostRef = push(ref(db, 'posts'));
+set(newPostRef, {
+  title: 'My Post',
+  body: 'This is my post content',
+  timestamp: Date.now()
+});</code></pre>
+
+                    <h4>Data Structure Best Practices</h4>
+                    <pre><code>// ❌ BAD: Nested data (hard to query, loads everything)
+{
+  "users": {
+    "user1": {
+      "posts": {
+        "post1": { "title": "..." },
+        "post2": { "title": "..." }
+      }
+    }
+  }
+}
+
+// ✅ GOOD: Flat structure (efficient queries)
+{
+  "users": {
+    "user1": { "name": "John" }
+  },
+  "posts": {
+    "post1": { "userId": "user1", "title": "..." },
+    "post2": { "userId": "user1", "title": "..." }
+  },
+  "user-posts": {
+    "user1": {
+      "post1": true,
+      "post2": true
+    }
+  }
+}</code></pre>
+                </section>
+
+                <section id="firebase-storage">
+                    <h3>Firebase Storage</h3>
+
+                    <p>Firebase Storage provides secure file uploads and downloads for Firebase apps, regardless of network quality. It uses Google Cloud Storage and integrates seamlessly with Firebase Authentication.</p>
+
+                    <h4>Key Features</h4>
+                    <ul>
+                        <li>Secure file uploads directly from client</li>
+                        <li>Robust uploads/downloads that resume after network interruptions</li>
+                        <li>Integrated with Firebase Security Rules</li>
+                        <li>Automatic scaling</li>
+                        <li>CDN-backed global distribution</li>
+                    </ul>
+
+                    <h4>Upload Files</h4>
+                    <pre><code>import { getStorage, ref, uploadBytes, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+
+const storage = getStorage();
+
+// Simple upload
+const fileInput = document.getElementById('file-input');
+const file = fileInput.files[0];
+
+const storageRef = ref(storage, 'images/' + file.name);
+await uploadBytes(storageRef, file);
+console.log('Uploaded file!');
+
+// Upload with progress tracking
+const uploadTask = uploadBytesResumable(storageRef, file);
+
+uploadTask.on('state_changed',
+  (snapshot) => {
+    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    console.log('Upload is ' + progress + '% done');
+  },
+  (error) => {
+    console.error('Upload failed:', error);
+  },
+  async () => {
+    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+    console.log('File available at', downloadURL);
+  }
+);</code></pre>
+
+                    <h4>Download Files</h4>
+                    <pre><code>// Get download URL
+const imageRef = ref(storage, 'images/photo.jpg');
+const url = await getDownloadURL(imageRef);
+
+// Use URL in img tag
+document.getElementById('myImage').src = url;</code></pre>
+
+                    <h4>Delete Files</h4>
+                    <pre><code>import { deleteObject } from 'firebase/storage';
+
+const desertRef = ref(storage, 'images/photo.jpg');
+await deleteObject(desertRef);
+console.log('File deleted');</code></pre>
+
+                    <h4>Storage Security Rules</h4>
+                    <pre><code>rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Allow authenticated users to upload images
+    match /images/{userId}/{imageId} {
+      allow read: if true;
+      allow write: if request.auth != null 
+                   && request.auth.uid == userId
+                   && request.resource.size < 5 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*');
+    }
+    
+    // Public read, authenticated write
+    match /public/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}</code></pre>
+                </section>
+
+                <section id="setup-database">
+                    <h3>Setting Up Firebase Database</h3>
+
+                    <h4>1. Create Firebase Project</h4>
+                    <ol>
+                        <li>Go to <a href="https://console.firebase.google.com">Firebase Console</a></li>
+                        <li>Click "Add Project"</li>
+                        <li>Enter project name and follow the setup wizard</li>
+                        <li>Choose to enable Google Analytics (optional)</li>
+                    </ol>
+
+                    <h4>2. Install Firebase CLI</h4>
+                    <pre><code>npm install -g firebase-tools
+
+# Login to Firebase
+firebase login
+
+# Initialize Firebase in your project
+firebase init</code></pre>
+
+                    <h4>3. Initialize Firestore or Realtime Database</h4>
+                    <p><strong>For Firestore:</strong></p>
+                    <pre><code>// In Firebase Console:
+// 1. Go to Firestore Database
+// 2. Click "Create Database"
+// 3. Choose production or test mode
+// 4. Select location (cannot be changed later!)
+
+// In your code:
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+
+const db = getFirestore();
+
+// Add a document
+await addDoc(collection(db, 'users'), {
+  name: 'John Doe',
+  email: 'john@example.com',
+  createdAt: new Date()
+});</code></pre>
+
+                    <p><strong>For Realtime Database:</strong></p>
+                    <pre><code>// In Firebase Console:
+// 1. Go to Realtime Database
+// 2. Click "Create Database"
+// 3. Choose location
+// 4. Set security rules (start in test mode for development)
+
+// In your code:
+import { getDatabase, ref, set } from 'firebase/database';
+
+const db = getDatabase();
+
+set(ref(db, 'users/' + userId), {
+  username: name,
+  email: email
+});</code></pre>
+
+                    <h4>4. Configure Security Rules</h4>
+                    
+                    <p><strong>Firestore Rules Example:</strong></p>
+                    <pre><code>rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users can only read/write their own data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Everyone can read posts, only authenticated can write
+    match /posts/{postId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}</code></pre>
+
+                    <p><strong>Realtime Database Rules Example:</strong></p>
+                    <pre><code>{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid"
+      }
+    },
+    "posts": {
+      ".read": true,
+      ".write": "auth != null"
+    }
+  }
+}</code></pre>
+
+                    <div class="warning-box">
+                        <strong>Security Warning:</strong> Never deploy with test mode rules in production! Test mode allows anyone to read/write your database. Always implement proper authentication checks.
+                    </div>
+                </section>
+
+                <section id="cloud-functions">
+                    <h3>Cloud Functions in Firebase</h3>
+
+                    <p>Cloud Functions for Firebase lets you run backend code in response to events triggered by Firebase features, HTTPS requests, or Google Cloud services. Your code runs in a managed Node.js environment.</p>
+
+                    <h4>Types of Cloud Functions</h4>
+
+                    <h5>1. HTTP Functions</h5>
+                    <p>Triggered by HTTP requests (like REST API endpoints)</p>
+                    <pre><code>const functions = require('firebase-functions');
+
+exports.helloWorld = functions.https.onRequest((req, res) => {
+  res.json({ message: 'Hello from Firebase!' });
+});
+
+// Access at: https://your-region-your-project.cloudfunctions.net/helloWorld</code></pre>
+
+                    <h5>2. Callable Functions</h5>
+                    <p>HTTP functions with automatic authentication and easier client integration</p>
+                    <pre><code>exports.addMessage = functions.https.onCall(async (data, context) => {
+  // Authentication automatically verified
+  if (!context.auth) {
+    throw new functions.https.HttpsError(
+      'unauthenticated',
+      'User must be authenticated'
+    );
+  }
+  
+  const text = data.text;
+  const userId = context.auth.uid;
+  
+  // Add message to database
+  await admin.firestore().collection('messages').add({
+    text: text,
+    userId: userId,
+    timestamp: admin.firestore.FieldValue.serverTimestamp()
+  });
+  
+  return { success: true };
+});</code></pre>
+
+                    <h5>3. Database Triggers</h5>
+                    <p>Execute code when database data changes</p>
+                    <pre><code>// Firestore trigger
+exports.onUserCreate = functions.firestore
+  .document('users/{userId}')
+  .onCreate((snap, context) => {
+    const newUser = snap.data();
+    console.log('New user created:', newUser);
+    
+    // Send welcome email, create default settings, etc.
+    return sendWelcomeEmail(newUser.email);
+  });
+
+// Realtime Database trigger
+exports.onPostUpdate = functions.database
+  .ref('/posts/{postId}')
+  .onUpdate((change, context) => {
+    const before = change.before.val();
+    const after = change.after.val();
+    
+    console.log('Post updated from', before, 'to', after);
+    return null;
+  });</code></pre>
+
+                    <div class="tip-box">
+                        <strong>Development Tip:</strong> Use the Firebase Emulator Suite to test functions locally before deploying:
+                        <pre><code>firebase emulators:start</code></pre>
+                    </div>
+                </section>
+
+                <section id="using-functions">
+                    <h3>Using Cloud Functions in Firebase</h3>
+
+                    <h4>Deploy Cloud Functions</h4>
+                    <pre><code># Deploy all functions
+firebase deploy --only functions
+
+# Deploy specific function
+firebase deploy --only functions:functionName
+
+# View logs
+firebase functions:log</code></pre>
+
+                    <h4>Calling Functions from Client</h4>
+
+                    <h5>HTTP Functions</h5>
+                    <pre><code>// Using fetch
+const response = await fetch(
+  'https://us-central1-your-project.cloudfunctions.net/api',
+  {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: 'John' })
+  }
+);
+const data = await response.json();</code></pre>
+
+                    <h5>Callable Functions (Recommended)</h5>
+                    <pre><code>import { getFunctions, httpsCallable } from 'firebase/functions';
+
+const functions = getFunctions();
+
+// Call the function
+const createProfile = httpsCallable(functions, 'createUserProfile');
+
+try {
+  const result = await createProfile({
+    displayName: 'John Doe',
+    bio: 'Software developer'
+  });
+  console.log(result.data); // { success: true }
+} catch (error) {
+  console.error('Function call failed:', error);
+}</code></pre>
+
+                    <div class="info-box">
+                        <strong>Why use Callable Functions?</strong>
+                        <ul>
+                            <li>Automatic authentication token handling</li>
+                            <li>Built-in error handling</li>
+                            <li>Automatic retry logic</li>
+                            <li>Type-safe with TypeScript</li>
+                            <li>Cleaner syntax than HTTP functions</li>
+                        </ul>
+                    </div>
+
+                    <h4>Example: Complete CRUD API</h4>
+                    <pre><code>// functions/index.js
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+const cors = require('cors')({ origin: true });
+
+admin.initializeApp();
+const db = admin.firestore();
+
+// CREATE
+exports.createItem = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'Must be logged in');
+  }
+  
+  const docRef = await db.collection('items').add({
+    title: data.title,
+    description: data.description,
+    userId: context.auth.uid,
+    createdAt: admin.firestore.FieldValue.serverTimestamp()
+  });
+  
+  return { id: docRef.id };
+});
+
+// READ
+exports.getItems = functions.https.onCall(async (data, context) => {
+  const snapshot = await db.collection('items')
+    .orderBy('createdAt', 'desc')
+    .limit(50)
+    .get();
+  
+  return snapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
+});
+
+// UPDATE
+exports.updateItem = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'Must be logged in');
+  }
+  
+  const itemRef = db.collection('items').doc(data.id);
+  const doc = await itemRef.get();
+  
+  if (!doc.exists) {
+    throw new functions.https.HttpsError('not-found', 'Item not found');
+  }
+  
+  if (doc.data().userId !== context.auth.uid) {
+    throw new functions.https.HttpsError('permission-denied', 'Not authorized');
+  }
+  
+  await itemRef.update({
+    title: data.title,
+    description: data.description,
+    updatedAt: admin.firestore.FieldValue.serverTimestamp()
+  });
+  
+  return { success: true };
+});
+
+// DELETE
+exports.deleteItem = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'Must be logged in');
+  }
+  
+  const itemRef = db.collection('items').doc(data.id);
+  const doc = await itemRef.get();
+  
+  if (!doc.exists) {
+    throw new functions.https.HttpsError('not-found', 'Item not found');
+  }
+  
+  if (doc.data().userId !== context.auth.uid) {
+    throw new functions.https.HttpsError('permission-denied', 'Not authorized');
+  }
+  
+  await itemRef.delete();
+  return { success: true };
+});</code></pre>
+
+                    <h4>Client Usage</h4>
+                    <pre><code>import { getFunctions, httpsCallable } from 'firebase/functions';
+
+const functions = getFunctions();
+
+// Create
+const createItem = httpsCallable(functions, 'createItem');
+const newItem = await createItem({
+  title: 'My Item',
+  description: 'Item description'
+});
+
+// Read
+const getItems = httpsCallable(functions, 'getItems');
+const items = await getItems();
+
+// Update
+const updateItem = httpsCallable(functions, 'updateItem');
+await updateItem({
+  id: 'item123',
+  title: 'Updated Title',
+  description: 'Updated description'
+});
+
+// Delete
+const deleteItem = httpsCallable(functions, 'deleteItem');
+await deleteItem({ id: 'item123' });</code></pre>
+
+                    <h4>Performance Optimization</h4>
+                    <ul>
+                        <li><strong>Keep functions warm:</strong> Use scheduled functions to ping your endpoints</li>
+                        <li><strong>Connection pooling:</strong> Reuse database connections outside function handlers</li>
+                        <li><strong>Minimize dependencies:</strong> Only import what you need</li>
+                        <li><strong>Set appropriate memory/timeout:</strong> Configure in firebase.json</li>
+                    </ul>
+
+                    <pre><code>// firebase.json
+{
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs18",
+    "memory": "256MB",
+    "timeoutSeconds": 60
+  }
+}</code></pre>
+                </section>
+
+                <section id="authentication">
+                    <h3>Authentication in Firebase</h3>
+
+                    <p>Firebase Authentication provides backend services and SDKs to authenticate users. It supports email/password, phone, Google, Facebook, Twitter, GitHub, and more.</p>
+
+                    <h4>Setup Authentication</h4>
+                    <ol>
+                        <li>Go to Firebase Console → Authentication</li>
+                        <li>Click "Get Started"</li>
+                        <li>Enable sign-in methods (Email/Password, Google, etc.)</li>
+                    </ol>
+
+                    <h4>Email/Password Authentication</h4>
+                    <pre><code>import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+
+const auth = getAuth();
+
+// Sign up
+async function signUp(email, password) {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    console.log('User created:', user.uid);
+    return user;
+  } catch (error) {
+    console.error('Sign up error:', error.message);
+    throw error;
+  }
+}
+
+// Sign in
+async function signIn(email, password) {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    console.log('User signed in:', user.uid);
+    return user;
+  } catch (error) {
+    console.error('Sign in error:', error.message);
+    throw error;
+  }
+}
+
+// Sign out
+async function logout() {
+  await signOut(auth);
+  console.log('User signed out');
+}</code></pre>
+
+                    <h4>Google Sign-In</h4>
+                    <pre><code>import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+
+const provider = new GoogleAuthProvider();
+
+async function signInWithGoogle() {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    console.log('Signed in with Google:', user.displayName);
+    return user;
+  } catch (error) {
+    console.error('Google sign in error:', error);
+    throw error;
+  }
+}</code></pre>
+
+                    <h4>Auth State Observer</h4>
+                    <pre><code>import { onAuthStateChanged } from 'firebase/auth';
+
+// Listen for auth state changes
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in
+    console.log('User logged in:', user.uid);
+    console.log('Email:', user.email);
+    console.log('Display Name:', user.displayName);
+    
+    // Update UI for authenticated user
+    showUserDashboard(user);
+  } else {
+    // User is signed out
+    console.log('User logged out');
+    showLoginScreen();
+  }
+});</code></pre>
+
+                    <h4>Get Current User</h4>
+                    <pre><code>const user = auth.currentUser;
+
+if (user) {
+  // User is signed in
+  console.log('User ID:', user.uid);
+  console.log('Email:', user.email);
+  console.log('Email Verified:', user.emailVerified);
+  
+  // Get ID token
+  const token = await user.getIdToken();
+} else {
+  // No user signed in
+  console.log('No user logged in');
+}</code></pre>
+
+                    <h4>Update User Profile</h4>
+                    <pre><code>import { updateProfile } from 'firebase/auth';
+
+async function updateUserProfile(displayName, photoURL) {
+  const user = auth.currentUser;
+  
+  await updateProfile(user, {
+    displayName: displayName,
+    photoURL: photoURL
+  });
+  
+  console.log('Profile updated');
+}</code></pre>
+
+                    <h4>Send Email Verification</h4>
+                    <pre><code>import { sendEmailVerification } from 'firebase/auth';
+
+async function sendVerification() {
+  const user = auth.currentUser;
+  
+  await sendEmailVerification(user);
+  console.log('Verification email sent');
+}</code></pre>
+
+                    <h4>Password Reset</h4>
+                    <pre><code>import { sendPasswordResetEmail } from 'firebase/auth';
+
+async function resetPassword(email) {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    console.log('Password reset email sent');
+  } catch (error) {
+    console.error('Reset password error:', error);
+    throw error;
+  }
+}</code></pre>
+
+                    <div class="warning-box">
+                        <strong>Security Best Practice:</strong> Always validate user input and handle errors appropriately. Never trust client-side authentication alone - always verify on the server (Cloud Functions).
+                    </div>
+                </section>
+
+                <section id="auth-routes">
+                    <h3>Authenticating Server Routes Using Firebase Auth</h3>
+
+                    <p>Firebase provides mechanisms to verify authentication tokens in Cloud Functions, ensuring that only authenticated users can access protected endpoints.</p>
+
+                    <h4>How It Works</h4>
+                    <ol>
+                        <li>Client gets authenticated with Firebase Auth</li>
+                        <li>Client receives an ID token</li>
+                        <li>Client sends token with requests to Cloud Functions</li>
+                        <li>Cloud Function verifies token before processing</li>
+                    </ol>
+
+                    <h4>Automatic Authentication (Callable Functions)</h4>
+                    <p>Callable functions automatically handle authentication:</p>
+                    <pre><code>// Cloud Function
+exports.protectedFunction = functions.https.onCall(async (data, context) => {
+  // context.auth is automatically populated
+  if (!context.auth) {
+    throw new functions.https.HttpsError(
+      'unauthenticated',
+      'User must be authenticated to call this function'
+    );
+  }
+  
+  const userId = context.auth.uid;
+  const userEmail = context.auth.token.email;
+  
+  // Your protected logic here
+  return { message: `Hello ${userEmail}`, userId: userId };
+});</code></pre>
+
+                    <p>Client automatically sends token:</p>
+                    <pre><code>// Client code - token is sent automatically
+import { getFunctions, httpsCallable } from 'firebase/functions';
+import { getAuth } from 'firebase/auth';
+
+const functions = getFunctions();
+const auth = getAuth();
+
+// Must be signed in
+const protectedFunction = httpsCallable(functions, 'protectedFunction');
+const result = await protectedFunction({ someData: 'value' });</code></pre>
+
+                    <h4>Manual Authentication (HTTP Functions)</h4>
+                    <p>For HTTP functions, you need to manually verify tokens:</p>
+
+                    <pre><code>// Cloud Function
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+
+admin.initializeApp();
+
+// Middleware to verify token
+async function verifyToken(req, res, next) {
+  const authHeader = req.headers.authorization;
+  
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Unauthorized - No token provided' });
+  }
+  
+  const token = authHeader.split('Bearer ')[1];
+  
+  try {
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    req.user = decodedToken; // Attach user info to request
+    next();
+  } catch (error) {
+    console.error('Token verification failed:', error);
+    return res.status(401).json({ error: 'Unauthorized - Invalid token' });
+  }
+}
+
+exports.protectedApi = functions.https.onRequest(async (req, res) => {
+  // Apply middleware
+  await verifyToken(req, res, async () => {
+    // User is authenticated
+    const userId = req.user.uid;
+    const userEmail = req.user.email;
+    
+    // Your protected logic
+    const userData = await admin.firestore().collection('users').doc(userId).get();
+    
+    res.json({
+      message: 'Access granted',
+      user: {
+        uid: userId,
+        email: userEmail,
+        data: userData.data()
+      }
+    });
+  });
+});</code></pre>
+
+                    <p>Client sends token manually:</p>
+                    <pre><code>// Client code
+import { getAuth } from 'firebase/auth';
+
+const auth = getAuth();
+const user = auth.currentUser;
+
+if (user) {
+  // Get the ID token
+  const token = await user.getIdToken();
+  
+  // Send with request
+  const response = await fetch(
+    'https://us-central1-your-project.cloudfunctions.net/protectedApi',
+    {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+  
+  const data = await response.json();
+  console.log(data);
+}</code></pre>
+
+                    <h4>Complete Protected Endpoint Example</h4>
+                    <pre><code>// functions/index.js
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+const cors = require('cors')({ origin: true });
+
+admin.initializeApp();
+
+// Reusable auth middleware
+const authenticate = async (req, res) => {
+  const authHeader = req.headers.authorization;
+  
+  if (!authHeader?.startsWith('Bearer ')) {
+    throw new Error('No token provided');
+  }
+  
+  const token = authHeader.split('Bearer ')[1];
+  const decodedToken = await admin.auth().verifyIdToken(token);
+  return decodedToken;
+};
+
+// Protected endpoint
+exports.getUserData = functions.https.onRequest((req, res) => {
+  cors(req, res, async () => {
+    try {
+      // Verify authentication
+      const user = await authenticate(req, res);
+      
+      // Get user data
+      const userDoc = await admin.firestore()
+        .collection('users')
+        .doc(user.uid)
+        .get();
+      
+      if (!userDoc.exists) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      
+      res.json({
+        uid: user.uid,
+        email: user.email,
+        profile: userDoc.data()
+      });
+      
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(401).json({ error: 'Unauthorized' });
+    }
+  });
+});
+
+// Callable function (simpler!)
+exports.getUserDataCallable = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'Must be logged in');
+  }
+  
+  const userDoc = await admin.firestore()
+    .collection('users')
+    .doc(context.auth.uid)
+    .get();
+  
+  return userDoc.data();
+});</code></pre>
+
+                    <h4>Role-Based Access Control</h4>
+                    <pre><code>// Add custom claims to users
+exports.setUserRole = functions.https.onCall(async (data, context) => {
+  // Check if requester is admin
+  if (!context.auth || !context.auth.token.admin) {
+    throw new functions.https.HttpsError('permission-denied', 'Must be admin');
+  }
+  
+  // Set custom claim
+  await admin.auth().setCustomUserClaims(data.userId, {
+    role: data.role // 'admin', 'moderator', 'user'
+  });
+  
+  return { success: true };
+});
+
+// Check roles in protected functions
+exports.adminOnlyFunction = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'Must be logged in');
+  }
+  
+  // Check custom claim
+  if (context.auth.token.role !== 'admin') {
+    throw new functions.https.HttpsError('permission-denied', 'Admin access required');
+  }
+  
+  // Admin-only logic here
+  return { message: 'Admin access granted' };
+});</code></pre>
+
+                    <div class="tip-box">
+                        <strong>Best Practice:</strong> Use callable functions for most cases - they handle authentication automatically and are easier to maintain. Use HTTP functions only when you need custom request handling or integration with external services.
+                    </div>
+                </section>
+            </section>
+
+            <section id="best-practices">
+                <h2>Best Practices</h2>
+
+                <h3>Security</h3>
+                <ul>
+                    <li><strong>Never trust client-side:</strong> Always validate and authenticate on the server</li>
+                    <li><strong>Use Security Rules:</strong> Implement proper Firestore/Realtime DB/Storage rules</li>
+                    <li><strong>Environment variables:</strong> Store sensitive config in Firebase Functions config</li>
+                    <li><strong>Validate input:</strong> Sanitize and validate all user input in Cloud Functions</li>
+                    <li><strong>Least privilege:</strong> Grant minimum necessary permissions</li>
+                </ul>
+
+                <pre><code>// Store secrets safely
+firebase functions:config:set someservice.key="THE API KEY"
+
+// Access in functions
+const apiKey = functions.config().someservice.key;</code></pre>
+
+                <h3>Performance</h3>
+                <ul>
+                    <li><strong>Batch operations:</strong> Use batched writes instead of multiple individual writes</li>
+                    <li><strong>Optimize queries:</strong> Use indexes, limit results, paginate</li>
+                    <li><strong>Cache data:</strong> Cache frequently accessed data in client or CDN</li>
+                    <li><strong>Minimize cold starts:</strong> Keep functions warm with scheduled pings</li>
+                    <li><strong>Use appropriate regions:</strong> Deploy close to your users</li>
+                </ul>
+
+                <h3>Cost Optimization</h3>
+                <ul>
+                    <li><strong>Monitor usage:</strong> Set up billing alerts</li>
+                    <li><strong>Optimize reads/writes:</strong> Use listeners wisely, avoid unnecessary reads</li>
+                    <li><strong>Use appropriate database:</strong> Firestore for complex queries, Realtime for sync</li>
+                    <li><strong>Implement pagination:</strong> Don't load all data at once</li>
+                    <li><strong>Clean up old data:</strong> Use scheduled functions to delete unused data</li>
+                </ul>
+
+                <h3>Code Organization</h3>
+                <ul>
+                    <li><strong>Modular functions:</strong> Split functions into separate files</li>
+                    <li><strong>Shared utilities:</strong> Create helper functions for common operations</li>
+                    <li><strong>Error handling:</strong> Implement comprehensive error handling</li>
+                    <li><strong>Logging:</strong> Use console.log/error for debugging and monitoring</li>
+                    <li><strong>TypeScript:</strong> Consider using TypeScript for better type safety</li>
+                </ul>
+
+                <pre><code>// functions/index.js - Main exports
+const userFunctions = require('./users');
+const postFunctions = require('./posts');
+
+exports.users = userFunctions;
+exports.posts = postFunctions;
+
+// functions/users.js - User-related functions
+exports.onCreate = functions.auth.user().onCreate(...);
+exports.getProfile = functions.https.onCall(...);</code></pre>
+            </section>
+
+            <section id="common-pitfalls">
+                <h2>Common Pitfalls</h2>
+
+                <h3>1. Cold Start Delays</h3>
+                <p><strong>Problem:</strong> First invocation of a function can be slow (2-5 seconds)</p>
+                <p><strong>Solution:</strong></p>
+                <ul>
+                    <li>Use Cloud Scheduler to keep functions warm</li>
+                    <li>Minimize dependencies</li>
+                    <li>Consider min instances for production (costs more)</li>
+                </ul>
+
+                <h3>2. Test Mode Security Rules</h3>
+                <p><strong>Problem:</strong> Accidentally deploying with open security rules</p>
+                <p><strong>Solution:</strong></p>
+                <ul>
+                    <li>Always review rules before deploying</li>
+                    <li>Set up alerts for public read/write access</li>
+                    <li>Use Firebase Security Rules emulator during development</li>
+                </ul>
+
+                <h3>3. Excessive Database Reads</h3>
+                <p><strong>Problem:</strong> Running up costs with unnecessary reads</p>
+                <p><strong>Solution:</strong></p>
+                <ul>
+                    <li>Use real-time listeners sparingly</li>
+                    <li>Implement proper pagination</li>
+                    <li>Cache data when appropriate</li>
+                    <li>Use query limits</li>
+                </ul>
+
+                <h3>4. Not Handling Offline State</h3>
+                <p><strong>Problem:</strong> App breaks when user loses connection</p>
+                <p><strong>Solution:</strong></p>
+                <ul>
+                    <li>Enable offline persistence for Firestore</li>
+                    <li>Show offline indicators to users</li>
+                    <li>Handle errors gracefully</li>
+                </ul>
+
+                <pre><code>// Enable offline persistence
+import { enableIndexedDbPersistence } from 'firebase/firestore';
+
+enableIndexedDbPersistence(db)
+  .catch((err) => {
+    if (err.code == 'failed-precondition') {
+      console.log('Multiple tabs open');
+    } else if (err.code == 'unimplemented') {
+      console.log('Browser doesn\'t support offline');
+    }
+  });</code></pre>
+
+                <h3>5. Forgetting to Handle Async</h3>
+                <p><strong>Problem:</strong> Functions complete before async operations finish</p>
+                <p><strong>Solution:</strong></p>
+                <ul>
+                    <li>Always return promises from Cloud Functions</li>
+                    <li>Use async/await properly</li>
+                    <li>Don't forget to await database operations</li>
+                </ul>
+
+                <pre><code>// ❌ BAD: Function completes before write
+exports.badFunction = functions.https.onCall((data, context) => {
+  admin.firestore().collection('items').add(data); // Not awaited!
+  return { success: true }; // Returns before write completes
+});
+
+// ✅ GOOD: Properly awaited
+exports.goodFunction = functions.https.onCall(async (data, context) => {
+  await admin.firestore().collection('items').add(data);
+  return { success: true };
+});</code></pre>
+
+                <h3>6. Not Setting Up Indexes</h3>
+                <p><strong>Problem:</strong> Complex queries fail or are slow</p>
+                <p><strong>Solution:</strong></p>
+                <ul>
+                    <li>Firebase will provide index creation links in errors</li>
+                    <li>Create composite indexes for multi-field queries</li>
+                    <li>Test queries thoroughly in development</li>
+                </ul>
+            </section>
+
+            <section id="deployment">
+                <h2>Deployment Considerations</h2>
+
+                <h3>Deployment Checklist</h3>
+                <ul>
+                    <li>✅ Security rules properly configured (no test mode!)</li>
+                    <li>✅ Environment variables and secrets configured</li>
+                    <li>✅ Billing alerts set up</li>
+                    <li>✅ Error monitoring enabled</li>
+                    <li>✅ Indexes created for all queries</li>
+                    <li>✅ Functions tested locally with emulators</li>
+                    <li>✅ CORS configured for your domains</li>
+                    <li>✅ Authentication properly implemented</li>
+                    <li>✅ Database rules tested and validated</li>
+                </ul>
+
+                <h3>Deployment Commands</h3>
+                <pre><code># Deploy everything
+firebase deploy
+
+# Deploy specific services
+firebase deploy --only hosting
+firebase deploy --only functions
+firebase deploy --only firestore:rules
+firebase deploy --only storage:rules
+
+# Deploy specific function
+firebase deploy --only functions:functionName
+
+# Deploy to specific project
+firebase use production
+firebase deploy</code></pre>
+
+                <h3>Multiple Environments</h3>
+                <pre><code># Create different environments
+firebase use --add  # Add development project
+firebase use --add  # Add production project
+
+# Switch between environments
+firebase use development
+firebase use production
+
+# Deploy to specific environment
+firebase use production && firebase deploy
+
+# .firebaserc file structure
+{
+  "projects": {
+    "development": "my-app-dev",
+    "production": "my-app-prod"
+  }
+}</code></pre>
+
+                <h3>Monitoring and Logging</h3>
+                <pre><code># View function logs
+firebase functions:log
+
+# View specific function
+firebase functions:log --only functionName
+
+# Real-time logs
+firebase functions:log --follow</code></pre>
+
+                <p>Set up monitoring in Firebase Console:</p>
+                <ul>
+                    <li>Enable Firebase Performance Monitoring</li>
+                    <li>Set up Google Cloud Monitoring</li>
+                    <li>Configure error reporting</li>
+                    <li>Set up uptime checks</li>
+                </ul>
+
+                <h3>CI/CD Integration</h3>
+                <pre><code># GitHub Actions example
+name: Deploy to Firebase
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - run: npm ci
+      - run: npm run build
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+          channelId: live
+          projectId: your-project-id</code></pre>
+
+                <div class="warning-box">
+                    <strong>Production Tip:</strong> Always test in a development environment first. Use Firebase Hosting preview channels to test changes before deploying to production.
+                </div>
+            </section>
+
+            <section id="resources">
+                <h2>Additional Resources</h2>
+
+                <h3>Official Documentation</h3>
+                <ul>
+                    <li><a href="https://firebase.google.com/docs">Firebase Documentation</a></li>
+                    <li><a href="https://firebase.google.com/docs/functions">Cloud Functions Documentation</a></li>
+                    <li><a href="https://firebase.google.com/docs/firestore">Firestore Documentation</a></li>
+                    <li><a href="https://firebase.google.com/docs/auth">Firebase Auth Documentation</a></li>
+                </ul>
+
+                <h3>Tools</h3>
+                <ul>
+                    <li><strong>Firebase CLI:</strong> Command-line tools for Firebase</li>
+                    <li><strong>Firebase Emulator Suite:</strong> Local development and testing</li>
+                    <li><strong>Firebase Extensions:</strong> Pre-built solutions for common use cases</li>
+                    <li><strong>Postman:</strong> Test HTTP functions</li>
+                </ul>
+
+                <h3>Learning Resources</h3>
+                <ul>
+                    <li>Firebase YouTube Channel</li>
+                    <li>Firebase Blog</li>
+                    <li>Google Codelabs for Firebase</li>
+                    <li>Firebase Slack Community</li>
+                </ul>
+            </section>
+        </main>
+
+        <footer style="background: #f6f6f6; border-top: 1px solid #a2a9b1; padding: 20px 30px; margin-top: 40px; text-align: center; color: #54595d;">
+            <p>This guide was created for educational purposes. Last updated: November 2025</p>
+            <p>For questions or corrections, please contact your instructor.</p>
+        </footer>
+    </div>
+</body>
+</html></code></pre>
+
+                    <h5>4. Authentication Triggers</h5>
+                    <p>Run code when users are created or deleted</p>
+                    <pre><code>exports.onUserCreate = functions.auth.user().onCreate((user) => {
+  console.log('New user:', user.email);
+  
+  // Create user profile in database
+  return admin.firestore().collection('users').doc(user.uid).set({
+    email: user.email,
+    createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    displayName: user.displayName || 'Anonymous'
+  });
+});</code></pre>
+
+                    <h5>5. Storage Triggers</h5>
+                    <p>Execute when files are uploaded or deleted</p>
+                    <pre><code>exports.onFileUpload = functions.storage
+  .object()
+  .onFinalize(async (object) => {
+    const filePath = object.name;
+    const contentType = object.contentType;
+    
+    console.log('File uploaded:', filePath);
+    
+    // Generate thumbnail if image
+    if (contentType.startsWith('image/')) {
+      return generateThumbnail(filePath);
+    }
+    return null;
+  });</code></pre>
+
+                    <h5>6. Scheduled Functions</h5>
+                    <p>Run code on a schedule (cron jobs)</p>
+                    <pre><code>exports.scheduledFunction = functions.pubsub
+  .schedule('every 24 hours')
+  .onRun((context) => {
+    console.log('Running daily cleanup...');
+    return cleanupOldData();
+  });</code></pre>
+
+                    <h4>Setting Up Cloud Functions</h4>
+                    <pre><code># Initialize functions in your Firebase project
+firebase init functions
+
+# Choose JavaScript or TypeScript
+# Install dependencies
+
+# File structure created:
+functions/
+├── index.js          # Your functions
+├── package.json
+└── node_modules/</code></pre>
+
+                    <h4>Example Cloud Function Project</h4>
+                    <pre><code>// functions/index.js
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+
+admin.initializeApp();
+
+// HTTP endpoint
+exports.api = functions.https.onRequest((req, res) => {
+  cors(req, res, async () => {
+    if (req.method === 'GET') {
+      const snapshot = await admin.firestore().collection('items').get();
+      const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      res.json(items);
+    } else {
+      res.status(405).send('Method not allowed');
+    }
+  });
+});
+
+// Callable function
+exports.createUserProfile = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'Must be logged in');
+  }
+  
+  await admin.firestore().collection('profiles').doc(context.auth.uid).set({
+    displayName: data.displayName,
+    bio: data.bio,
+    createdAt: admin.firestore.FieldValue.serverTimestamp()
+  });
+  
+  return { success: true };
+});
+
+// Database trigger
+exports.onCommentCreate = functions.firestore
+  .document('posts/{postId}/comments/{commentId}')
+  .onCreate(async (snap, context) => {
+    const comment = snap.data();
+    const postId = context.params.postId;
+    
+    // Increment comment count
+    await admin.firestore().collection('posts').doc(postId).update({
+      commentCount: admin.firestore.FieldValue.increment(1)
+    });
+    
+    return null;
+  });
