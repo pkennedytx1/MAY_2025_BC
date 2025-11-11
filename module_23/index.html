@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 23 Reference: Auth & Testing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        nav {
+            background: #f8f9fa;
+            padding: 20px 40px;
+            border-bottom: 3px solid #667eea;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        nav a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        nav a:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        section {
+            margin-bottom: 60px;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        h4 {
+            color: #555;
+            font-size: 1.2em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .concept-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .important {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 5px solid #ff6b6b;
+        }
+
+        .tip {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 5px solid #00d2ff;
+        }
+
+        code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparison-item {
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #667eea;
+        }
+
+        .comparison-item h4 {
+            color: #667eea;
+            margin-top: 0;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 Module 23 Reference Guide</h1>
+            <p>Authentication, Authorization & Testing</p>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="#auth-basics">Auth Basics</a></li>
+                <li><a href="#bcrypt">Bcrypt & Hashing</a></li>
+                <li><a href="#jwt">JWT Auth</a></li>
+                <li><a href="#session">Session Auth</a></li>
+                <li><a href="#hybrid">Hybrid Approach</a></li>
+                <li><a href="#testing">Testing</a></li>
+            </ul>
+        </nav>
+
+        <div class="content">
+            <section id="auth-basics">
+                <h2>Authentication vs Authorization</h2>
+                
+                <div class="concept-box">
+                    <h3>🔑 Authentication (AuthN)</h3>
+                    <p><strong>Authentication</strong> answers the question: <em>"Who are you?"</em></p>
+                    <p>It's the process of verifying a user's identity. Think of it like showing your ID at the airport - you're proving you are who you claim to be.</p>
+                </div>
+
+                <div class="concept-box">
+                    <h3>🛡️ Authorization (AuthZ)</h3>
+                    <p><strong>Authorization</strong> answers the question: <em>"What are you allowed to do?"</em></p>
+                    <p>It's the process of determining what resources a user can access. Like having a boarding pass that allows you on a specific flight - your identity is confirmed, but this determines where you can go.</p>
+                </div>
+
+                <div class="important">
+                    <h4>⚡ Key Distinction</h4>
+                    <p><strong>Authentication comes first, authorization comes second.</strong> You must know WHO someone is before you can determine WHAT they can do.</p>
+                    <p><strong>Example:</strong> When you log into Netflix (authentication), the system then determines which profile you can access and what content is available in your region (authorization).</p>
+                </div>
+
+                <h3>Why This Matters</h3>
+                <p>Proper authentication and authorization are critical for:</p>
+                <ul>
+                    <li><strong>Security:</strong> Preventing unauthorized access to sensitive data</li>
+                    <li><strong>Privacy:</strong> Ensuring users only see their own information</li>
+                    <li><strong>Compliance:</strong> Meeting legal requirements (GDPR, HIPAA, etc.)</li>
+                    <li><strong>User Trust:</strong> Users need to know their data is protected</li>
+                    <li><strong>Business Logic:</strong> Different users need different permissions (admin vs regular user)</li>
+                </ul>
+            </section>
+
+            <section id="bcrypt">
+                <h2>Bcrypt & Cryptographic Hashing</h2>
+
+                <h3>The Problem: Storing Passwords Safely</h3>
+                <p>Never, ever store passwords in plain text! If your database is compromised, attackers would have everyone's passwords immediately.</p>
+
+                <div class="important">
+                    <h4>🚫 Never Do This:</h4>
+                    <pre><code>// BAD - Don't do this!
+const user = {
+  email: 'user@example.com',
+  password: 'myPassword123' // Plain text password!
+}</code></pre>
+                </div>
+
+                <h3>What is Hashing?</h3>
+                <p>Hashing is a <span class="highlight">one-way</span> cryptographic function that transforms input data into a fixed-size string of characters. The key properties are:</p>
+                <ul>
+                    <li><strong>One-way:</strong> You can't reverse a hash to get the original password</li>
+                    <li><strong>Deterministic:</strong> Same input always produces the same hash</li>
+                    <li><strong>Unique:</strong> Different inputs produce different hashes (mostly)</li>
+                    <li><strong>Fast to compute:</strong> But not too fast (we'll see why)</li>
+                </ul>
+
+                <div class="concept-box">
+                    <h4>How Hashing Works</h4>
+                    <p><code>"myPassword123"</code> → Hash Function → <code>"$2b$10$N9qo8uLO..."</code></p>
+                    <p>When a user logs in, you hash their entered password and compare it to the stored hash. If they match, the password is correct!</p>
+                </div>
+
+                <h3>Why Bcrypt?</h3>
+                <p>Bcrypt is specifically designed for hashing passwords. Here's what makes it special:</p>
+
+                <h4>1. Adaptive/Slow Hashing</h4>
+                <p>Bcrypt is intentionally slow. It has a "cost factor" that determines how many rounds of hashing to perform. This makes brute-force attacks (trying millions of passwords) extremely time-consuming.</p>
+
+                <h4>2. Built-in Salt</h4>
+                <p>A <strong>salt</strong> is random data added to the password before hashing. This prevents:</p>
+                <ul>
+                    <li><strong>Rainbow table attacks:</strong> Pre-computed tables of hashes</li>
+                    <li><strong>Identical password detection:</strong> Two users with the same password will have different hashes</li>
+                </ul>
+
+                <div class="concept-box">
+                    <h4>Bcrypt in Action</h4>
+                    <pre><code>const bcrypt = require('bcrypt');
+
+// Hashing a password (when user signs up)
+const saltRounds = 10;
+const hashedPassword = await bcrypt.hash('myPassword123', saltRounds);
+// Result: "$2b$10$N9qo8uLO..."
+
+// Comparing passwords (when user logs in)
+const isMatch = await bcrypt.compare('myPassword123', hashedPassword);
+// Returns: true or false</code></pre>
+                </div>
+
+                <h4>3. Future-Proof</h4>
+                <p>As computers get faster, you can increase the cost factor to keep passwords secure without changing your code structure.</p>
+
+                <div class="tip">
+                    <h4>💡 Best Practice</h4>
+                    <p>A cost factor of <strong>10-12</strong> is recommended for most applications. Higher values are more secure but slower. Test what works for your application's performance requirements.</p>
+                </div>
+            </section>
+
+            <section id="jwt">
+                <h2>JWT Authentication</h2>
+
+                <h3>What is a JWT?</h3>
+                <p><strong>JWT (JSON Web Token)</strong> is a compact, self-contained way to securely transmit information between parties as a JSON object. It's digitally signed, so it can be verified and trusted.</p>
+
+                <div class="concept-box">
+                    <h4>JWT Structure</h4>
+                    <p>A JWT consists of three parts separated by dots:</p>
+                    <code>xxxxx.yyyyy.zzzzz</code>
+                    <ol>
+                        <li><strong>Header:</strong> Token type and hashing algorithm</li>
+                        <li><strong>Payload:</strong> The data (claims) - user ID, roles, etc.</li>
+                        <li><strong>Signature:</strong> Ensures the token hasn't been tampered with</li>
+                    </ol>
+                </div>
+
+                <h3>How JWT Authentication Works</h3>
+                <ol>
+                    <li><strong>User logs in</strong> with credentials (email/password)</li>
+                    <li><strong>Server verifies</strong> credentials against database</li>
+                    <li><strong>Server creates JWT</strong> containing user information</li>
+                    <li><strong>Server sends JWT</strong> to client</li>
+                    <li><strong>Client stores JWT</strong> (usually in localStorage or memory)</li>
+                    <li><strong>Client sends JWT</strong> with every request (in Authorization header)</li>
+                    <li><strong>Server verifies JWT</strong> and grants/denies access</li>
+                </ol>
+
+                <div class="concept-box">
+                    <h4>Simple JWT Example</h4>
+                    <pre><code>const jwt = require('jsonwebtoken');
+
+// Creating a token (login)
+const token = jwt.sign(
+  { userId: user.id, email: user.email }, // Payload
+  'your-secret-key',                      // Secret
+  { expiresIn: '24h' }                    // Options
+);
+
+// Verifying a token (protected routes)
+const decoded = jwt.verify(token, 'your-secret-key');
+console.log(decoded.userId); // Access user data</code></pre>
+                </div>
+
+                <h3>Advantages of JWT</h3>
+                <ul>
+                    <li><strong>Stateless:</strong> Server doesn't need to store session data</li>
+                    <li><strong>Scalable:</strong> Works great with microservices and distributed systems</li>
+                    <li><strong>Mobile-Friendly:</strong> Perfect for mobile apps and SPAs</li>
+                    <li><strong>Cross-Domain:</strong> Can be used across different domains</li>
+                    <li><strong>Performance:</strong> No database lookup needed to verify user</li>
+                </ul>
+
+                <h3>Disadvantages of JWT</h3>
+                <ul>
+                    <li><strong>Cannot be invalidated:</strong> Once issued, valid until expiration (logout is tricky)</li>
+                    <li><strong>Size:</strong> JWTs can be large, sent with every request</li>
+                    <li><strong>Security concerns:</strong> If secret key is compromised, all tokens are vulnerable</li>
+                    <li><strong>No central control:</strong> Can't revoke a single user's access immediately</li>
+                </ul>
+
+                <div class="important">
+                    <h4>🔒 Security Tips for JWT</h4>
+                    <ul>
+                        <li>Use HTTPS always to prevent token interception</li>
+                        <li>Keep tokens short-lived (1-24 hours)</li>
+                        <li>Don't store sensitive data in the payload (it's readable!)</li>
+                        <li>Use strong, random secret keys</li>
+                        <li>Implement refresh tokens for better security</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="session">
+                <h2>Session-Based Authentication</h2>
+
+                <h3>What is Session Authentication?</h3>
+                <p>Session authentication is the traditional approach where the server creates and stores a session for each logged-in user. The client receives a session ID (usually in a cookie) that references this server-side session.</p>
+
+                <h3>How Session Authentication Works</h3>
+                <ol>
+                    <li><strong>User logs in</strong> with credentials</li>
+                    <li><strong>Server verifies</strong> credentials</li>
+                    <li><strong>Server creates session</strong> and stores it (in memory, Redis, database, etc.)</li>
+                    <li><strong>Server sends session ID</strong> to client as a cookie</li>
+                    <li><strong>Browser automatically sends cookie</strong> with every request</li>
+                    <li><strong>Server looks up session</strong> using session ID</li>
+                    <li><strong>Server grants/denies</strong> access based on session data</li>
+                </ol>
+
+                <div class="concept-box">
+                    <h4>Session Example</h4>
+                    <pre><code>const session = require('express-session');
+
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { 
+    secure: true,    // HTTPS only
+    httpOnly: true,  // Not accessible via JavaScript
+    maxAge: 3600000  // 1 hour
+  }
+}));
+
+// Setting session data (login)
+req.session.userId = user.id;
+
+// Accessing session data (protected routes)
+if (req.session.userId) {
+  // User is authenticated
+}</code></pre>
+                </div>
+
+                <h3>Advantages of Sessions</h3>
+                <ul>
+                    <li><strong>Immediate invalidation:</strong> Can log users out instantly by destroying session</li>
+                    <li><strong>Server control:</strong> Complete control over active sessions</li>
+                    <li><strong>Secure by default:</strong> Session data never leaves the server</li>
+                    <li><strong>Simple:</strong> Browser handles cookies automatically</li>
+                    <li><strong>Small footprint:</strong> Only a session ID is sent with requests</li>
+                </ul>
+
+                <h3>Disadvantages of Sessions</h3>
+                <ul>
+                    <li><strong>Stateful:</strong> Server must store session data</li>
+                    <li><strong>Scalability:</strong> Requires session storage solution for multiple servers</li>
+                    <li><strong>Memory usage:</strong> Each active session consumes server resources</li>
+                    <li><strong>CORS complexity:</strong> More complex to implement across different domains</li>
+                    <li><strong>Mobile limitations:</strong> Cookie handling can be tricky in mobile apps</li>
+                </ul>
+
+                <div class="tip">
+                    <h4>💡 Session Storage Options</h4>
+                    <ul>
+                        <li><strong>Memory:</strong> Fast but lost on server restart (dev only)</li>
+                        <li><strong>Redis:</strong> Fast, persistent, great for production</li>
+                        <li><strong>Database:</strong> Persistent but slower</li>
+                        <li><strong>Memcached:</strong> Fast distributed caching</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="hybrid">
+                <h2>Hybrid Approach: Best of Both Worlds</h2>
+
+                <p>Many modern applications use a <strong>hybrid approach</strong> that combines the benefits of both JWT and session-based authentication.</p>
+
+                <h3>The Two-Token System</h3>
+                <p>This is the most common hybrid approach:</p>
+
+                <div class="concept-box">
+                    <h4>Access Token (JWT)</h4>
+                    <ul>
+                        <li><strong>Short-lived</strong> (5-15 minutes)</li>
+                        <li>Stored in memory (not localStorage)</li>
+                        <li>Used for API requests</li>
+                        <li>Contains user info and permissions</li>
+                        <li>If compromised, expires quickly</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box">
+                    <h4>Refresh Token (Session or JWT)</h4>
+                    <ul>
+                        <li><strong>Long-lived</strong> (days or weeks)</li>
+                        <li>Stored in httpOnly cookie (secure)</li>
+                        <li>Used only to get new access tokens</li>
+                        <li>Can be invalidated server-side</li>
+                        <li>Tracked in database</li>
+                    </ul>
+                </div>
+
+                <h3>How It Works</h3>
+                <ol>
+                    <li><strong>User logs in</strong> → Receives both access token and refresh token</li>
+                    <li><strong>Client uses access token</strong> for API requests</li>
+                    <li><strong>Access token expires</strong> (after 15 minutes)</li>
+                    <li><strong>Client sends refresh token</strong> to get new access token</li>
+                    <li><strong>Server validates refresh token</strong> (checks database)</li>
+                    <li><strong>Server issues new access token</strong></li>
+                    <li><strong>Repeat</strong> until refresh token expires or user logs out</li>
+                </ol>
+
+                <div class="comparison">
+                    <div class="comparison-item">
+                        <h4>✅ Benefits</h4>
+                        <ul>
+                            <li>Security of sessions (can revoke access)</li>
+                            <li>Performance of JWT (fewer DB lookups)</li>
+                            <li>Limited damage from token theft</li>
+                            <li>Smooth user experience</li>
+                            <li>Works well at scale</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-item">
+                        <h4>⚠️ Considerations</h4>
+                        <ul>
+                            <li>More complex to implement</li>
+                            <li>Need to handle token refresh logic</li>
+                            <li>Still need to store refresh tokens</li>
+                            <li>Requires careful client-side code</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Other Hybrid Patterns</h3>
+
+                <h4>JWT with Session Tracking</h4>
+                <p>Use JWTs but keep a whitelist/blacklist of active tokens in Redis. This allows immediate revocation while keeping JWT benefits.</p>
+
+                <h4>Session with JWT Claims</h4>
+                <p>Use session authentication but include a signed JWT with additional claims for microservices to verify without hitting the main server.</p>
+
+                <h4>Sliding Sessions with JWT</h4>
+                <p>Extend JWT expiration on each request (like traditional sessions) while maintaining stateless benefits.</p>
+
+                <div class="important">
+                    <h4>🎯 Choosing Your Approach</h4>
+                    <p><strong>Pure JWT:</strong> Best for stateless microservices, mobile apps, simple systems</p>
+                    <p><strong>Pure Sessions:</strong> Best for traditional web apps, when you need immediate logout, simpler codebases</p>
+                    <p><strong>Hybrid:</strong> Best for production apps requiring both security and scalability</p>
+                </div>
+            </section>
+
+            <section id="security-best">
+                <h2>Additional Security Concepts</h2>
+
+                <h3>HTTPS Everywhere</h3>
+                <p>Always use HTTPS in production. Without it, tokens and passwords can be intercepted. This is non-negotiable for authentication.</p>
+
+                <h3>CORS (Cross-Origin Resource Sharing)</h3>
+                <p>When your frontend and backend are on different domains, properly configure CORS to allow requests while blocking malicious origins.</p>
+
+                <h3>CSRF Protection (Cross-Site Request Forgery)</h3>
+                <p>Use CSRF tokens with session authentication. This prevents attackers from tricking users into making unwanted requests.</p>
+
+                <h3>Rate Limiting</h3>
+                <p>Limit login attempts to prevent brute-force attacks. Example: 5 failed attempts = 15-minute lockout.</p>
+
+                <h3>XSS Protection (Cross-Site Scripting)</h3>
+                <p>Sanitize user input and use httpOnly cookies to prevent malicious scripts from stealing tokens.</p>
+
+                <div class="tip">
+                    <h4>💡 Security Checklist</h4>
+                    <ul>
+                        <li>✅ Use HTTPS in production</li>
+                        <li>✅ Hash passwords with bcrypt</li>
+                        <li>✅ Use httpOnly cookies for sensitive tokens</li>
+                        <li>✅ Implement rate limiting on auth endpoints</li>
+                        <li>✅ Use CSRF tokens with sessions</li>
+                        <li>✅ Keep dependencies updated</li>
+                        <li>✅ Never store sensitive data in JWT payload</li>
+                        <li>✅ Use environment variables for secrets</li>
+                        <li>✅ Implement proper error messages (don't reveal if user exists)</li>
+                        <li>✅ Add logging and monitoring</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="testing">
+                <h2>Testing Your Backend</h2>
+
+                <p>Testing is crucial for ensuring your authentication system works correctly and remains secure. There are different levels of testing, each serving a specific purpose.</p>
+
+                <h3>Unit Testing</h3>
+
+                <div class="concept-box">
+                    <h4>What is Unit Testing?</h4>
+                    <p>Unit testing focuses on testing <strong>individual functions or components in isolation</strong>. You're testing the smallest pieces of code (units) to ensure they work correctly on their own.</p>
+                    <p><strong>Think of it like:</strong> Testing each ingredient before baking a cake. Does the flour work? Is the sugar sweet? Does the baking powder rise?</p>
+                </div>
+
+                <h4>What to Unit Test in Backend Auth</h4>
+                <ul>
+                    <li><strong>Password hashing functions:</strong> Does bcrypt correctly hash passwords?</li>
+                    <li><strong>JWT utilities:</strong> Does token generation work? Does verification catch invalid tokens?</li>
+                    <li><strong>Validation functions:</strong> Does email validation work correctly?</li>
+                    <li><strong>Helper functions:</strong> Pure functions that transform data</li>
+                </ul>
+
+                <h4>Popular Testing Frameworks</h4>
+                <ul>
+                    <li><strong>Jest:</strong> Most popular, great for JavaScript/Node.js</li>
+                    <li><strong>Mocha + Chai:</strong> Flexible, widely used</li>
+                    <li><strong>Vitest:</strong> Fast, modern alternative to Jest</li>
+                </ul>
+
+                <div class="concept-box">
+                    <h4>Unit Test Example Concept</h4>
+                    <p><strong>Testing a password hashing function:</strong></p>
+                    <ul>
+                        <li>Test 1: Verify the function returns a hashed string</li>
+                        <li>Test 2: Verify the hash is different from the original password</li>
+                        <li>Test 3: Verify the same password hashed twice produces different hashes (salt works)</li>
+                        <li>Test 4: Verify comparison function correctly identifies matching passwords</li>
+                        <li>Test 5: Verify comparison function rejects wrong passwords</li>
+                    </ul>
+                </div>
+
+                <h4>Characteristics of Good Unit Tests</h4>
+                <ul>
+                    <li><strong>Fast:</strong> Run in milliseconds</li>
+                    <li><strong>Isolated:</strong> No database, no network calls, no file system</li>
+                    <li><strong>Repeatable:</strong> Same result every time</li>
+                    <li><strong>Self-contained:</strong> Each test sets up and tears down its own data</li>
+                    <li><strong>Clear:</strong> Test name describes exactly what's being tested</li>
+                </ul>
+
+                <div class="tip">
+                    <h4>💡 Unit Testing Best Practices</h4>
+                    <ul>
+                        <li>Test one thing per test</li>
+                        <li>Use descriptive test names: "should return error when password is too short"</li>
+                        <li>Follow AAA pattern: Arrange (setup), Act (execute), Assert (verify)</li>
+                        <li>Mock external dependencies (databases, APIs, etc.)</li>
+                        <li>Aim for high coverage but focus on critical paths</li>
+                    </ul>
+                </div>
+
+                <h3>Integration Testing</h3>
+
+                <div class="concept-box">
+                    <h4>What is Integration Testing?</h4>
+                    <p>Integration testing verifies that <strong>multiple components work together correctly</strong>. You're testing the interactions between different parts of your system.</p>
+                    <p><strong>Think of it like:</strong> After testing individual ingredients, now you're testing if they work together when you actually bake the cake. Does the batter mix properly? Does it rise in the oven?</p>
+                </div>
+
+                <h4>What to Integration Test in Backend Auth</h4>
+                <ul>
+                    <li><strong>API endpoints:</strong> Does the /login route work end-to-end?</li>
+                    <li><strong>Database interactions:</strong> Can you save and retrieve users correctly?</li>
+                    <li><strong>Middleware chains:</strong> Does auth middleware properly protect routes?</li>
+                    <li><strong>Full authentication flows:</strong> Signup → Login → Access protected route → Logout</li>
+                </ul>
+
+                <h4>Integration Test Characteristics</h4>
+                <ul>
+                    <li><strong>Slower:</strong> May take seconds, involve real databases (often test DBs)</li>
+                    <li><strong>More realistic:</strong> Tests actual application behavior</li>
+                    <li><strong>Less isolated:</strong> Multiple components interact</li>
+                    <li><strong>Fewer in number:</strong> More expensive to run than unit tests</li>
+                </ul>
+
+                <div class="concept-box">
+                    <h4>Integration Test Example Concept</h4>
+                    <p><strong>Testing the login flow:</strong></p>
+                    <ul>
+                        <li>Test 1: POST to /login with valid credentials returns 200 and token</li>
+                        <li>Test 2: POST to /login with invalid password returns 401</li>
+                        <li>Test 3: POST to /login with non-existent user returns 401</li>
+                        <li>Test 4: Token from login grants access to /protected route</li>
+                        <li>Test 5: Invalid token is rejected by /protected route</li>
+                    </ul>
+                </div>
+
+                <h4>Tools for API Testing</h4>
+                <ul
