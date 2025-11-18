@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Deployment Guide - Module 24</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        header {
+            background: linear-gradient(135deg, #232f3e 0%, #ff9900 100%);
+            color: white;
+            padding: 40px 20px;
+            margin: -20px -20px 30px -20px;
+            border-radius: 0;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        h2 {
+            color: #232f3e;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff9900;
+            font-size: 1.8em;
+        }
+        
+        h3 {
+            color: #232f3e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        h4 {
+            color: #444;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .toc {
+            background-color: #f9f9f9;
+            border-left: 4px solid #ff9900;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .toc h3 {
+            margin-top: 0;
+            color: #232f3e;
+        }
+        
+        .toc ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin: 8px 0;
+        }
+        
+        .toc a {
+            color: #0073bb;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .toc a:hover {
+            color: #ff9900;
+            text-decoration: underline;
+        }
+        
+        .problem-box {
+            background-color: #fff3e0;
+            border-left: 5px solid #ff9900;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .problem-box h3 {
+            color: #e65100;
+            margin-top: 0;
+        }
+        
+        .info-box {
+            background-color: #e3f2fd;
+            border-left: 5px solid #2196F3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .info-box h4 {
+            color: #1565c0;
+            margin-top: 0;
+        }
+        
+        .warning-box {
+            background-color: #ffebee;
+            border-left: 5px solid #f44336;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .warning-box h4 {
+            color: #c62828;
+            margin-top: 0;
+        }
+        
+        .success-box {
+            background-color: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        code {
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+        
+        pre {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+        }
+        
+        .diagram {
+            background-color: #fafafa;
+            border: 2px solid #e0e0e0;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 8px;
+            text-align: center;
+            font-family: monospace;
+        }
+        
+        .diagram-title {
+            font-weight: bold;
+            color: #232f3e;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        
+        .flow-step {
+            display: inline-block;
+            background-color: #232f3e;
+            color: white;
+            padding: 15px 25px;
+            margin: 10px;
+            border-radius: 5px;
+            min-width: 150px;
+        }
+        
+        .flow-arrow {
+            display: inline-block;
+            color: #ff9900;
+            font-size: 1.5em;
+            margin: 0 10px;
+        }
+        
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th {
+            background-color: #232f3e;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .step-number {
+            display: inline-block;
+            background-color: #ff9900;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        a {
+            color: #0073bb;
+        }
+        
+        a:hover {
+            color: #ff9900;
+        }
+        
+        .command {
+            background-color: #282c34;
+            color: #61dafb;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+            text-align: center;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 AWS Deployment Guide</h1>
+            <p class="subtitle">Module 24: Deploying a Full-Stack Application with React, Node.js, and Docker</p>
+        </header>
+
+        <div class="problem-box">
+            <h3>📋 Our Mission</h3>
+            <p>You've built an awesome full-stack application with a React frontend and a Node.js backend. Now it's time to deploy it to the cloud! By the end of this guide, you'll have:</p>
+            <ul>
+                <li>Your React app hosted on AWS S3 (accessible via a public URL)</li>
+                <li>Your Node.js API running on an EC2 server inside a Docker container</li>
+                <li>Automated deployments through GitHub Actions</li>
+                <li>A solid understanding of AWS permissions, security, and networking</li>
+            </ul>
+        </div>
+
+        <div class="toc">
+            <h3>📚 Table of Contents</h3>
+            <ul>
+                <li><a href="#understanding-problem">1. Understanding the Problem</a></li>
+                <li><a href="#aws-overview">2. AWS Services Overview</a></li>
+                <li><a href="#iam">3. IAM: The Key to Everything</a></li>
+                <li><a href="#s3">4. Deploying React to S3</a></li>
+                <li><a href="#ec2">5. Deploying Node.js API to EC2</a></li>
+                <li><a href="#docker">6. Understanding Docker</a></li>
+                <li><a href="#networking">7. Networking: Ports, Security Groups, and TLS</a></li>
+                <li><a href="#github-actions">8. Automating with GitHub Actions</a></li>
+                <li><a href="#connecting">9. Connecting Frontend and Backend</a></li>
+                <li><a href="#troubleshooting">10. Troubleshooting Common Issues</a></li>
+            </ul>
+        </div>
+
+        <h2 id="understanding-problem">1. Understanding the Problem</h2>
+        
+        <p>When you develop locally, everything runs on your computer. Your React app runs on <code>http://localhost:3000</code>, your Node API runs on <code>http://localhost:5000</code>, and they talk to each other just fine. But when you want to deploy to production, you need:</p>
+
+        <ul>
+            <li><strong>A place to host your static React files</strong> (HTML, CSS, JavaScript)</li>
+            <li><strong>A server to run your Node.js backend</strong> (which can't just be "files"—it needs to actively run)</li>
+            <li><strong>A way for them to communicate securely</strong></li>
+            <li><strong>Proper permissions and security</strong> so hackers can't mess with your stuff</li>
+        </ul>
+
+        <div class="diagram">
+            <div class="diagram-title">The Architecture We're Building</div>
+            <div style="margin: 20px 0;">
+                <div class="flow-step">User Browser</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">S3<br>(React App)</div>
+            </div>
+            <div style="margin: 20px 0;">
+                <div class="flow-arrow">↓</div>
+            </div>
+            <div style="margin: 20px 0;">
+                <div class="flow-step">EC2 Server<br>(Node API + Docker)</div>
+                <div class="flow-arrow">↔</div>
+                <div class="flow-step">MongoDB<br>(Docker Container)</div>
+            </div>
+        </div>
+
+        <h2 id="aws-overview">2. AWS Services Overview</h2>
+
+        <p>Amazon Web Services (AWS) is like a massive shopping mall of cloud services. We only need a few stores:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>What It Does</th>
+                    <th>Why We Need It</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>IAM</strong></td>
+                    <td>Identity and Access Management</td>
+                    <td>Controls who can do what in your AWS account</td>
+                </tr>
+                <tr>
+                    <td><strong>S3</strong></td>
+                    <td>Simple Storage Service</td>
+                    <td>Stores files and can host static websites</td>
+                </tr>
+                <tr>
+                    <td><strong>EC2</strong></td>
+                    <td>Elastic Compute Cloud</td>
+                    <td>Virtual servers that can run your backend code</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="iam">3. IAM: The Key to Everything</h2>
+
+        <p>Before we do anything else, we need to understand IAM. Think of IAM as the security system for your AWS account.</p>
+
+        <h3>🔑 What is IAM?</h3>
+
+        <p>IAM (Identity and Access Management) controls:</p>
+        <ul>
+            <li><strong>Who</strong> can access your AWS resources (authentication)</li>
+            <li><strong>What</strong> they can do with those resources (authorization)</li>
+        </ul>
+
+        <div class="info-box">
+            <h4>🎭 Real-World Analogy</h4>
+            <p>Think of AWS as a large office building. IAM is like the security desk and key card system. Without the right credentials and permissions, you can't enter certain rooms or access specific equipment. Even if you work there (are authenticated), you might not be allowed to enter the server room (authorized).</p>
+        </div>
+
+        <h3>Key IAM Concepts</h3>
+
+        <h4>👤 Users</h4>
+        <p>A user represents a person or service that needs access to AWS. When you create an AWS account, you start with a "root user" (which has unlimited power—use it carefully!).</p>
+
+        <h4>👥 Groups</h4>
+        <p>Collections of users. For example, you might have a "Developers" group with permissions to deploy applications.</p>
+
+        <h4>🎫 Policies</h4>
+        <p>JSON documents that define permissions. A policy says "you can do X on resource Y." Here's a simple example:</p>
+
+        <pre><code>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "s3:PutObject",
+      "Resource": "arn:aws:s3:::my-react-app/*"
+    }
+  ]
+}</code></pre>
+
+        <p>This policy says: "Allow the user to upload files (<code>PutObject</code>) to the S3 bucket named <code>my-react-app</code>."</p>
+
+        <h4>🎭 Roles</h4>
+        <p>Temporary identities that can be assumed by users or services. For example, your GitHub Action will assume a role to deploy your app.</p>
+
+        <h3>Setting Up IAM for Our Project</h3>
+
+        <p><span class="step-number">1</span> <strong>Create an IAM User for Deployment</strong></p>
+
+        <ol>
+            <li>Go to the AWS Console → IAM → Users → Create User</li>
+            <li>Name it <code>github-deployer</code></li>
+            <li>Select "Programmatic access" (this gives you an Access Key ID and Secret Access Key)</li>
+        </ol>
+
+        <p><span class="step-number">2</span> <strong>Attach Policies to the User</strong></p>
+
+        <p>We need to give this user permission to:</p>
+        <ul>
+            <li>Upload files to S3</li>
+            <li>Optionally: Deploy to EC2 (we'll handle this differently, but good to know)</li>
+        </ul>
+
+        <p>You can attach the AWS managed policy <code>AmazonS3FullAccess</code> for now (in production, you'd create a more restrictive custom policy).</p>
+
+        <p><span class="step-number">3</span> <strong>Save Your Credentials</strong></p>
+
+        <div class="warning-box">
+            <h4>⚠️ CRITICAL: Protect Your AWS Credentials</h4>
+            <p>After creating the user, AWS will show you an <strong>Access Key ID</strong> and <strong>Secret Access Key</strong>. Save these immediately—you can't see the secret key again! Never commit these to GitHub or share them publicly. Store them in GitHub Secrets (we'll do this later).</p>
+        </div>
+
+        <h2 id="s3">4. Deploying React to S3</h2>
+
+        <h3>🪣 What is S3?</h3>
+
+        <p>S3 (Simple Storage Service) is object storage—think of it as an infinitely large hard drive in the cloud. You can store any type of file: images, videos, PDFs, or in our case, the HTML, CSS, and JavaScript files that make up our React app.</p>
+
+        <div class="info-box">
+            <h4>💡 Why S3 for React?</h4>
+            <p>When you build a React app (<code>npm run build</code>), it compiles down to static files—just HTML, CSS, and JavaScript. These files don't need a server to "run" them; they just need to be served to browsers. S3 is perfect (and cheap!) for this.</p>
+        </div>
+
+        <h3>Creating an S3 Bucket</h3>
+
+        <p><span class="step-number">1</span> <strong>Create the Bucket</strong></p>
+
+        <ol>
+            <li>Go to AWS Console → S3 → Create Bucket</li>
+            <li>Choose a unique name (e.g., <code>my-awesome-react-app</code>)</li>
+            <li>Select your region (pick one close to your users)</li>
+            <li><strong>Uncheck</strong> "Block all public access" (we want people to view our website!)</li>
+            <li>Acknowledge that the bucket will be public</li>
+            <li>Click Create</li>
+        </ol>
+
+        <p><span class="step-number">2</span> <strong>Enable Static Website Hosting</strong></p>
+
+        <ol>
+            <li>Click on your bucket → Properties</li>
+            <li>Scroll to "Static website hosting" → Edit</li>
+            <li>Enable it</li>
+            <li>Set index document: <code>index.html</code></li>
+            <li>Set error document: <code>index.html</code> (for React Router to work)</li>
+            <li>Save changes</li>
+        </ol>
+
+        <p><span class="step-number">3</span> <strong>Set Bucket Policy for Public Access</strong></p>
+
+        <p>Go to the Permissions tab → Bucket Policy → Edit. Paste this policy:</p>
+
+        <pre><code>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PublicReadGetObject",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::my-awesome-react-app/*"
+    }
+  ]
+}</code></pre>
+
+        <p>Replace <code>my-awesome-react-app</code> with your bucket name. This policy says "anyone (<code>Principal: "*"</code>) can read (<code>GetObject</code>) files from this bucket."</p>
+
+        <h3>Deploying Your React App Manually (First Time)</h3>
+
+        <p><span class="step-number">1</span> <strong>Build your React app:</strong></p>
+        <pre><code>npm run build</code></pre>
+
+        <p>This creates a <code>build/</code> or <code>dist/</code> folder with your compiled files.</p>
+
+        <p><span class="step-number">2</span> <strong>Upload to S3:</strong></p>
+        <pre><code>aws s3 sync build/ s3://my-awesome-react-app --delete</code></pre>
+
+        <p>The <code>--delete</code> flag removes old files that aren't in your new build.</p>
+
+        <p><span class="step-number">3</span> <strong>Access your site:</strong></p>
+        <p>Go to S3 → Your Bucket → Properties → Static website hosting. You'll see a URL like:</p>
+        <code>http://my-awesome-react-app.s3-website-us-east-1.amazonaws.com</code>
+
+        <div class="success-box">
+            <p>🎉 Your React app is now live! Anyone can visit this URL and use your app.</p>
+        </div>
+
+        <h2 id="ec2">5. Deploying Node.js API to EC2</h2>
+
+        <h3>💻 What is EC2?</h3>
+
+        <p>EC2 (Elastic Compute Cloud) provides virtual servers in the cloud. Unlike S3 (which just stores files), EC2 instances are full computers that can run any software—databases, web servers, background jobs, or in our case, a Node.js API.</p>
+
+        <h3>Creating an EC2 Instance</h3>
+
+        <p><span class="step-number">1</span> <strong>Launch Instance</strong></p>
+
+        <ol>
+            <li>Go to AWS Console → EC2 → Launch Instance</li>
+            <li><strong>Name:</strong> <code>node-api-server</code></li>
+            <li><strong>AMI (Amazon Machine Image):</strong> Select "Ubuntu Server 22.04 LTS" (free tier eligible)</li>
+            <li><strong>Instance type:</strong> <code>t2.micro</code> (free tier eligible, good for learning)</li>
+            <li><strong>Key pair:</strong> Create a new key pair (download the <code>.pem</code> file—you'll need this to SSH into the server)</li>
+        </ol>
+
+        <div class="info-box">
+            <h4>🔐 What's a Key Pair?</h4>
+            <p>A key pair is like a super-secure password. The <code>.pem</code> file is your private key—keep it safe! AWS installs the public key on the EC2 instance. When you connect via SSH, you prove your identity using the private key.</p>
+        </div>
+
+        <p><span class="step-number">2</span> <strong>Configure Network Settings</strong></p>
+
+        <p>Create a security group (or use the default). This is like a firewall. For now, allow:</p>
+        <ul>
+            <li><strong>SSH (port 22):</strong> So you can connect to the server</li>
+            <li><strong>HTTP (port 80):</strong> So users can access your API</li>
+            <li><strong>HTTPS (port 443):</strong> For secure connections (we'll set this up later)</li>
+            <li><strong>Custom TCP (port 3000 or whatever your API uses):</strong> So your API can receive requests</li>
+        </ul>
+
+        <p><span class="step-number">3</span> <strong>Configure Storage</strong></p>
+        <p>The default 8GB is usually fine for our purposes.</p>
+
+        <p><span class="step-number">4</span> <strong>Launch!</strong></p>
+        <p>Click "Launch Instance." AWS will start your virtual server.</p>
+
+        <h3>Connecting to Your EC2 Instance</h3>
+
+        <p>Once your instance is running, you'll see a public IP address (e.g., <code>54.123.45.67</code>). Connect via SSH:</p>
+
+        <pre><code>chmod 400 your-key-pair.pem
+ssh -i your-key-pair.pem ubuntu@54.123.45.67</code></pre>
+
+        <p>The <code>chmod 400</code> command makes the key file read-only (required for security). Replace <code>54.123.45.67</code> with your instance's public IP.</p>
+
+        <h2 id="docker">6. Understanding Docker</h2>
+
+        <h3>🐳 What is Docker?</h3>
+
+        <p>Docker packages your application and all its dependencies (Node.js, libraries, etc.) into a "container." A container is like a lightweight virtual machine that runs consistently anywhere—on your laptop, on EC2, on any cloud provider.</p>
+
+        <div class="info-box">
+            <h4>📦 Analogy: Shipping Containers</h4>
+            <p>Imagine shipping physical goods. Without standardization, you'd need different trucks, ships, and cranes for every product. Shipping containers solved this—they're a standard size and can be moved by any crane, loaded on any ship, and transported by any truck. Docker does the same for software.</p>
+        </div>
+
+        <h3>Key Docker Concepts</h3>
+
+        <ul>
+            <li><strong>Image:</strong> A blueprint for your container. It contains your code, runtime (Node.js), and dependencies.</li>
+            <li><strong>Container:</strong> A running instance of an image. It's the actual process executing your code.</li>
+            <li><strong>Dockerfile:</strong> A text file with instructions to build an image.</li>
+        </ul>
+
+        <h3>Creating a Dockerfile for Your Node.js API</h3>
+
+        <p>In your Node.js project root, create a file named <code>Dockerfile</code>:</p>
+
+        <pre><code># Start from the official Node.js image
+FROM node:18
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of your code
+COPY . .
+
+# Expose the port your app runs on
+EXPOSE 3000
+
+# Command to run your app
+CMD ["node", "server.js"]</code></pre>
+
+        <h3>Installing Docker on EC2</h3>
+
+        <p>SSH into your EC2 instance and run:</p>
+
+        <pre><code>sudo apt update
+sudo apt install docker.io -y
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker ubuntu</code></pre>
+
+        <p>Log out and back in for the group change to take effect.</p>
+
+        <h3>Building and Running Your Docker Container</h3>
+
+        <p><span class="step-number">1</span> <strong>Transfer your code to EC2:</strong></p>
+
+        <pre><code>scp -i your-key-pair.pem -r ./your-node-api ubuntu@54.123.45.67:~/</code></pre>
+
+        <p><span class="step-number">2</span> <strong>SSH into EC2 and navigate to your code:</strong></p>
+
+        <pre><code>cd ~/your-node-api</code></pre>
+
+        <p><span class="step-number">3</span> <strong>Build the Docker image:</strong></p>
+
+        <pre><code>docker build -t my-node-api .</code></pre>
+
+        <p><span class="step-number">4</span> <strong>Run the container:</strong></p>
+
+        <pre><code>docker run -d -p 3000:3000 --name api-container my-node-api</code></pre>
+
+        <p>Flags explained:</p>
+        <ul>
+            <li><code>-d</code>: Run in detached mode (in the background)</li>
+            <li><code>-p 3000:3000</code>: Map port 3000 on the host (EC2) to port 3000 in the container</li>
+            <li><code>--name api-container</code>: Give the container a friendly name</li>
+        </ul>
+
+        <p><span class="step-number">5</span> <strong>Test it:</strong></p>
+
+        <pre><code>curl http://localhost:3000</code></pre>
+
+        <p>You should see a response from your API! Now test from outside:</p>
+        <code>http://54.123.45.67:3000</code>
+
+        <h2 id="networking">7. Networking: Ports, Security Groups, and TLS</h2>
+
+        <h3>🌐 Understanding Ports</h3>
+
+        <p>A port is like a door on a building. Your EC2 instance (the building) can have thousands of doors (ports), each leading to a different service. Common ports:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Port</th>
+                    <th>Protocol</th>
+                    <th>Use</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>22</td>
+                    <td>SSH</td>
+                    <td>Secure shell access (terminal)</td>
+                </tr>
+                <tr>
+                    <td>80</td>
+                    <td>HTTP</td>
+                    <td>Unencrypted web traffic</td>
+                </tr>
+                <tr>
+                    <td>443</td>
+                    <td>HTTPS</td>
+                    <td>Encrypted web traffic (TLS/SSL)</td>
+                </tr>
+                <tr>
+                    <td>3000</td>
+                    <td>Custom</td>
+                    <td>Common for Node.js apps</td>
+                </tr>
+            </tbody>
+        </table>
