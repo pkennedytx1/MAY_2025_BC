@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Module 25 — Next.js</title>
+  <style>
+    :root{
+      --bg:#f6fbff; --card:#ffffff; --accent:#0b6efd; --muted:#6b7280; --glass: rgba(11,110,253,0.06);
+      --maxw:1100px; --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Segoe UI Mono", monospace;
+    }
+    *{box-sizing:border-box}
+    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:var(--bg); color:#0f172a; margin:0; padding:0 20px 80px}
+    header{max-width:var(--maxw); margin:28px auto; display:flex; gap:16px; align-items:center}
+    header h1{margin:0; font-size:26px; color:var(--accent)}
+    header p{margin:0; color:var(--muted)}
+    .container{max-width:var(--maxw); margin:0 auto; display:grid; grid-template-columns:260px 1fr; gap:24px}
+
+    /* TOC */
+    nav.toc{position:sticky; top:20px; align-self:start; background:linear-gradient(180deg, #fff, #fbfdff); border:1px solid rgba(15,23,42,0.04); padding:14px; border-radius:10px}
+    nav.toc h2{font-size:14px; margin:0 0 8px 0; color:var(--accent)}
+    nav.toc ol{padding-left:16px; margin:0; color:var(--muted)}
+    nav.toc a{display:block; padding:6px 0; color:inherit; text-decoration:none}
+    nav.toc a:hover{text-decoration:underline}
+
+    /* Content */
+    main.article{background:none}
+    section.card{background:var(--card); border-radius:12px; padding:20px; margin-bottom:18px; box-shadow:0 6px 18px rgba(11,110,253,0.04)}
+    section.card h2{margin-top:0; color:var(--accent)}
+    p.lead{color:var(--muted); margin-top:6px}
+
+    .kb{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    table{width:100%; border-collapse:collapse; margin-top:8px}
+    table thead th{background:var(--glass); text-align:left; padding:10px; font-weight:600}
+    table tbody td{padding:10px; border-top:1px solid rgba(15,23,42,0.04)}
+
+    pre{background:#0b1220; color:#e6eef8; padding:14px; border-radius:8px; overflow:auto; font-family:var(--mono); font-size:13px}
+    code.inline{background:rgba(11,110,253,0.06); padding:2px 6px; border-radius:6px; font-family:var(--mono);}
+
+    .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+    .pill{display:inline-block; background:var(--glass); padding:6px 10px; border-radius:999px; font-size:13px}
+    .muted{color:var(--muted)}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .container{grid-template-columns:1fr}
+      nav.toc{position:relative; top:0; order:2}
+    }
+
+    /* small helpers */
+    .example{border-left:4px solid var(--accent); padding:10px 14px; background:linear-gradient(180deg, rgba(11,110,253,0.02), transparent); border-radius:8px}
+    .notes{font-size:13px; color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Module 25 — Next.js</h1>
+      <p class="muted">Covering modern Next.js (App Router, SSR/SSG, optimizations, patterns).</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <nav class="toc" aria-label="Table of contents">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#intro">Introduction</a></li>
+        <li><a href="#key-differences">Key Differences: Next.js vs React</a></li>
+        <li><a href="#pros-cons">Pros & Cons</a></li>
+        <li><a href="#use-cases">Use Cases</a></li>
+        <li><a href="#getting-started">Getting Started</a></li>
+        <li><a href="#folder-structure">Folder Structure (App Router)</a></li>
+        <li><a href="#routing">Routing System</a></li>
+        <li><a href="#frontend-features">Key Frontend Features</a></li>
+        <li><a href="#client-server">Client vs Server Components</a></li>
+        <li><a href="#performance">Performance & Optimizations</a></li>
+        <li><a href="#deployment">Deployment & Hosting</a></li>
+        <li><a href="#testing">Testing & Tooling</a></li>
+        <li><a href="#accessibility">Accessibility</a></li>
+        <li><a href="#resources">Further Resources</a></li>
+      </ol>
+    </nav>
+
+    <main class="article">
+
+      <section id="intro" class="card">
+        <h2>Introduction</h2>
+        <p class="lead">Next.js is a React framework that adds routing, hybrid rendering (SSR/SSG/ISR), API routes, and a production-optimized toolchain. It builds on React: you still write React components, but Next.js gives conventions and features for real apps.</p>
+        <div class="kb">
+          <div>
+            <strong>Core ideas</strong>
+            <ul class="muted">
+              <li>File-system routing and App Router.</li>
+              <li>Hybrid rendering — choose SSR, SSG, ISR, or client rendering per-route.</li>
+              <li>Opinionated tooling for performance (images, fonts, bundling).</li>
+            </ul>
+          </div>
+          <div>
+            <strong>When you keep React</strong>
+            <ul class="muted">
+              <li>Component model, hooks, JSX, state management tools (Recoil, Zustand, Redux).</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="key-differences" class="card">
+        <h2>Key Differences — Next.js vs React</h2>
+        <p class="muted">React = UI library. Next.js = full-stack framework built on React.</p>
+        <table>
+          <thead>
+            <tr><th>Area</th><th>React (alone)</th><th>Next.js</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Routing</td><td>No built-in routing; use react-router or custom</td><td>File-based routing (App Router or Pages Router)</td></tr>
+            <tr><td>Rendering modes</td><td>CSR by default</td><td>SSR/SSG/ISR/Streaming + CSR options</td></tr>
+            <tr><td>Tooling</td><td>Choose bundler/tester etc.</td><td>Zero-config build, image/font optimizations, and fast refresh</td></tr>
+            <tr><td>APIs</td><td>Separate server (Express, etc.)</td><td>API routes and server components built-in</td></tr>
+            <tr><td>Opinionation</td><td>Minimal</td><td>Opinionated conventions for file layout, data fetching, and routing</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="pros-cons" class="card">
+        <h2>Pros & Cons</h2>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <div style="flex:1; min-width:260px">
+            <h3 style="margin-bottom:6px">Pros</h3>
+            <ul class="muted">
+              <li>Fast time-to-production with sensible defaults.</li>
+              <li>Built-in SEO & performance features (image/font optimization, metadata routing).</li>
+              <li>Hybrid rendering: pick the right model per page.</li>
+              <li>Great DX: fast dev server, incremental builds, preview mode.</li>
+            </ul>
+          </div>
+          <div style="flex:1; min-width:260px">
+            <h3 style="margin-bottom:6px">Cons</h3>
+            <ul class="muted">
+              <li>Opinionated structure may be restrictive for some apps.</li>
+              <li>New App Router APIs require learning new patterns (server components).</li>
+              <li>Some third-party libs might assume client-only execution and need adaptation.</li>
+            </ul>
+          </div>
+        </div>
+        <div style="margin-top:12px" class="example">
+          <strong>Practical example:</strong>
+          <p class="muted">Switching a marketing home page to SSG can drastically improve TTFB and SEO with minimal code changes — use <code class="inline">export const revalidate = 3600</code> or <code class="inline">generateStaticParams</code> for static paths.</p>
+        </div>
+      </section>
+
+      <section id="use-cases" class="card">
+        <h2>Use Cases</h2>
+        <ul class="muted">
+          <li>Marketing websites and landing pages (SSG + image optimizations)</li>
+          <li>Content-heavy sites and blogs (ISR + MDX)</li>
+          <li>E-commerce (mix of SSR product pages + CSR for cart interactions)</li>
+          <li>Dashboards where server components reduce client bundle size</li>
+          <li>Small full-stack apps using API routes</li>
+        </ul>
+      </section>
+
+      <section id="rising" class="card">
+        <h2>Rising Popularity</h2>
+        <p class="muted">Next.js has gained traction because it offers a pragmatic path from prototypes to production with performance-first defaults. Features like the App Router, server components, and native image/font optimizations accelerate shipping modern web apps.</p>
+      </section>
+
+      <section id="getting-started" class="card">
+        <h2>Getting Started</h2>
+        <p class="muted">Quick setup using the Next.js starter:</p>
+        <pre><code>// Using npm
+npx create-next-app@latest my-app --experimental-app
+
+// Using pnpm
+pnpm create next-app my-app -- --experimental-app
+</code></pre>
+        <p class="notes">The App Router is the modern recommended routing system. If you need the Pages Router for legacy reasons, omit the <code class="inline">--experimental-app</code> flag in older versions. Recent Next.js versions enable the App Router by default.</p>
+      </section>
+
+      <section id="folder-structure" class="card">
+        <h2>Folder Structure — App Router</h2>
+        <pre><code>/app
+  /layout.jsx        // root layout (shared UI)
+  /page.jsx          // route: /
+  /dashboard
+    /layout.jsx
+    /page.jsx
+  /api               // edge functions or route handlers
+/public
+/styles
+/next.config.js
+</code></pre>
+        <p class="muted">Key files: <code class="inline">layout.jsx</code> provides persistent UI and can colocate UI state; <code class="inline">page.jsx</code> is the route entry. Special files include <code class="inline">loading.jsx</code>, <code class="inline">error.jsx</code>, and <code class="inline">not-found.jsx</code>.</p>
+      </section>
+
+      <section id="routing" class="card">
+        <h2>Routing System</h2>
+        <p class="muted">File-system routing means folder and file names map to routes. Dynamic routes and nested layouts are first-class.</p>
+
+        <h3>Dynamic routes</h3>
+        <pre><code>// app/products/[id]/page.jsx
+export default function ProductPage({ params }){
+  return (<div>Product ID: {params.id}</div>)
+}
+</code></pre>
+
+        <h3>Catch-all routes</h3>
+        <pre><code>// app/docs/[...slug]/page.jsx
+export default function DocPage({ params }){
+  return &lt;div&gt;Path: {params.slug.join('/')}&lt;/div&gt;
+}
+</code></pre>
+
+        <h3>Nested layouts</h3>
+        <pre><code>// app/dashboard/layout.jsx
+export default function DashboardLayout({ children }){
+  return (&lt;div&gt;
+    &lt;nav&gt;...&lt;/nav&gt;
+    &lt;main&gt;{children}&lt;/main&gt;
+  &lt;/div&gt;)
+}
+</code></pre>
+      </section>
+
+      <section id="frontend-features" class="card">
+        <h2>Key Frontend Features</h2>
+
+        <h3>Image Optimization</h3>
+        <p class="muted">Use the built-in <code class="inline">next/image</code> to serve responsive, optimized images with automatic formats and lazy loading.</p>
+        <pre><code>import Image from 'next/image'
+
+export default function Avatar(){
+  return (&lt;Image src="/me.png" alt="me" width={120} height={120} priority /&gt;)
+}
+</code></pre>
+
+        <h3>Font Optimization</h3>
+        <p class="muted">Next.js supports automatic font optimization and a new <code class="inline">next/font</code> API for local + Google fonts to avoid layout shifts.</p>
+        <pre><code>import { Inter } from 'next/font/google'
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+
+export default function RootLayout({ children }){
+  return &lt;html className={inter.variable}&gt;...&lt;/html&gt;
+}
+</code></pre>
+
+        <h3>Link Component</h3>
+        <p class="muted">Use <code class="inline">next/link</code> for internal navigation with client-side transitions.</p>
+        <pre><code>import Link from 'next/link'
+
+export default function Nav(){
+  return (&lt;nav&gt;&lt;Link href="/about"&gt;About&lt;/Link&gt;&lt;/nav&gt;)
+}
+</code></pre>
+
+        <h3>Metadata & SEO</h3>
+        <p class="muted">App Router introduces per-route metadata using <code class="inline">export const metadata = {...}</code> or the <code class="inline">metadata</code> API.</p>
+      </section>
+
+      <section id="client-server" class="card">
+        <h2>Client vs Server Components</h2>
+        <p class="muted">Server Components run on the server by default in the App Router, enabling smaller client bundles. Mark components as client components when they need browser-only features (state, event handlers, browser APIs).</p>
+
+        <h3>Server component (default)</h3>
+        <pre><code>// app/users/page.jsx (server)
+import getUsers from '@/lib/getUsers'
+export default async function Users(){
+  const users = await getUsers()
+  return (&lt;ul&gt;{users.map(u =&gt; &lt;li key={u.id}&gt;{u.name}&lt;/li&gt;)}&lt;/ul&gt;)
+}
+</code></pre>
+
+        <h3>Client component</h3>
+        <pre><code>// components/LikeButton.jsx
+'use client'
+import { useState } from 'react'
+export default function LikeButton(){
+  const [liked, setLiked] = useState(false)
+  return (&lt;button onClick={() =&gt; setLiked(!liked)}&gt;{liked ? '♥' : '♡'}&lt;/button&gt;)
+}
+</code></pre>
+
+        <p class="notes">Best practice: keep as much UI on the server as possible and isolate interactive components as client components to minimize JS shipped to the browser.</p>
+      </section>
+
+      <section id="performance" class="card">
+        <h2>Performance & Optimizations</h2>
+        <ul class="muted">
+          <li>Use server components to reduce client bundle size.</li>
+          <li>Prefer SSG/ISR for public pages to cache and reduce compute.</li>
+          <li>Use <code class="inline">next/image</code>, automatic font loading, and <code class="inline">Link</code> prefetching.</li>
+          <li>Set <code class="inline">revalidate</code> for ISR and keep small payloads for server data.</li>
+        </ul>
+
+        <h3>Example — Incremental Static Regeneration</h3>
+        <pre><code>// app/blog/[slug]/page.jsx
+export const revalidate = 60 // revalidate every 60s
+export default async function BlogPost({ params }){
+  const post = await getPost(params.slug)
+  return (&lt;article&gt;...&lt;/article&gt;)
+}
+</code></pre>
+
+      </section>
+
+      <section id="deployment" class="card">
+        <h2>Deployment & Hosting</h2>
+        <p class="muted">Popular: Vercel (first-party), Netlify, or any Node-capable host. For maximum edge performance, consider Edge Functions or deploying to platforms that support Next.js ISR and image optimization.</p>
+        <ul class="muted">
+          <li>Vercel: simplest, full feature support (ISR, Edge, images)</li>
+          <li>Cloud providers: configure serverless or container deployment</li>
+        </ul>
+        <div class="example">
+          <strong>Tip:</strong> Verify your <code class="inline">next.config.js</code> settings for <code class="inline">images.domains</code> or basePath if deploying under a subpath.
+        </div>
+      </section>
+
+      <section id="testing" class="card">
+        <h2>Testing & Tooling</h2>
+        <p class="muted">Integrate testing and linting early.</p>
+        <ul class="muted">
+          <li>Unit & integration: Jest + React Testing Library</li>
+          <li>End-to-end: Playwright or Cypress</li>
+          <li>Type-safety: TypeScript + tsconfig strict mode</li>
+          <li>CI: run builds and tests on push; validate <code class="inline">next build</code> output</li>
+        </ul>
+      </section>
+
+      <section id="accessibility" class="card">
+        <h2>Accessibility</h2>
+        <p class="muted">Treat accessibility the same as with React—semantic HTML, ARIA roles where necessary, keyboard navigation, and focus management. Next.js doesn't change A11y fundamentals but remember server components can't access client focus APIs directly—wrap interactive pieces in client components.</p>
+      </section>
+
+      <section id="resources" class="card">
+        <h2>Further Resources</h2>
+        <ul class="muted">
+          <li>Official docs: <em>nextjs.org/docs</em></li>
+          <li>App Router vs Pages Router migration guides</li>
+          <li>Examples on Vercel and community plugins</li>
+        </ul>
+        <p class="notes">Add course-specific examples or exercises here (small lab tasks, challenge prompts, and code-along steps).</p>
+      </section>
+
+      <section class="card">
+        <h2>Appendix — Suggested Exercises</h2>
+        <ol class="muted">
+          <li>Convert a client-only React app page to a server component and measure bundle size changes.</li>
+          <li>Implement ISR for a blog and test content update flow (revalidate timing).</li>
+          <li>Create an authenticated dashboard using server components for data fetch and client components for interactions.</li>
+          <li>Optimize images and fonts and compare Lighthouse scores before/after.</li>
+        </ol>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    // smooth scroll for TOC
+    document.querySelectorAll('nav.toc a').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      })
+    });
+  </script>
+  <section id="beginner-tips">
+    <h2>Beginner-Friendly Tips</h2>
+    <h3>1. Think of Next.js as "React with Superpowers"</h3>
+    <p>Next.js doesn’t replace React — it adds helpful features on top of it, like routing, server-side rendering, and automatic optimizations.</p>
+    <h3>2. You Don’t Need to Know Everything at Once</h3>
+    <ul>
+      <li>Focus first on pages, routing, and basic components.</li>
+      <li>Learn server vs client components later — it makes more sense once you’re comfortable.</li>
+    </ul>
+    <h3>3. Your Folder Structure <em>Is</em> the App</h3>
+    <p>Next.js uses file-based routing, so the way you organize files affects how your app behaves.</p>
+    <h3>4. Start With the Default Setup</h3>
+    <p>Stick with the recommended <code>app/</code> router, <code>next/font</code>, and the starter template until you understand the basics.</p>
+    <h3>5. Errors Are Usually Friendly</h3>
+    <p>Next.js gives clear errors with UI overlays. Read them slowly — they often point directly to the solution.</p>
+    <h3>6. Practice Tasks for Beginners</h3>
+    <ul>
+      <li>Create a page at <code>/about</code></li>
+      <li>Add a Link from <code>home → about</code></li>
+      <li>Import and display an image with <code>next/image</code></li>
+      <li>Create a simple server component that fetches JSON from an API</li>
+      <li>Convert one component into a Client Component using <code>"use client"</code></li>
+    </ul>
+    <h3>7. Vocabulary You Should Know</h3>
+    <ul>
+      <li><strong>SSR</strong> – Server-Side Rendering (content built on request)</li>
+      <li><strong>SSG</strong> – Static Site Generation (content built ahead of time)</li>
+      <li><strong>CSR</strong> – Client-Side Rendering (traditional React)</li>
+      <li><strong>API Route</strong> – A serverless function inside your Next.js app</li>
+      <li><strong>Route Segment</strong> – A folder that represents a page or UI chunk</li>
+    </ul>
+    <h3>8. Common Beginner Mistakes (and Fixes)</h3>
+    <ul>
+      <li><strong>Forgetting to export a default component</strong> → Make sure each page has <code>export default function Page()</code>.</li>
+      <li><strong>Importing images like React</strong> → Use <code>next/image</code> instead of <code>&lt;img /&gt;</code>.</li>
+      <li><strong>Putting client-only code in server components</strong> → Add <code>"use client"</code> at the top.</li>
+    </ul>
+    <h3>9. Visual Explain-It-Like-I'm-5 (ELI5) Diagram</h3>
+    <pre>
+User → Your Next.js App → Server (renders pages) → Browser shows the result
+    </pre>
+    <h3>10. Beginner Debug Checklist</h3>
+    <ul>
+      <li>Did you restart the server after adding new folders or files?</li>
+      <li>Did you export your component?</li>
+      <li>Did you spell folders exactly (Next.js is case‑sensitive)?</li>
+      <li>Did you wrap navigation with <code>&lt;Link&gt;</code>?</li>
+    </ul>
+  </section>
+</body>
+</html>
