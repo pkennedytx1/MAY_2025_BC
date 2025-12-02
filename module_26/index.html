@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 26 – Next.js Backend Essentials</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; }
+    header { background: #0d47a1; color: white; padding: 20px; }
+    h1, h2, h3 { color: #0d47a1; }
+    nav { background: #e3f2fd; padding: 10px; border-bottom: 1px solid #bbdefb; }
+    nav ul { list-style: none; padding: 0; }
+    nav ul li { margin: 5px 0; }
+    nav ul li a { text-decoration: none; color: #0d47a1; }
+    section { padding: 20px; border-bottom: 1px solid #eee; }
+    pre { background: #f5f5f5; padding: 10px; border-radius: 6px; overflow-x: auto; }
+    code { font-family: Consolas, monospace; }
+      /* Layout container for cleaner reading */
+    .container { max-width: 900px; margin: auto; }
+    nav { top: 0; background: #e3f2fd; padding: 15px; border-bottom: 2px solid #bbdefb; z-index: 1000; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    nav strong { font-size: 1.1rem; }
+    nav ul li { margin: 8px 0; padding-left: 5px; }
+    section { padding: 30px 20px; border-bottom: 1px solid #e0e0e0; background: white; }
+    body { background: #f1f6fb; }
+    header { box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+    h2 { border-left: 5px solid #0d47a1; padding-left: 10px; }
+    .callout { background:#e3f2fd; border-left:5px solid #0d47a1; padding:15px; margin:20px 0; border-radius:6px; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Module 26 – Next.js Backend Essentials</h1>
+    <p>A beginner-friendly guide to working with backend features in Next.js (API Routes, Server Components, Data Fetching, Edge Functions & more).</p>
+  </header>
+
+  <nav>
+    <strong>Table of Contents</strong>
+    <ul>
+      <li><a href="#overview">1. Backend Overview in Next.js</a></li>
+      <li><a href="#where-code-runs">2. Where Backend Code Runs</a></li>
+      <li><a href="#api-routes">3. API Routes</a></li>
+      <li><a href="#route-handlers">4. Route Handlers (App Router)</a></li>
+      <li><a href="#server-components">5. Server Components</a></li>
+      <li><a href="#data-fetching">6. Data Fetching</a></li>
+      <li><a href="#databases">7. Connecting to Databases</a></li>
+      <li><a href="#auth">8. Authentication Basics</a></li>
+      <li><a href="#middleware">9. Middleware</a></li>
+      <li><a href="#edge">10. Edge Functions</a></li>
+      <li><a href="#file-uploads">11. File Uploads</a></li>
+      <li><a href="#common-mistakes">12. Beginner Mistakes to Avoid</a></li>
+      <li><a href="#practice">13. Practice Exercises</a></li>
+    </ul>
+  </nav>
+
+  <section id="overview">
+    <h2>1. Backend Overview in Next.js</h2>
+    <p>Next.js includes built‑in backend capabilities, so you don’t need Express or a standalone server. You can: </p>
+    <ul>
+      <li>Create API endpoints</li>
+      <li>Connect to databases</li>
+      <li>Run server logic securely</li>
+      <li>Perform authentication</li>
+      <li>Run server code at the <strong>edge</strong> for performance</li>
+    </ul>
+    <p>This makes Next.js a powerful full‑stack framework.</p>
+  </section>
+
+  <section id="where-code-runs">
+    <h2>2. Where Backend Code Runs</h2>
+    <h3>Server Components (default)</h3>
+    <p>Run <strong>only on the server</strong>. Good for database reads, secrets, and secure logic.</p>
+
+    <h3>Route Handlers</h3>
+    <p>API-like functionality inside the <code>app/</code> directory.</p>
+
+    <h3>Middleware</h3>
+    <p>Runs before requests — great for auth checks and redirects.</p>
+
+    <h3>Edge Runtime</h3>
+    <p>Executes globally for ultra-fast responses.</p>
+  </section>
+
+  <section id="api-routes">
+    <h2>3. API Routes (pages router)</h2>
+    <p>Still supported for legacy apps. File-based endpoints under <code>/pages/api</code>.</p>
+
+<pre><code>export default function handler(req, res) {
+  res.status(200).json({ message: "Hello from API Route" });
+}</code></pre>
+  </section>
+
+  <section id="route-handlers">
+    <h2>4. Route Handlers (App Router)</h2>
+    <p>The modern backend API system in Next.js. File-based like this:</p>
+
+<pre><code>app/api/hello/route.js
+</code></pre>
+
+<pre><code>export function GET() {
+  return Response.json({ message: "Hello from Route Handler" });
+}</code></pre>
+
+    <h3>POST Example</h3>
+<pre><code>export async function POST(req) {
+  const data = await req.json();
+  return Response.json({ received: data });
+}</code></pre>
+  </section>
+
+  <section id="server-components">
+    <h2>5. Server Components</h2>
+    <p>Server Components can run backend logic directly:</p>
+
+<pre><code>export default async function Page() {
+  const res = await fetch("https://api.example.com/data");
+  const data = await res.json();
+
+  return &lt;pre&gt;{JSON.stringify(data, null, 2)}&lt;/pre&gt;;
+}</code></pre>
+
+    <p>No API route needed — you can fetch directly on the server.</p>
+  </section>
+
+  <section id="data-fetching">
+    <h2>6. Data Fetching Patterns</h2>
+
+    <h3>Server Fetch (default)</h3>
+<pre><code>const res = await fetch(url, { cache: "no-store" });</code></pre>
+
+    <h3>Revalidation (SSR + SSG hybrid)</h3>
+<pre><code>await fetch(url, { next: { revalidate: 60 }});</code></pre>
+
+    <h3>Client Fetch (useEffect)</h3>
+<pre><code>"use client";
+import { useEffect, useState } from "react";
+
+export default function Example() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch("/api/hello").then(r => r.json()).then(setData);
+  }, []);
+
+  return &lt;pre&gt;{JSON.stringify(data)}&lt;/pre&gt;;
+}</code></pre>
+  </section>
+
+  <section id="databases">
+    <h2>7. Connecting to Databases</h2>
+    <p>You can connect to databases directly inside Route Handlers or Server Components.</p>
+
+    <h3>Prisma Example</h3>
+<pre><code>import { prisma } from "@/lib/prisma";
+
+export async function GET() {
+  const users = await prisma.user.findMany();
+  return Response.json(users);
+}</code></pre>
+
+    <h3>MongoDB Example</h3>
+<pre><code>import client from "@/lib/mongo";
+
+export async function GET() {
+  const db = client.db("example");
+  const items = await db.collection("items").find().toArray();
+  return Response.json(items);
+}</code></pre>
+  </section>
+
+  <section id="auth">
+    <h2>8. Authentication Basics</h2>
+    <p>Next.js works with many auth providers. The most popular:</p>
+    <ul>
+      <li>NextAuth.js</li>
+      <li>Clerk</li>
+      <li>Auth0</li>
+      <li>Custom JWT</li>
+    </ul>
+
+<pre><code>// Example: Protecting a route
+import { getServerSession } from "next-auth";
+
+export async function GET() {
+  const session = await getServerSession();
+  if (!session) return Response.json({ error: "Unauthorized" }, { status: 401 });
+
+  return Response.json({ message: "Secure content" });
+}</code></pre>
+  </section>
+
+  <section id="middleware">
+    <h2>9. Middleware</h2>
+    <p>Runs on every request — great for auth, redirects, logging.</p>
+
+<pre><code>export function middleware(request) {
+  const loggedIn = Boolean(request.cookies.get("token"));
+  if (!loggedIn) {
+    return Response.redirect(new URL("/login", request.url));
+  }
+}</code></pre>
+  </section>
+
+  <section id="edge">
+    <h2>10. Edge Functions</h2>
+    <p>Ultra-fast server logic running close to the user.</p>
+
+<pre><code>export const runtime = "edge";
+
+export function GET() {
+  return Response.json({ message: "Fast edge function!" });
+}</code></pre>
+  </section>
+
+  <section id="file-uploads">
+    <h2>11. File Uploads</h2>
+<pre><code>export async function POST(req) {
+  const form = await req.formData();
+  const file = form.get("file");
+
+  // Upload to S3, Cloudinary, etc.
+
+  return Response.json({ name: file.name });
+}</code></pre>
+  </section>
+
+  <section id="common-mistakes">
+    <h2>12. Common Beginner Mistakes</h2>
+    <ul>
+      <li>Trying to use environment variables in Client Components</li>
+      <li>Forgetting <code>"use client"</code> when using hooks</li>
+      <li>Putting secrets in frontend code</li>
+      <li>Expecting Route Handlers to handle UI (they only return data)</li>
+      <li>Not restarting server after creating a new folder route</li>
+    </ul>
+  </section>
+
+  <section id="practice">
+    <h2>13. Practice Exercises</h2>
+    <ol>
+      <li>Create a Route Handler that returns a list of products</li>
+      <li>Make a POST endpoint that saves a new product</li>
+      <li>Connect to a database (SQLite or MongoDB)</li>
+      <li>Add authentication using middleware</li>
+      <li>Build a Client Component that fetches your backend data</li>
+    </ol>
+  </section>
+  <section id="extra-backend-topics">
+    <h2>14. Additional Beginner-Friendly Backend Topics</h2>
+
+    <h3>Environment Variables (Super Important!)</h3>
+    <p>Store API keys, database URLs, and secrets safely using <code>.env.local</code>.</p>
+<pre><code>DATABASE_URL="postgres://user:password@localhost:5432/mydb"</code></pre>
+
+    <div class="callout"><strong>Beginner Tip:</strong> Never expose environment variables in client components. They are server-only!</div>
+
+    <h3>Error Handling Basics</h3>
+<pre><code>export async function GET() {
+  try {
+    const data = await fetchSomething();
+    return Response.json(data);
+  } catch (err) {
+    return Response.json({ error: err.message }, { status: 500 });
+  }
+}</code></pre>
+
+    <h3>Logging</h3>
+    <p>Logging helps you debug your backend logic.</p>
+<pre><code>console.log("User requested /api/products");</code></pre>
+
+    <h3>CORS (If You Use Next.js as a Standalone API)</h3>
+<pre><code>export const GET = async () => {
+  return new Response(JSON.stringify({ ok: true }), {
+    headers: { "Access-Control-Allow-Origin": "*" }
+  });
+};</code></pre>
+
+    <h3>API Design Tips for Beginners</h3>
+    <ul>
+      <li>Use nouns for routes (<code>/api/products</code>)</li>
+      <li>Use correct methods (GET, POST, PUT, DELETE)</li>
+      <li>Return JSON consistently</li>
+      <li>Handle errors clearly</li>
+    </ul>
+
+    <h3>Visual Diagram: How Backend in Next.js Works</h3>
+<pre>
+Client → Route Handler → Server Logic → Database → Response → Client
+</pre>
+  </section>
+</div>
+</body>
+</html>
